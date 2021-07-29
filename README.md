@@ -1,46 +1,24 @@
-<!--
-👋 Hello! As Nova users browse the extensions library, a good README can help them understand what your extension does, how it works, and what setup or configuration it may require.
 
-Not every extension will need every item described below. Use your best judgement when deciding which parts to keep to provide the best experience for your new users.
+![LSL syntax highlighting for Nova ](https://github.com/GwynethLlewelyn/LSL.novaextension/blob/master/Images/extension/Nova-LSL-Logo.png?raw=true)
 
-💡 Quick Tip! As you edit this README template, you can preview your changes by selecting **Extensions → Activate Project as Extension**, opening the Extension Library, and selecting "Linden Scripting Language" in the sidebar.
+# Linden Scripting Language (LSL) Nova extension
 
-Let's get started!
--->
-
-<!--
-🎈 Include a brief description of the features your syntax extension provides. For example:
--->
-
-**Linden Scripting Language** provides syntax highlighting and autocompletion for **An Important Language**.
-
-<!--
-🎈 It can also be helpful to include a screenshot or GIF showing your extension in action:
--->
-
-![](https://nova.app/images/en/dark/editor.png)
+A Nova extension providing syntax highlighting for Linden Scripting Language (LSL), the scripting language used in the Second Life® and OpenSimulator virtual world platforms.
 
 ## Language Support
 
-<!--
-🎈 Whether your extension covers the entirety of a language's syntax or a subset, it can be helpful to describe that for users:
--->
+This extension currently supports the following features of Linden Scripting Language:
 
-Linden Scripting Language currently supports the following features of Important Language:
+- Syntax Highlighting for the latest version of LSL (as of the time of releasing this extension)
+- Auto-completions for major LSL constructions and functions (as far as I could make them work)
+- OpenSimulator LSL functions
 
-- Lorem
-- Ipsum
-- Dolor
+Note that LSL is a language in perpetual flux, with Linden Lab constantly adding new features and functionality, and
+sometimes making older versions obsolete, shuffling parameters around, etc. so at some point in time this extension will
+be inevitably out of sync.
 
-Support for:
+## Disclaimer
 
-- Sit
-- Amet 
-
-is planned for a future update.
-
-<!--
-👋 That's it! Happy developing!
-
-P.S. If you'd like, you can remove these comments before submitting your extension 😉
--->
+Second Life®, Linden Scripting Language and the inSL logo are trademarks of Linden Research, Inc. No infringement is intended.
+Nova® is a registered trademark of Panic Inc.
+Gwyneth Llewelyn is not affiliated with either of these two companies, much less endorsed by any of them.

@@ -1,8 +1,17 @@
 {
-    "identifier": "gwynethllewelyn.GoLanguageDefinitionforNova.LindenScriptingLanguage",
-    "name": "Linden Scripting Language",
-    "organization": "Gwyneth Llewelyn",
-    "description": "Lorem ipsum, dolor sit amet.",
-    "version": "1.0",
-    "categories": ["languages"]
+	"identifier": "gwynethllewelyn.LindenScriptingLanguage",
+	"name": "Linden Scripting Language",
+	"organization": "Gwyneth Llewelyn",
+	"description": "A Nova extension providing syntax highlighting for Linden Scripting Language (LSL), the scripting language used in the Second Life® and OpenSimulator virtual world platforms.",
+	"version": "1.0.0",
+	"min_runtime": "6.0",
+	"bugs": "https://github.com/GwynethLlewelyn/LSL.novaextension/issues",
+	"repository": "https://github.com/GwynethLlewelyn/LSL.novaextension",
+	"homepage": "https://gwynethllewelyn.net",
+	"funding": "https://www.paypal.com/paypalme/gwynethllewelyn",
+	"keywords": ["go", "golang"],
+	"license": "bsd-3-clause",
+	"categories": ["completions", "languages"],
+	"main": "main.js",
+	"activationEvents": ["onLanguage:LSL", "onWorkspaceContains:*.lsl"]
 }
