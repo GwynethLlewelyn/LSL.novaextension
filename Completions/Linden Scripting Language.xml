@@ -1,17 +1,742 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <completions>
     <provider>
-        <selector>mylang</selector>
+        <selector>lsl</selector>
         <expression>\b[a-zA-Z0-9-_]*</expression>
-        <set>mylang.entities</set>
+        <set>lsl.entities</set>
     </provider>
-    
+
     <!-- Entities -->
-    <set name="mylang.entities">
+    <set name="lsl.entities">
         <completion string="&quot;" />
         <completion string="&amp;" />
         <completion string="&apos;" />
         <completion string="&lt;" />
         <completion string="&gt;" />
     </set>
+<?xml version="1.0" encoding="UTF-8"?>
+<completions>
+    <!-- "foo" -->
+    <provider name="lsl.globals">
+        <syntax>lsl</syntax>
+        <selector>*:not(string,comment)</selector>
+        <expression>(?&lt;!\.)\b[a-zA-Z_][a-zA-Z0-9_]*</expression>
+
+        <symbols type="function">
+            <behavior>
+                <arguments prefix="(" suffix=")" separator=", " />
+            </behavior>
+        </symbols>
+        <symbols type="class" />
+        <symbols type="variable,constant,argument" />
+
+        <set>lsl.statements</set>
+        <set>lsl.globals</set>
+        <set>lsl.classes</set>
+        <set>lsl.functions</set>
+    </provider>
+
+    <!-- ".foo" -->
+    <provider name="lsl.properties">
+        <syntax>lsl</syntax>
+        <selector>*:not(string,comment)</selector>
+        <expression>(?&lt;=\.)(@@|@|\#)?([a-zA-Z_][a-zA-Z0-9_]*)?</expression>
+
+        <symbols type="function">
+            <behavior>
+                <arguments prefix="(" suffix=")" separator=", " />
+            </behavior>
+        </symbols>
+        <symbols type="method">
+            <behavior>
+                <arguments prefix="(" suffix=")" separator=", " />
+            </behavior>
+        </symbols>
+        <symbols type="property,getter,setter" />
+
+        <set>lsl.properties</set>
+        <set>lsl.functions</set>
+    </provider>
+
+    <!-- "string ${foo} formatting" -->
+    <provider name="lsl.string-formatting">
+        <syntax>lsl</syntax>
+        <selector>lsl.string-template</selector>
+        <expression>(?&lt;=$\{)\b[a-zA-Z_][a-zA-Z0-9_]*</expression>
+
+        <symbols type="variable,constant" />
+    </provider>
+
+    <!-- Statements -->
+    <set name="lsl.statements" symbol="statement">
+        <completion string="class">
+            <behavior>
+                <append><![CDATA[ $[Name] {
+    constructor($[argument, ...]) {
+        $[statements]
+    }
+}]]></append>
+            </behavior>
+        </completion>
+        <completion string="do">
+            <behavior>
+                <append><![CDATA[ {
+    $[statements]
+} while ($[condition]);]]></append>
+            </behavior>
+        </completion>
+        <completion string="else">
+            <behavior>
+                <append><![CDATA[ {
+    $[statements]
+}]]></append>
+            </behavior>
+        </completion>
+        <completion string="else if">
+            <behavior>
+                <append><![CDATA[ ($[condition]) {
+    $[statements]
+}]]></append>
+            </behavior>
+        </completion>
+        <completion string="extends">
+            <behavior>
+                <append> $[superclass]</append>
+            </behavior>
+        </completion>
+        <completion string="for">
+            <behavior>
+                <append><![CDATA[ ($[variable] of $[object]) {
+    $[statements]
+}]]></append>
+            </behavior>
+            <description>Creates a loop iterating over the elements of an iterable object, such as an array.</description>
+        </completion>
+        <completion string="for">
+            <behavior>
+                <append><![CDATA[ ($[start]; $[cond]; $[iter]) {
+    $[statements]
+}]]></append>
+            </behavior>
+            <description>Creates a loop iterating over a conditional range.</description>
+        </completion>
+        <completion string="for">
+            <behavior>
+                <append><![CDATA[ ($[variable] in $[object]) {
+    $[statements]
+}]]></append>
+            </behavior>
+            <description>Creates a loop iterating over the enumerable properties of an object.</description>
+        </completion>
+        <completion string="function">
+            <behavior>
+                <append><![CDATA[ $[name]($[arg, ...]) {
+    $[statements]
+}]]></append>
+            </behavior>
+        </completion>
+        <completion string="if">
+            <behavior>
+                <append><![CDATA[ ($[condition]) {
+    $[statements]
+}]]></append>
+            </behavior>
+        </completion>
+        <completion string="switch">
+            <behavior>
+                <append><![CDATA[ ($[expression]) {
+    $[statements]
+}]]></append>
+            </behavior>
+        </completion>
+        <completion string="throw">
+            <behavior>
+                <append><![CDATA[ $[expression]]]></append>
+            </behavior>
+        </completion>
+        <completion string="with">
+            <behavior>
+                <append><![CDATA[ ($[object]) {
+    $[statements]
+}]]></append>
+            </behavior>
+        </completion>
+        <completion string="while">
+            <behavior>
+                <append><![CDATA[ ($[condition]) {
+    $[statements]
+}]]></append>
+            </behavior>
+        </completion>
+    </set>
+
+    <!-- Globals -->
+    <set name="lsl.globals">
+        <completion string="false" />
+        <completion string="true" />
+        <completion string="undefined"/>
+        <completion string="null" />
+
+        <completion string="globalThis" symbol="constant">
+            <description>Contains the global `this` value, which is akin to the global object.</description>
+        </completion>
+        <completion string="Infinity" symbol="constant" result="Number">
+            <description>A numeric value representing infinity.</description>
+        </completion>
+        <completion string="NaN" symbol="constant" result="Number">
+            <description>A value representing Not-A-Number.</description>
+        </completion>
+
+        <completion string="decodeURI" symbol="function" result="String">
+            <description>Decodes a Uniform Resource Identifier (URI).</description>
+            <behavior>
+                <append>($[uri])</append>
+            </behavior>
+        </completion>
+        <completion string="decodeURIComponent" symbol="function" result="String">
+            <description>Decodes a Uniform Resource Identifier (URI) component.</description>
+            <behavior>
+                <append>($[uri])</append>
+            </behavior>
+        </completion>
+        <completion string="encodeURI" symbol="function" result="String">
+            <description>Encodes a Uniform Resource Identifier (URI).</description>
+            <behavior>
+                <append>($[uri])</append>
+            </behavior>
+        </completion>
+        <completion string="encodeURIComponent" symbol="function" result="String">
+            <description>Encodes a Uniform Resource Identifier (URI) component.</description>
+            <behavior>
+                <append>($[uri])</append>
+            </behavior>
+        </completion>
+        <completion string="escape" symbol="function" result="String" deprecated="true">
+            <behavior>
+                <append>($[string])</append>
+            </behavior>
+        </completion>
+        <completion string="eval" symbol="function">
+            <description>Evaluates lsl code represented as a string.</description>
+            <behavior>
+                <append>($[string])</append>
+            </behavior>
+        </completion>
+        <completion string="isFinite" symbol="function" result="Boolean">
+            <description>Evaluates an argument to determine whether it is a finite number.</description>
+            <behavior>
+                <append>($[value])</append>
+            </behavior>
+        </completion>
+        <completion string="isNaN" symbol="function" result="Boolean">
+            <description>Determines whether a value is NaN or not.</description>
+            <behavior>
+                <append>($[value])</append>
+            </behavior>
+        </completion>
+        <completion string="parseFloat" symbol="function" result="Number">
+            <description>Parses a string argument and returns a floating point number.</description>
+            <behavior>
+                <append>($[string])</append>
+            </behavior>
+        </completion>
+        <completion string="parseInt" symbol="function" result="Number">
+            <description>Parses a string argument and returns an integer of the specified radix or base.</description>
+            <behavior>
+                <append>($[string], $[radix])</append>
+            </behavior>
+        </completion>
+        <completion string="unescape" symbol="function" result="String" deprecated="true">
+            <behavior>
+                <append>($[string])</append>
+            </behavior>
+        </completion>
+        <completion string="uneval" symbol="function" result="String" deprecated="true">
+            <description>Creates an string representation of the source code of an Object.</description>
+            <behavior>
+                <append>($[object])</append>
+            </behavior>
+        </completion>
+
+        <completion string="arguments" symbol="variable">
+            <description>An Array-like object corresponding to the arguments passed to a function.</description>
+        </completion>
+    </set>
+
+    <!-- Classes & Modules -->
+    <set name="lsl.classes" symbol="class">
+        <behavior prefix="(?&lt;=new\s)">
+            <append>($[value])</append>
+        </behavior>
+
+        <completion string="Array" />
+        <completion string="ArrayBuffer" />
+        <completion string="AsyncFunction" />
+        <completion string="Atomics" />
+        <completion string="BigInt" />
+        <completion string="BigInt64Array" />
+        <completion string="BigUint64Array" />
+        <completion string="Boolean" />
+        <!-- <completion string="Console" /> Excluded to avoid annoyance with 'console' -->
+        <completion string="DataView" />
+        <completion string="Date" />
+        <completion string="Error" />
+        <completion string="EvalError" />
+        <completion string="Float32Array" />
+        <completion string="Float64Array" />
+        <!-- <completion string="Function" /> Excluded to avoid annoyance with 'function' -->
+        <completion string="Generator" />
+        <completion string="GeneratorFunction" />
+        <completion string="Int16Array" />
+        <completion string="Int32Array" />
+        <completion string="Int8Array" />
+        <completion string="InternalError" />
+        <completion string="Intl" />
+        <completion string="JSON" />
+        <completion string="Map" />
+        <completion string="Math" />
+        <completion string="Number" />
+        <completion string="Object" />
+        <completion string="Promise" />
+        <completion string="Proxy" />
+        <completion string="RangeError" />
+        <completion string="ReferenceError" />
+        <completion string="Reflect" />
+        <completion string="RegExp" />
+        <completion string="Set" />
+        <completion string="SharedArrayBuffer" />
+        <completion string="String" />
+        <completion string="Symbol" />
+        <completion string="SyntaxError" />
+        <completion string="TypeError" />
+        <completion string="TypedArray" />
+        <completion string="URIError" />
+        <completion string="Uint16Array" />
+        <completion string="Uint32Array" />
+        <completion string="Uint8Array" />
+        <completion string="Uint8ClampedArray" />
+        <completion string="WeakMap" />
+        <completion string="WeakSet" />
+        <completion string="WebAssembly" />
+    </set>
+
+    <!-- Functions -->
+    <set name="lsl.functions" symbol="function">
+        <completion string="atob" />
+        <completion string="btoa" />
+        <completion string="clearInterval" />
+        <completion string="clearTimeout" />
+        <completion string="createImageBitmap" />
+        <completion string="fetch" />
+        <completion string="queueMicrotask" />
+        <completion string="setInterval" />
+        <completion string="setTimeout" />
+    </set>
+
+    <!-- Properties & Methods -->
+    <set name="lsl.properties" symbol="property">
+        <completion string="@@iterator" />
+        <completion string="@@match" />
+        <completion string="@@matchAll" />
+        <completion string="@@replace" />
+        <completion string="@@search" />
+        <completion string="@@species" />
+        <completion string="@@split" />
+        <completion string="@@toPrimitive" />
+        <completion string="@@toStringTag" />
+        <completion string="@@unscopables" />
+        <completion string="BYTES_PER_ELEMENT" />
+        <completion string="Collator" />
+        <completion string="CompileError" />
+        <completion string="DateTimeFormat" />
+        <completion string="E" />
+        <completion string="EPSILON" />
+        <completion string="ES2015_behavior" />
+        <completion string="Global" />
+        <completion string="Instance" />
+        <completion string="LN10" />
+        <completion string="LN2" />
+        <completion string="LOG10E" />
+        <completion string="LOG2E" />
+        <completion string="LinkError" />
+        <completion string="Locale" />
+        <completion string="MAX_SAFE_INTEGER" />
+        <completion string="MAX_VALUE" />
+        <completion string="MIN_SAFE_INTEGER" />
+        <completion string="MIN_VALUE" />
+        <completion string="Memory" />
+        <completion string="Module" />
+        <completion string="NEGATIVE_INFINITY" />
+        <completion string="NaN" />
+        <completion string="NumberFormat" />
+        <completion string="PI" />
+        <completion string="POSITIVE_INFINITY" />
+        <completion string="PluralRules" />
+        <completion string="RelativeTimeFormat" />
+        <completion string="RuntimeError" />
+        <completion string="SQRT1_2" />
+        <completion string="SQRT2" />
+        <completion string="Table" />
+        <completion string="UTC" />
+        <completion string="abs" />
+        <completion string="acos" />
+        <completion string="acosh" />
+        <completion string="add" />
+        <completion string="all" />
+        <completion string="allSettled" />
+        <completion string="anchor" deprecated="true" />
+        <completion string="anchored_sticky_flag" />
+        <completion string="and" />
+        <completion string="apply" />
+        <completion string="arguments" deprecated="true" />
+        <completion string="arity" deprecated="true" />
+        <completion string="asIntN" />
+        <completion string="asUintN" />
+        <completion string="asin" />
+        <completion string="asinh" />
+        <completion string="assign" />
+        <completion string="asyncIterator" />
+        <completion string="atan" />
+        <completion string="atan2" />
+        <completion string="atanh" />
+        <completion string="baseName" />
+        <completion string="big" deprecated="true" />
+        <completion string="bind" />
+        <completion string="blink" deprecated="true" />
+        <completion string="bold" deprecated="true" />
+        <completion string="buffer" />
+        <completion string="byteLength" />
+        <completion string="byteOffset" />
+        <completion string="calendar" />
+        <completion string="call" />
+        <completion string="caller" />
+        <completion string="caseFirst" />
+        <completion string="catch" />
+        <completion string="cbrt" />
+        <completion string="ceil" />
+        <completion string="charAt" />
+        <completion string="charCodeAt" />
+        <completion string="clear" />
+        <completion string="clz32" />
+        <completion string="codePointAt" />
+        <completion string="collation" />
+        <completion string="columnNumber" />
+        <completion string="compare" />
+        <completion string="compareExchange" />
+        <completion string="compile" deprecated="true" />
+        <completion string="compileStreaming" />
+        <completion string="concat" />
+        <completion string="construct" />
+        <completion string="constructor_without_arguments" />
+        <completion string="copyWithin" />
+        <completion string="cos" />
+        <completion string="cosh" />
+        <completion string="count" deprecated="true" />
+        <completion string="create" />
+        <completion string="customSections" />
+        <completion string="defineGetter" deprecated="true" />
+        <completion string="defineProperties" />
+        <completion string="defineProperty" />
+        <completion string="defineSetter" deprecated="true" />
+        <completion string="delete" />
+        <completion string="deleteProperty" />
+        <completion string="description" />
+        <completion string="displayName" />
+        <completion string="dotAll" />
+        <completion string="empty_regex_string" />
+        <completion string="endsWith" />
+        <completion string="entries" />
+        <completion string="enumerate" deprecated="true" />
+        <completion string="escaping" />
+        <completion string="eval" deprecated="true" />
+        <completion string="every" />
+        <completion string="exchange" />
+        <completion string="exec" />
+        <completion string="exp" />
+        <completion string="expm1" />
+        <completion string="exports" />
+        <completion string="fileName" />
+        <completion string="fill" />
+        <completion string="filter" />
+        <completion string="finally" />
+        <completion string="find" />
+        <completion string="findIndex" />
+        <completion string="fixed" deprecated="true" />
+        <completion string="flags" />
+        <completion string="flat" />
+        <completion string="flatMap" />
+        <completion string="floor" />
+        <completion string="fontcolor" deprecated="true" />
+        <completion string="fontsize" deprecated="true" />
+        <completion string="for" />
+        <completion string="forEach" />
+        <completion string="format" />
+        <completion string="formatRange" />
+        <completion string="formatRangeToParts" />
+        <completion string="formatToParts" />
+        <completion string="freeze" />
+        <completion string="from" />
+        <completion string="fromCharCode" />
+        <completion string="fromCodePoint" />
+        <completion string="fromEntries" />
+        <completion string="fround" />
+        <completion string="generic_arrays_as_arguments" />
+        <completion string="get" />
+        <completion string="getBigInt64" />
+        <completion string="getBigUint64" />
+        <completion string="getCanonicalLocales" />
+        <completion string="getDate" />
+        <completion string="getDay" />
+        <completion string="getFloat32" />
+        <completion string="getFloat64" />
+        <completion string="getFullYear" />
+        <completion string="getHours" />
+        <completion string="getInt16" />
+        <completion string="getInt32" />
+        <completion string="getInt8" />
+        <completion string="getMilliseconds" />
+        <completion string="getMinutes" />
+        <completion string="getMonth" />
+        <completion string="getNotifier" deprecated="true" />
+        <completion string="getOwnPropertyDescriptor" />
+        <completion string="getOwnPropertyDescriptors" />
+        <completion string="getOwnPropertyNames" />
+        <completion string="getOwnPropertySymbols" />
+        <completion string="getPrototypeOf" />
+        <completion string="getSeconds" />
+        <completion string="getTime" />
+        <completion string="getTimezoneOffset" />
+        <completion string="getUTCDate" />
+        <completion string="getUTCDay" />
+        <completion string="getUTCFullYear" />
+        <completion string="getUTCHours" />
+        <completion string="getUTCMilliseconds" />
+        <completion string="getUTCMinutes" />
+        <completion string="getUTCMonth" />
+        <completion string="getUTCSeconds" />
+        <completion string="getUint16" />
+        <completion string="getUint32" />
+        <completion string="getUint8" />
+        <completion string="getYear" deprecated="true" />
+        <completion string="global" />
+        <completion string="grow" />
+        <completion string="handler" />
+        <completion string="has" />
+        <completion string="hasInstance" />
+        <completion string="hourCycle" />
+        <completion string="hypot" />
+        <completion string="iana_time_zone_names" />
+        <completion string="ignoreCase" />
+        <completion string="imports" />
+        <completion string="imul" />
+        <completion string="includes" />
+        <completion string="indexOf" />
+        <completion string="index_properties_not_consulting_prototype" />
+        <completion string="input" />
+        <completion string="instantiate" />
+        <completion string="instantiateStreaming" />
+        <completion string="is" />
+        <completion string="isArray" />
+        <completion string="isConcatSpreadable" />
+        <completion string="isExtensible" />
+        <completion string="isFinite" />
+        <completion string="isFrozen" />
+        <completion string="isGenerator" deprecated="true" />
+        <completion string="isInteger" />
+        <completion string="isLockFree" />
+        <completion string="isNaN" />
+        <completion string="isSafeInteger" />
+        <completion string="isSealed" />
+        <completion string="isView" />
+        <completion string="iso_8601" />
+        <completion string="italics" deprecated="true" />
+        <completion string="iterable_in_constructor" />
+        <completion string="iterator" />
+        <completion string="join" />
+        <completion string="json_superset" />
+        <completion string="keyFor" />
+        <completion string="key_equality_for_zeros" />
+        <completion string="keys" />
+        <completion string="language" />
+        <completion string="lastIndex" />
+        <completion string="lastIndexOf" />
+        <completion string="lastMatch" />
+        <completion string="lastParen" />
+        <completion string="leftContext" />
+        <completion string="length" />
+        <completion string="lineNumber" />
+        <completion string="link" deprecated="true" />
+        <completion string="load" />
+        <completion string="locale" />
+        <completion string="localeCompare" />
+        <completion string="locales" />
+        <completion string="log" />
+        <completion string="log10" />
+        <completion string="log1p" />
+        <completion string="log2" />
+        <completion string="lookbehind_assertion" />
+        <completion string="lookupGetter" deprecated="true" />
+        <completion string="lookupSetter" deprecated="true" />
+        <completion string="map" />
+        <completion string="match" />
+        <completion string="matchAll" />
+        <completion string="max" />
+        <completion string="maximize" />
+        <completion string="message" />
+        <completion string="min" />
+        <completion string="minimize" />
+        <completion string="multiline" />
+        <completion string="n" />
+        <completion string="name" />
+        <completion string="named_capture_groups" />
+        <completion string="named_properties" />
+        <completion string="new_required" />
+        <completion string="next" />
+        <completion string="noSuchMethod" deprecated="true" />
+        <completion string="normalize" />
+        <completion string="notify" />
+        <completion string="now" />
+        <completion string="numberingSystem" />
+        <completion string="numeric" />
+        <completion string="observe" deprecated="true" />
+        <completion string="of" />
+        <completion string="options" />
+        <completion string="or" />
+        <completion string="ownKeys" />
+        <completion string="padEnd" />
+        <completion string="padStart" />
+        <completion string="parent" deprecated="true" />
+        <completion string="parse" />
+        <completion string="parseFloat" />
+        <completion string="parseInt" />
+        <completion string="pop" />
+        <completion string="pow" />
+        <completion string="preventExtensions" />
+        <completion string="property_escapes" />
+        <completion string="proto" deprecated="true" />
+        <completion string="prototype_accessor" />
+        <completion string="push" />
+        <completion string="quote" deprecated="true" />
+        <completion string="race" />
+        <completion string="random" />
+        <completion string="raw" />
+        <completion string="reduce" />
+        <completion string="reduceRight" />
+        <completion string="region" />
+        <completion string="reject" />
+        <completion string="repeat" />
+        <completion string="replace" />
+        <completion string="resolve" />
+        <completion string="resolvedOptions" />
+        <completion string="return" />
+        <completion string="reverse" />
+        <completion string="revocable" />
+        <completion string="rightContext" />
+        <completion string="round" />
+        <completion string="script" />
+        <completion string="seal" />
+        <completion string="search" />
+        <completion string="select" />
+        <completion string="set" />
+        <completion string="setBigInt64" />
+        <completion string="setBigUint64" />
+        <completion string="setDate" />
+        <completion string="setFloat32" />
+        <completion string="setFloat64" />
+        <completion string="setFullYear" />
+        <completion string="setHours" />
+        <completion string="setInt16" />
+        <completion string="setInt32" />
+        <completion string="setInt8" />
+        <completion string="setMilliseconds" />
+        <completion string="setMinutes" />
+        <completion string="setMonth" />
+        <completion string="setPrototypeOf" />
+        <completion string="setSeconds" />
+        <completion string="setTime" />
+        <completion string="setUTCDate" />
+        <completion string="setUTCFullYear" />
+        <completion string="setUTCHours" />
+        <completion string="setUTCMilliseconds" />
+        <completion string="setUTCMinutes" />
+        <completion string="setUTCMonth" />
+        <completion string="setUTCSeconds" />
+        <completion string="setUint16" />
+        <completion string="setUint32" />
+        <completion string="setUint8" />
+        <completion string="setYear" deprecated="true" />
+        <completion string="sharedarraybuffer_support" />
+        <completion string="shift" />
+        <completion string="sign" />
+        <completion string="sin" />
+        <completion string="sinh" />
+        <completion string="size" />
+        <completion string="slice" />
+        <completion string="small" deprecated="true" />
+        <completion string="some" />
+        <completion string="sort" />
+        <completion string="source" />
+        <completion string="species" />
+        <completion string="splice" />
+        <completion string="split" />
+        <completion string="sqrt" />
+        <completion string="stable" />
+        <completion string="stack" />
+        <completion string="startsWith" />
+        <completion string="sticky" />
+        <completion string="store" />
+        <completion string="strike" deprecated="true" />
+        <completion string="stringify" />
+        <completion string="sub" />
+        <completion string="subarray" />
+        <completion string="substr" deprecated="true" />
+        <completion string="substring" />
+        <completion string="sup" deprecated="true" />
+        <completion string="supportedLocalesOf" />
+        <completion string="tan" />
+        <completion string="tanh" />
+        <completion string="test" />
+        <completion string="then" />
+        <completion string="throw" />
+        <completion string="toDateString" />
+        <completion string="toExponential" />
+        <completion string="toFixed" />
+        <completion string="toGMTString" deprecated="true" />
+        <completion string="toISOString" />
+        <completion string="toInteger" deprecated="true" />
+        <completion string="toJSON" />
+        <completion string="toLocaleDateString" />
+        <completion string="toLocaleFormat" deprecated="true" />
+        <completion string="toLocaleLowerCase" />
+        <completion string="toLocaleTimeString" />
+        <completion string="toLocaleUpperCase" />
+        <completion string="toLowerCase" />
+        <completion string="toPrecision" />
+        <completion string="toPrimitive" />
+        <completion string="toSource" />
+        <completion string="toStringTag" />
+        <completion string="toTimeString" />
+        <completion string="toUTCString" />
+        <completion string="toUpperCase" />
+        <completion string="trim" />
+        <completion string="trimEnd" />
+        <completion string="trimStart" />
+        <completion string="trunc" />
+        <completion string="unicode" />
+        <completion string="unicode_code_point_escapes" />
+        <completion string="unobserve" deprecated="true" />
+        <completion string="unscopables" />
+        <completion string="unshift" />
+        <completion string="unwatch" deprecated="true" />
+        <completion string="validate" />
+        <completion string="value" />
+        <completion string="values" />
+        <completion string="wait" />
+        <completion string="watch" deprecated="true" />
+        <completion string="well_formed_stringify" />
+        <completion string="xor" />
+    </set>
+</completions>
+
+
 </completions>
