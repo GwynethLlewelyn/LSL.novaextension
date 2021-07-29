@@ -1,0 +1,8 @@
+{
+    "identifier": "gwynethllewelyn.GoLanguageDefinitionforNova.LindenScriptingLanguage",
+    "name": "Linden Scripting Language",
+    "organization": "Gwyneth Llewelyn",
+    "description": "Lorem ipsum, dolor sit amet.",
+    "version": "1.0",
+    "categories": ["languages"]
+}
