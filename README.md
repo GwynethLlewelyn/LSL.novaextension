@@ -1,5 +1,5 @@
 
-![LSL syntax highlighting for Nova ](https://github.com/GwynethLlewelyn/LSL.novaextension/blob/master/Images/extension/Nova-LSL-Logo.png?raw=true)
+![LSL syntax highlighting for the Nova editor](https://github.com/GwynethLlewelyn/LSL.novaextension/blob/main/Images/extension/Nova-LSL-logo.png?raw=true)
 
 # Linden Scripting Language (LSL) Nova extension
 
