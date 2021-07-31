@@ -17,6 +17,11 @@ Note that LSL is a language in perpetual flux, with Linden Lab constantly adding
 sometimes making older versions obsolete, shuffling parameters around, etc. so at some point in time this extension will
 be inevitably out of sync.
 
+Most of the information was gathered from the official [LSL Portal of the Second Life Wiki](https://wiki.secondlife.com/wiki/LSL_Portal),
+the official [OpenSimulator Wiki](http://opensimulator.org/wiki/), and from several files scattered around the
+[Firestorm Viewer](https://www.firestormviewer.org/) application (which provides a wealth of information for
+auto-completion and tooltips).
+
 ## Disclaimer
 
 Second Life®, Linden Scripting Language and the inSL logo are trademarks of Linden Research, Inc. No infringement is intended.
