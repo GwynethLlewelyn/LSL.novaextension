@@ -229,11 +229,9 @@
 
 			<scope name="lsl.definition.property">
 				<symbol type="property" scope="private" />
-				<expression>(this)(\.)(\#?[a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(\=)</expression>
-				<capture number="1" name="lsl.keyword.self" />
+				<expression>(\#?[a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(\=)</expression>
+				<capture number="1" name="lsl.identifier.property.name" />
 				<capture number="2" name="lsl.operator" />
-				<capture number="3" name="lsl.identifier.property.name" />
-				<capture number="4" name="lsl.operator" />
 			</scope>
 
 			<!-- !Destructuring Assignment -->
@@ -249,7 +247,7 @@
 				</ends-with>
 				<subscopes>
 					<cut-off>
-						<expression>(?=\b(?:static|async|function|class|if|else|while|for)\b)</expression>
+						<expression>(?=\b(?:if|else|while|for)\b)</expression>
 					</cut-off>
 					<scope name="lsl.identifier">
 						<symbol type="variable" scope="local" />
@@ -277,7 +275,7 @@
 				</ends-with>
 				<subscopes>
 					<cut-off>
-						<expression>(?=\b(?:static|async|function|class|if|else|while|for)\b)</expression>
+						<expression>(?=\b(?:if|else|while|for)\b)</expression>
 					</cut-off>
 					<scope name="lsl.identifier">
 						<symbol type="variable" scope="local" />
@@ -306,7 +304,7 @@
 				</ends-with>
 				<subscopes>
 					<cut-off>
-						<expression>(?=\b(?:static|async|function|class|if|else|while|for)\b)</expression>
+						<expression>(?=\b(?:if|else|while|for)\b)</expression>
 					</cut-off>
 					<scope name="lsl.identifier">
 						<symbol type="variable" scope="local" />
@@ -334,7 +332,7 @@
 				</ends-with>
 				<subscopes>
 					<cut-off>
-						<expression>(?=\b(?:static|async|function|class|if|else|while|for)\b)</expression>
+						<expression>(?=\b(?:if|else|while|for)\b)</expression>
 					</cut-off>
 					<scope name="lsl.identifier">
 						<symbol type="variable" scope="local" />
@@ -592,41 +590,6 @@
 					<include syntax="self" collection="function-blocks" />
 				</subscopes>
 			</scope>
-
-			<scope name="lsl.method.computed">
-				<symbol type="method">
-					<context behavior="subtree" foldable="false" />
-				</symbol>
-				<starts-with>
-					<expression>(?:(?:\b(async)(\*)?\s+)|(\*)?)(\[)</expression>
-					<capture number="1" name="lsl.keyword.modifier" />
-					<capture number="2" name="lsl.operator" />
-					<capture number="3" name="lsl.operator" />
-					<capture number="4" name="lsl.bracket" />
-				</starts-with>
-				<ends-with />
-				<subscopes anchored="true">
-					<include syntax="self" collection="comments" optional="true" repeat="true" />
-					<scope name="lsl.method.computed.expression.name">
-						<starts-with>
-							<expression>(?=[^\]])</expression>
-						</starts-with>
-						<ends-with>
-							<expression>(?=\])</expression>
-						</ends-with>
-						<subscopes anchored="true">
-							<include syntax="self" collection="expressions" repeat="true" />
-						</subscopes>
-					</scope>
-					<include syntax="self" collection="comments" optional="true" repeat="true" />
-					<scope name="lsl.bracket">
-						<expression>\]</expression>
-					</scope>
-					<include syntax="self" collection="arguments" />
-					<include syntax="self" collection="comments" optional="true" repeat="true" />
-					<include syntax="self" collection="function-blocks" />
-				</subscopes>
-			</scope>
 		</collection>
 
 		<!-- !Properties -->
@@ -644,7 +607,7 @@
 				</ends-with>
 				<subscopes>
 					<cut-off>
-						<expression>(?=\b(?:static|async|function|class|if|else|while|for)\b)</expression>
+						<expression>(?=\b(?:if|else|while|for)\b)</expression>
 					</cut-off>
 					<include syntax="self" collection="comments" />
 					<include syntax="self" collection="keywords" />
@@ -669,7 +632,7 @@
 				</ends-with>
 				<subscopes>
 					<cut-off>
-						<expression>(?=\b(?:static|async|function|class|if|else|while|for)\b)</expression>
+						<expression>(?=\b(?:if|else|while|for)\b)</expression>
 					</cut-off>
 					<include syntax="self" collection="comments" />
 					<include syntax="self" collection="keywords" />
@@ -903,8 +866,6 @@
 				<strings>
 					<string>return</string>
 				</strings>
-			</scope>
-			<scope name="lsl.keyword.self">
 			</scope>
 		</collection>
 
@@ -1707,8 +1668,8 @@
 			</scope>
 			<!-- All past, present and future Linden Lab LSL functions start with ll..() -->
 			<scope name="lsl.identifier.core.function.unknown">
-				<strings prefix="(?&lt;!\.)ll" suffix="(?=\()">
-				</strings>
+				<expression>"(?&lt;!\.)ll([a-zA-Z_]+[a-zA-Z0-9_]*)(?=\()"</expression>
+				<capture number="1" name="lsl.identifier.function.name" />
 			</scope>
 			<scope name="lsl.identifier.ossl.function.avatar">
 				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
@@ -2022,6 +1983,7 @@
 					<string>string</string>
 					<string>vector</string>
 				</strings>
+			</scope>
 			<scope name="lsl.identifier.function">
 				<expression>(?&lt;!\.)((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)(?=\()</expression>
 			</scope>

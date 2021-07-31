@@ -14,8 +14,7 @@
         <completion string="&lt;" />
         <completion string="&gt;" />
     </set>
-<?xml version="1.0" encoding="UTF-8"?>
-<completions>
+
     <!-- "foo" -->
     <provider name="lsl.globals">
         <syntax>lsl</syntax>
@@ -736,7 +735,4 @@
         <completion string="well_formed_stringify" />
         <completion string="xor" />
     </set>
-</completions>
-
-
 </completions>

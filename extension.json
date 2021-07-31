@@ -9,9 +9,28 @@
 	"repository": "https://github.com/GwynethLlewelyn/LSL.novaextension",
 	"homepage": "https://gwynethllewelyn.net",
 	"funding": "https://www.paypal.com/paypalme/gwynethllewelyn",
-	"keywords": ["go", "golang"],
+	"keywords": ["Second Life", "SL", "OpenSimulator", "LSL", "Linden Scripting Language"],
 	"license": "bsd-3-clause",
-	"categories": ["completions", "languages"],
+	"categories": ["completions", "languages", "commands"],
+	"activationEvents": ["onLanguage:LSL", "onWorkspaceContains:*.lsl"],
+
 	"main": "main.js",
-	"activationEvents": ["onLanguage:LSL", "onWorkspaceContains:*.lsl"]
+
+	"entitlements": {
+
+	},
+
+	"commands": {
+		"editor": [
+			{
+				"title": "Search LSL Wiki...",
+				"command": "gwynethllewelyn.LindenScriptingLanguage.search",
+				"when": "editorHasFocus && editorHasSelection",
+				"shortcut": "cmd-@",
+				"filters": {
+					"syntaxes": ["lsl"]
+				}
+			}
+		]
+	}
 }
