@@ -51,7 +51,6 @@
 
 	<scopes>
 		<include syntax="self" collection="comments" />
-		<include syntax="self" collection="imports" />
 		<include syntax="self" collection="definitions" />
 		<include syntax="self" collection="variables" />
 		<include syntax="self" collection="functions" />
@@ -99,169 +98,9 @@
 			</scope>
 		</collection>
 
-		<!-- !Imports -->
-		<collection name="imports">
-			<scope name="lsl.import">
-				<starts-with>
-					<expression>\b(import)\b</expression>
-					<capture number="1" name="lsl.keyword.statement.import" />
-				</starts-with>
-				<ends-with />
-				<subscopes anchored="true">
-					<include syntax="self" collection="comments" optional="true" repeat="true" />
-					<include syntax="self" collection="import-references" optional="true" repeat="true" />
-					<include syntax="self" collection="comments" optional="true" repeat="true" />
-					<include syntax="self" collection="import-paths" />
-				</subscopes>
-			</scope>
-		</collection>
-
-		<!-- !Import References -->
-		<collection name="import-references">
-			<include syntax="self" collection="comments" optional="true" repeat="true" />
-			<scope name="lsl.destructure">
-				<starts-with>
-					<expression>\{</expression>
-					<capture number="0" name="lsl.destructure.bracket" />
-				</starts-with>
-				<ends-with>
-					<expression>\}</expression>
-					<capture number="0" name="lsl.destructure.bracket" />
-				</ends-with>
-				<subscopes>
-					<cut-off>
-						<expression>(?=\b(?:static|async|function|class|if|else|while|for)\b)</expression>
-					</cut-off>
-					<include syntax="self" collection="comments" />
-					<include syntax="self" collection="import-as-expression" />
-					<scope name="lsl.identifier">
-						<symbol type="variable" scope="external" />
-						<expression>(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*</expression>
-					</scope>
-					<scope name="lsl.comma">
-						<expression>,</expression>
-					</scope>
-				</subscopes>
-			</scope>
-			<scope name="lsl.keyword.modifier">
-				<expression>from</expression>
-			</scope>
-			<include syntax="self" collection="import-as-expression" />
-			<scope name="lsl.operator.all">
-				<expression>\*</expression>
-			</scope>
-			<scope name="lsl.identifier">
-				<symbol type="variable" scope="external" />
-				<expression>(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*</expression>
-			</scope>
-			<scope name="lsl.comma">
-				<expression>,</expression>
-			</scope>
-		</collection>
-
-		<!-- !Import As Expression -->
-		<collection name="import-as-expression">
-			<scope name="lsl.import-as-expression">
-				<starts-with>
-					<expression>(?:(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*|(\*))(?=\s+(?:as)\b)</expression>
-					<capture number="1" name="lsl.operator" />
-				</starts-with>
-				<ends-with />
-				<subscopes anchored="true">
-					<scope name="lsl.keyword.modifier">
-						<expression>\b(as)\b</expression>
-					</scope>
-					<include syntax="self" collection="comments" optional="true" repeat="true" />
-					<scope name="lsl.identifier">
-						<symbol type="variable" scope="external" />
-						<expression>(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*</expression>
-					</scope>
-				</subscopes>
-			</scope>
-		</collection>
-
-		<!-- !Import Paths -->
-		<collection name="import-paths">
-			<scope name="lsl.string.double-quoted.path">
-				<starts-with>
-					<expression>&quot;</expression>
-					<capture number="0" name="lsl.string.double-quoted.path.delimiter" />
-				</starts-with>
-				<ends-with>
-					<expression>&quot;|(?:(?&lt;!\\)$)</expression>
-					<capture number="0" name="lsl.string.double-quoted.path.delimiter" />
-				</ends-with>
-				<subscopes>
-					<scope name="lsl.string.double-quoted.path.escape">
-						<expression>\\(?:\\|&quot;|n|r|t|b|f)</expression>
-					</scope>
-				</subscopes>
-			</scope>
-			<scope name="lsl.string.single-quoted.path">
-				<starts-with>
-					<expression>&apos;</expression>
-					<capture number="0" name="lsl.string.single-quoted.path.delimiter" />
-				</starts-with>
-				<ends-with>
-					<expression>&apos;|(?:(?&lt;!\\)$)</expression>
-					<capture number="0" name="lsl.string.single-quoted.path.delimiter" />
-				</ends-with>
-				<subscopes>
-					<scope name="lsl.string.single-quoted.path.escape">
-						<expression>\\(?:\\|&apos;|n|r|t|b|f)</expression>
-					</scope>
-				</subscopes>
-			</scope>
-		</collection>
-
 		<!-- !Definitions -->
 		<collection name="definitions">
-			<scope name="lsl.definition.class">
-				<symbol type="class">
-					<context behavior="subtree" foldable="false" />
-				</symbol>
-				<starts-with>
-					<expression>\b(class)\s+([a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\b</expression>
-					<capture number="1" name="lsl.keyword.construct.class" />
-					<capture number="2" name="lsl.identifier.type.class.name" />
-				</starts-with>
-				<ends-with />
-				<subscopes anchored="true">
-					<include syntax="self" collection="comments" optional="true" repeat="true" />
-					<scope name="lsl.class.extends" optional="true">
-						<expression>\b(extends)\s+([a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_\.]*)</expression>
-						<capture number="1" name="lsl.keyword.modifier.extends" />
-						<capture number="2" name="lsl.identifier.type.class.superclass" />
-					</scope>
-					<include syntax="self" collection="comments" optional="true" repeat="true" />
-					<scope name="lsl.block">
-						<symbol type="block">
-							<context behavior="subtree" fold-type="class" />
-						</symbol>
-						<starts-with>
-							<expression>\{</expression>
-							<capture number="0" name="lsl.bracket" />
-						</starts-with>
-						<ends-with>
-							<expression>\}</expression>
-							<capture number="0" name="lsl.bracket" />
-						</ends-with>
-						<subscopes>
-							<include syntax="self" collection="comments" />
-							<include syntax="self" collection="properties" />
-							<include syntax="self" collection="methods" />
-							<scope name="lsl.keyword.modifier">
-								<strings>
-									<string>static</string>
-									<string>async</string>
-									<string>get</string>
-									<string>set</string>
-								</strings>
-							</scope>
-						</subscopes>
-					</scope>
-				</subscopes>
-			</scope>
+
 		</collection>
 
 		<!-- !Variables -->
@@ -2842,12 +2681,148 @@
 				<strings>
 					<string>TOUCH_INVALID_TEXCOORD</string>
 					<string>TOUCH_INVALID_VECTOR</string>
+					<string>ZERO_ROTATION</string>
 					<string>ZERO_VECTOR</string>
 				</strings>
 			</scope>
-			<scope name="lsl.identifier.constant.vector">
+			<scope name="lsl.identifier.constant.integer.ossl">
 				<strings>
-					<string>ZERO_ROTATION</string>
+					<string>AGENT_LIST_EXCLUDENPC</string>
+					<string>CAMERA_FOCUS_OFFSET_X</string>
+					<string>CAMERA_FOCUS_OFFSET_Y</string>
+					<string>CAMERA_FOCUS_OFFSET_Z</string>
+					<string>CAMERA_FOCUS_X</string>
+					<string>CAMERA_FOCUS_Y</string>
+					<string>CAMERA_FOCUS_Z</string>
+					<string>CAMERA_POSITION_X</string>
+					<string>CAMERA_POSITION_Y</string>
+					<string>CAMERA_POSITION_Z</string>
+					<string>CHANGED_ANIMATION</string>
+					<string>DATA_SIM_RELEASE</string>
+					<string>LIST_STAT_HARMONIC_MEAN</string>
+					<string>LSL_STATUS_BOUNDS_ERROR</string>
+					<string>LSL_STATUS_INTERNAL_ERROR</string>
+					<string>LSL_STATUS_MALFORMED_PARAMS</string>
+					<string>LSL_STATUS_NOT_FOUND</string>
+					<string>LSL_STATUS_NOT_SUPPORTED</string>
+					<string>LSL_STATUS_OK</string>
+					<string>LSL_STATUS_TYPE_MISMATCH</string>
+					<string>LSL_STATUS_WHITELIST_FAILED</string>
+					<string>OS_APIVERSION</string>
+					<string>OS_ATTACH_MSG_ALL</string>
+					<string>OS_ATTACH_MSG_INVERT_POINTS</string>
+					<string>OS_ATTACH_MSG_OBJECT_CREATOR</string>
+					<string>OS_ATTACH_MSG_SCRIPT_CREATOR</string>
+					<string>OS_LISTEN_REGEX_MESSAGE</string>
+					<string>OS_LISTEN_REGEX_NAME</string>
+					<string>OS_LTPAG_ALGNLV</string>
+					<string>OS_LTPAG_FORCEFLY</string>
+					<string>OS_LTPAG_FORCENOFLY</string>
+					<string>OS_LTPAG_NONE</string>
+					<string>OS_LTPAG_USELOOKAT</string>
+					<string>OS_LTPAG_USEVEL</string>
+					<string>OS_NPC_CREATOR_OWNED</string>
+					<string>OS_NPC_FLY</string>
+					<string>OS_NPC_LAND_AT_TARGET</string>
+					<string>OS_NPC_NO_FLY</string>
+					<string>OS_NPC_NOT_OWNED</string>
+					<string>OS_NPC_OBJECT_GROUP</string>
+					<string>OS_NPC_RUNNING</string>
+					<string>OS_NPC_SENSE_AS_AGENT</string>
+					<string>OS_NPC_SIT_NOW</string>
+					<string>OSTPOBJ_NONE</string>
+					<string>OSTPOBJ_SETROT</string>
+					<string>OSTPOBJ_STOPATTARGET</string>
+					<string>OSTPOBJ_STOPONFAIL</string>
+					<string>PARCEL_DETAILS_CLAIMDATE</string>
+					<string>PARCEL_DETAILS_DWELL</string>
+					<string>RC_REJECT_HOST</string>
+					<string>RC_REJECT_HOSTGROUP</string>
+					<string>STATS_ACTIVE_PRIMS</string>
+					<string>STATS_ACTIVE_SCRIPTS</string>
+					<string>STATS_AGENT_MS</string>
+					<string>STATS_AGENT_UPDATES</string>
+					<string>STATS_CHILD_AGENTS</string>
+					<string>STATS_FRAME_MS</string>
+					<string>STATS_IMAGE_MS</string>
+					<string>STATS_IN_PACKETS_PER_SECOND</string>
+					<string>STATS_NET_MS</string>
+					<string>STATS_OTHER_MS</string>
+					<string>STATS_OUT_PACKETS_PER_SECOND</string>
+					<string>STATS_PENDING_DOWNLOADS</string>
+					<string>STATS_PENDING_UPLOADS</string>
+					<string>STATS_PHYSICS_FPS</string>
+					<string>STATS_PHYSICS_MS</string>
+					<string>STATS_ROOT_AGENTS</string>
+					<string>STATS_SCRIPT_LPS</string>
+					<string>STATS_SIM_FPS</string>
+					<string>STATS_TIME_DILATION</string>
+					<string>STATS_TOTAL_PRIMS</string>
+					<string>STATS_UNACKED_BYTES</string>
+					<string>VEHICLE_FLAG_LOCK_HOVER_HEIGHT</string>
+					<string>VEHICLE_FLAG_LOCK_ROTATION</string>
+					<string>VEHICLE_FLAG_NO_DEFLECTION</string>
+					<string>VEHICLE_FLAG_NO_X</string>
+					<string>VEHICLE_FLAG_NO_Y</string>
+					<string>VEHICLE_FLAG_NO_Z</string>
+					<string>VEHICLE_RANGE_BLOCK</string>
+					<string>VEHICLE_ROLL_FRAME</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.constant.integer.ossl.windlight">
+				<strings>
+					<string>WL_AMBIENT</string>
+					<string>WL_BIG_WAVE_DIRECTION</string>
+					<string>WL_BLUE_DENSITY</string>
+					<string>WL_BLUR_MULTIPLIER</string>
+					<string>WL_CLOUD_COLOR</string>
+					<string>WL_CLOUD_COVERAGE</string>
+					<string>WL_CLOUD_DETAIL_XY_DENSITY</string>
+					<string>WL_CLOUD_SCALE</string>
+					<string>WL_CLOUD_SCROLL_X</string>
+					<string>WL_CLOUD_SCROLL_X_LOCK</string>
+					<string>WL_CLOUD_SCROLL_Y</string>
+					<string>WL_CLOUD_SCROLL_Y_LOCK</string>
+					<string>WL_CLOUD_XY_DENSITY</string>
+					<string>WL_DENSITY_MULTIPLIER</string>
+					<string>WL_DISTANCE_MULTIPLIER</string>
+					<string>WL_DRAW_CLASSIC_CLOUDS</string>
+					<string>WL_EAST_ANGLE</string>
+					<string>WL_FRESNEL_OFFSET</string>
+					<string>WL_FRESNEL_SCALE</string>
+					<string>WL_HAZE_DENSITY</string>
+					<string>WL_HAZE_HORIZON</string>
+					<string>WL_HORIZON</string>
+					<string>WL_LITTLE_WAVE_DIRECTION</string>
+					<string>WL_MAX_ALTITUDE</string>
+					<string>WL_NORMAL_MAP_TEXTURE</string>
+					<string>WL_REFLECTION_WAVELET_SCALE</string>
+					<string>WL_REFRACT_SCALE_ABOVE</string>
+					<string>WL_REFRACT_SCALE_BELOW</string>
+					<string>WL_SCENE_GAMMA</string>
+					<string>WL_STAR_BRIGHTNESS</string>
+					<string>WL_SUN_GLOW_FOCUS</string>
+					<string>WL_SUN_GLOW_SIZE</string>
+					<string>WL_SUN_MOON_COLOR</string>
+					<string>WL_SUN_MOON_POSITION</string>
+					<string>WL_UNDERWATER_FOG_MODIFIER</string>
+					<string>WL_WATER_COLOR</string>
+					<string>WL_WATER_FOG_DENSITY_EXPONENT</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.constant.integer.ossl">
+				<strings>
+					<string>IMG_USE_BAKED_AUX1</string>
+					<string>IMG_USE_BAKED_AUX2</string>
+					<string>IMG_USE_BAKED_AUX3</string>
+					<string>IMG_USE_BAKED_EYES</string>
+					<string>IMG_USE_BAKED_HAIR</string>
+					<string>IMG_USE_BAKED_LEFTARM</string>
+					<string>IMG_USE_BAKED_LEFTLEG</string>
+					<string>IMG_USE_BAKED_LOWER</string>
+					<string>IMG_USE_BAKED_SKIRT</string>
+					<string>IMG_USE_BAKED_UPPER</string>
+					<string>IMG_USE_BAKED_HEAD</string>
 				</strings>
 			</scope>
 			<scope name="lsl.identifier">
