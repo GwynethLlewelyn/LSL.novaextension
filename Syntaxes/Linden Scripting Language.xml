@@ -1,1543 +1,2880 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <syntax name="lsl">
-    <meta>
-        <name>Linden Scripting Language</name>
-        <type>script</type>
-        <preferred-file-extension>lsl</preferred-file-extension>
-    </meta>
+	<meta>
+		<name>Linden Scripting Language</name>
+		<type>script</type>
+		<preferred-file-extension>lsl</preferred-file-extension>
+	</meta>
 
-     <detectors>
-         <extension priority="1.0">lsl</extension>
-         <match-content lines="5" priority="1.0">^(//)?\s*vi:\s*(syntax|ft)=(lsl|Linden Scripting Language)\b</match-content>
-     </detectors>
+	<detectors>
+		<extension priority="1.0">lsl</extension>
+		<match-content lines="5" priority="1.0">^(//)?\s*vi:\s*(syntax|ft)=(lsl|Linden Scripting Language)\b</match-content>
+	</detectors>
 
-     <indentation>
-         <increase>
-             <expression>(\{[^}\"']*$)|(\[[^\]\"']*$)|(\([^)\"']*$)</expression>
-         </increase>
-         <decrease>
-             <expression>^\s*(\s*/\*.*\*/\s*)*[\}\]\)\\]</expression>
-         </decrease>
-     </indentation>
+	<indentation>
+		<increase>
+			<expression>(\{[^}\"']*$)|(\[[^\]\"']*$)|(\([^)\"']*$)</expression>
+		</increase>
+		<decrease>
+			<expression>^\s*(\s*/\*.*\*/\s*)*[\}\]\)\\]</expression>
+		</decrease>
+	</indentation>
 
-     <comments>
-         <single>
-             <expression>//</expression>
-         </single>
-         <multiline>
-             <starts-with>
-                 <expression>/*</expression>
-             </starts-with>
-             <ends-with>
-                 <expression>*/</expression>
-             </ends-with>
-         </multiline>
-     </comments>
+	<comments>
+		<single>
+			<expression>//</expression>
+		</single>
+		<multiline>
+			<starts-with>
+				<expression>/*</expression>
+			</starts-with>
+			<ends-with>
+				<expression>*/</expression>
+			</ends-with>
+		</multiline>
+	</comments>
 
-     <brackets>
-         <pair open="{" close="}" />
-         <pair open="[" close="]" />
-         <pair open="(" close=")" />
-     </brackets>
+	<brackets>
+		<pair open="{" close="}" />
+		<pair open="[" close="]" />
+		<pair open="(" close=")" />
+	</brackets>
 
-     <surrounding-pairs>
-         <pair open="{" close="}" />
-         <pair open="[" close="]" />
-         <pair open="(" close=")" />
-         <pair open="&apos;" close="&apos;" />
-         <pair open="&quot;" close="&quot;" />
-         <pair open="`" close="`" />
-     </surrounding-pairs>
+	<surrounding-pairs>
+		<pair open="{" close="}" />
+		<pair open="[" close="]" />
+		<pair open="(" close=")" />
+		<pair open="&apos;" close="&apos;" />
+		<pair open="&quot;" close="&quot;" />
+		<pair open="`" close="`" />
+	</surrounding-pairs>
 
-     <scopes>
-         <include syntax="self" collection="comments" />
-         <include syntax="self" collection="imports" />
-         <include syntax="self" collection="definitions" />
-         <include syntax="self" collection="variables" />
-         <include syntax="self" collection="functions" />
-         <include syntax="self" collection="keywords" />
-         <include syntax="self" collection="values" />
-         <include syntax="self" collection="identifiers" />
-         <include syntax="self" collection="blocks" />
-         <include syntax="self" collection="syntax" />
-     </scopes>
+	<scopes>
+		<include syntax="self" collection="comments" />
+		<include syntax="self" collection="imports" />
+		<include syntax="self" collection="definitions" />
+		<include syntax="self" collection="variables" />
+		<include syntax="self" collection="functions" />
+		<include syntax="self" collection="keywords" />
+		<include syntax="self" collection="values" />
+		<include syntax="self" collection="identifiers" />
+		<include syntax="self" collection="blocks" />
+		<include syntax="self" collection="syntax" />
+	</scopes>
 
-     <collections>
-         <!-- !Comments -->
-         <collection name="comments">
-             <scope name="lsl.comment.single" spell-check="true">
-                 <expression>\/\/(.*)$</expression>
-                 <capture number="1" name="lsl.comment.content" />
-             </scope>
-             <scope name="lsl.comment.block" spell-check="true">
-                 <starts-with>
-                     <expression>\/\*</expression>
-                 </starts-with>
-                 <ends-with>
-                     <expression>\*\/</expression>
-                 </ends-with>
-             </scope>
-         </collection>
+	<collections>
+		<!-- !Comments -->
+		<collection name="comments">
+			<scope name="lsl.comment.single" spell-check="true">
+				<expression>\/\/(.*)$</expression>
+				<capture number="1" name="lsl.comment.content" />
+			</scope>
+			<scope name="lsl.comment.block" spell-check="true">
+				<starts-with>
+					<expression>\/\*</expression>
+				</starts-with>
+				<ends-with>
+					<expression>\*\/</expression>
+				</ends-with>
+			</scope>
+		</collection>
 
-         <!-- !Blocks -->
-         <collection name="blocks">
-             <scope name="lsl.block">
-                 <symbol type="block">
-                     <context behavior="subtree" />
-                 </symbol>
-                 <starts-with>
-                     <expression>\{</expression>
-                     <capture number="0" name="lsl.block.bracket" />
-                 </starts-with>
-                 <ends-with>
-                     <expression>\}</expression>
-                     <capture number="0" name="lsl.block.bracket" />
-                 </ends-with>
-                 <subscopes>
-                     <include syntax="self" />
-                 </subscopes>
-             </scope>
-         </collection>
+		<!-- !Blocks -->
+		<collection name="blocks">
+			<scope name="lsl.block">
+				<symbol type="block">
+					<context behavior="subtree" />
+				</symbol>
+				<starts-with>
+					<expression>\{</expression>
+					<capture number="0" name="lsl.block.bracket" />
+				</starts-with>
+				<ends-with>
+					<expression>\}</expression>
+					<capture number="0" name="lsl.block.bracket" />
+				</ends-with>
+				<subscopes>
+					<include syntax="self" />
+				</subscopes>
+			</scope>
+		</collection>
 
-         <!-- !Imports -->
-         <collection name="imports">
-             <scope name="lsl.import">
-                 <starts-with>
-                     <expression>\b(import)\b</expression>
-                     <capture number="1" name="lsl.keyword.statement.import" />
-                 </starts-with>
-                 <ends-with />
-                 <subscopes anchored="true">
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="import-references" optional="true" repeat="true" />
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="import-paths" />
-                 </subscopes>
-             </scope>
-         </collection>
+		<!-- !Imports -->
+		<collection name="imports">
+			<scope name="lsl.import">
+				<starts-with>
+					<expression>\b(import)\b</expression>
+					<capture number="1" name="lsl.keyword.statement.import" />
+				</starts-with>
+				<ends-with />
+				<subscopes anchored="true">
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="import-references" optional="true" repeat="true" />
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="import-paths" />
+				</subscopes>
+			</scope>
+		</collection>
 
-         <!-- !Import References -->
-         <collection name="import-references">
-             <include syntax="self" collection="comments" optional="true" repeat="true" />
-             <scope name="lsl.destructure">
-                 <starts-with>
-                     <expression>\{</expression>
-                     <capture number="0" name="lsl.destructure.bracket" />
-                 </starts-with>
-                 <ends-with>
-                     <expression>\}</expression>
-                     <capture number="0" name="lsl.destructure.bracket" />
-                 </ends-with>
-                 <subscopes>
-                     <cut-off>
-                         <expression>(?=\b(?:static|async|function|class|if|else|while|for)\b)</expression>
-                     </cut-off>
-                     <include syntax="self" collection="comments" />
-                     <include syntax="self" collection="import-as-expression" />
-                     <scope name="lsl.identifier">
-                         <symbol type="variable" scope="external" />
-                         <expression>(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*</expression>
-                     </scope>
-                     <scope name="lsl.comma">
-                         <expression>,</expression>
-                     </scope>
-                 </subscopes>
-             </scope>
-             <scope name="lsl.keyword.modifier">
-                 <expression>from</expression>
-             </scope>
-             <include syntax="self" collection="import-as-expression" />
-             <scope name="lsl.operator.all">
-                 <expression>\*</expression>
-             </scope>
-             <scope name="lsl.identifier">
-                 <symbol type="variable" scope="external" />
-                 <expression>(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*</expression>
-             </scope>
-             <scope name="lsl.comma">
-                 <expression>,</expression>
-             </scope>
-         </collection>
+		<!-- !Import References -->
+		<collection name="import-references">
+			<include syntax="self" collection="comments" optional="true" repeat="true" />
+			<scope name="lsl.destructure">
+				<starts-with>
+					<expression>\{</expression>
+					<capture number="0" name="lsl.destructure.bracket" />
+				</starts-with>
+				<ends-with>
+					<expression>\}</expression>
+					<capture number="0" name="lsl.destructure.bracket" />
+				</ends-with>
+				<subscopes>
+					<cut-off>
+						<expression>(?=\b(?:static|async|function|class|if|else|while|for)\b)</expression>
+					</cut-off>
+					<include syntax="self" collection="comments" />
+					<include syntax="self" collection="import-as-expression" />
+					<scope name="lsl.identifier">
+						<symbol type="variable" scope="external" />
+						<expression>(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*</expression>
+					</scope>
+					<scope name="lsl.comma">
+						<expression>,</expression>
+					</scope>
+				</subscopes>
+			</scope>
+			<scope name="lsl.keyword.modifier">
+				<expression>from</expression>
+			</scope>
+			<include syntax="self" collection="import-as-expression" />
+			<scope name="lsl.operator.all">
+				<expression>\*</expression>
+			</scope>
+			<scope name="lsl.identifier">
+				<symbol type="variable" scope="external" />
+				<expression>(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*</expression>
+			</scope>
+			<scope name="lsl.comma">
+				<expression>,</expression>
+			</scope>
+		</collection>
 
-         <!-- !Import As Expression -->
-         <collection name="import-as-expression">
-             <scope name="lsl.import-as-expression">
-                 <starts-with>
-                     <expression>(?:(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*|(\*))(?=\s+(?:as)\b)</expression>
-                     <capture number="1" name="lsl.operator" />
-                 </starts-with>
-                 <ends-with />
-                 <subscopes anchored="true">
-                     <scope name="lsl.keyword.modifier">
-                         <expression>\b(as)\b</expression>
-                     </scope>
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <scope name="lsl.identifier">
-                         <symbol type="variable" scope="external" />
-                         <expression>(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*</expression>
-                     </scope>
-                 </subscopes>
-             </scope>
-         </collection>
+		<!-- !Import As Expression -->
+		<collection name="import-as-expression">
+			<scope name="lsl.import-as-expression">
+				<starts-with>
+					<expression>(?:(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*|(\*))(?=\s+(?:as)\b)</expression>
+					<capture number="1" name="lsl.operator" />
+				</starts-with>
+				<ends-with />
+				<subscopes anchored="true">
+					<scope name="lsl.keyword.modifier">
+						<expression>\b(as)\b</expression>
+					</scope>
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<scope name="lsl.identifier">
+						<symbol type="variable" scope="external" />
+						<expression>(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*</expression>
+					</scope>
+				</subscopes>
+			</scope>
+		</collection>
 
-         <!-- !Import Paths -->
-         <collection name="import-paths">
-             <scope name="lsl.string.double-quoted.path">
-                 <starts-with>
-                     <expression>&quot;</expression>
-                     <capture number="0" name="lsl.string.double-quoted.path.delimiter" />
-                 </starts-with>
-                 <ends-with>
-                     <expression>&quot;|(?:(?&lt;!\\)$)</expression>
-                     <capture number="0" name="lsl.string.double-quoted.path.delimiter" />
-                 </ends-with>
-                 <subscopes>
-                     <scope name="lsl.string.double-quoted.path.escape">
-                         <expression>\\(?:\\|&quot;|n|r|t|b|f)</expression>
-                     </scope>
-                 </subscopes>
-             </scope>
-             <scope name="lsl.string.single-quoted.path">
-                 <starts-with>
-                     <expression>&apos;</expression>
-                     <capture number="0" name="lsl.string.single-quoted.path.delimiter" />
-                 </starts-with>
-                 <ends-with>
-                     <expression>&apos;|(?:(?&lt;!\\)$)</expression>
-                     <capture number="0" name="lsl.string.single-quoted.path.delimiter" />
-                 </ends-with>
-                 <subscopes>
-                     <scope name="lsl.string.single-quoted.path.escape">
-                         <expression>\\(?:\\|&apos;|n|r|t|b|f)</expression>
-                     </scope>
-                 </subscopes>
-             </scope>
-         </collection>
+		<!-- !Import Paths -->
+		<collection name="import-paths">
+			<scope name="lsl.string.double-quoted.path">
+				<starts-with>
+					<expression>&quot;</expression>
+					<capture number="0" name="lsl.string.double-quoted.path.delimiter" />
+				</starts-with>
+				<ends-with>
+					<expression>&quot;|(?:(?&lt;!\\)$)</expression>
+					<capture number="0" name="lsl.string.double-quoted.path.delimiter" />
+				</ends-with>
+				<subscopes>
+					<scope name="lsl.string.double-quoted.path.escape">
+						<expression>\\(?:\\|&quot;|n|r|t|b|f)</expression>
+					</scope>
+				</subscopes>
+			</scope>
+			<scope name="lsl.string.single-quoted.path">
+				<starts-with>
+					<expression>&apos;</expression>
+					<capture number="0" name="lsl.string.single-quoted.path.delimiter" />
+				</starts-with>
+				<ends-with>
+					<expression>&apos;|(?:(?&lt;!\\)$)</expression>
+					<capture number="0" name="lsl.string.single-quoted.path.delimiter" />
+				</ends-with>
+				<subscopes>
+					<scope name="lsl.string.single-quoted.path.escape">
+						<expression>\\(?:\\|&apos;|n|r|t|b|f)</expression>
+					</scope>
+				</subscopes>
+			</scope>
+		</collection>
 
-         <!-- !Definitions -->
-         <collection name="definitions">
-             <scope name="lsl.definition.class">
-                 <symbol type="class">
-                     <context behavior="subtree" foldable="false" />
-                 </symbol>
-                 <starts-with>
-                     <expression>\b(class)\s+([a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\b</expression>
-                     <capture number="1" name="lsl.keyword.construct.class" />
-                     <capture number="2" name="lsl.identifier.type.class.name" />
-                 </starts-with>
-                 <ends-with />
-                 <subscopes anchored="true">
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <scope name="lsl.class.extends" optional="true">
-                         <expression>\b(extends)\s+([a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_\.]*)</expression>
-                         <capture number="1" name="lsl.keyword.modifier.extends" />
-                         <capture number="2" name="lsl.identifier.type.class.superclass" />
-                     </scope>
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <scope name="lsl.block">
-                         <symbol type="block">
-                             <context behavior="subtree" fold-type="class" />
-                         </symbol>
-                         <starts-with>
-                             <expression>\{</expression>
-                             <capture number="0" name="lsl.bracket" />
-                         </starts-with>
-                         <ends-with>
-                             <expression>\}</expression>
-                             <capture number="0" name="lsl.bracket" />
-                         </ends-with>
-                         <subscopes>
-                             <include syntax="self" collection="comments" />
-                             <include syntax="self" collection="properties" />
-                             <include syntax="self" collection="methods" />
-                             <scope name="lsl.keyword.modifier">
-                                 <strings>
-                                     <string>static</string>
-                                     <string>async</string>
-                                     <string>get</string>
-                                     <string>set</string>
-                                 </strings>
-                             </scope>
-                         </subscopes>
-                     </scope>
-                 </subscopes>
-             </scope>
-         </collection>
+		<!-- !Definitions -->
+		<collection name="definitions">
+			<scope name="lsl.definition.class">
+				<symbol type="class">
+					<context behavior="subtree" foldable="false" />
+				</symbol>
+				<starts-with>
+					<expression>\b(class)\s+([a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\b</expression>
+					<capture number="1" name="lsl.keyword.construct.class" />
+					<capture number="2" name="lsl.identifier.type.class.name" />
+				</starts-with>
+				<ends-with />
+				<subscopes anchored="true">
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<scope name="lsl.class.extends" optional="true">
+						<expression>\b(extends)\s+([a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_\.]*)</expression>
+						<capture number="1" name="lsl.keyword.modifier.extends" />
+						<capture number="2" name="lsl.identifier.type.class.superclass" />
+					</scope>
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<scope name="lsl.block">
+						<symbol type="block">
+							<context behavior="subtree" fold-type="class" />
+						</symbol>
+						<starts-with>
+							<expression>\{</expression>
+							<capture number="0" name="lsl.bracket" />
+						</starts-with>
+						<ends-with>
+							<expression>\}</expression>
+							<capture number="0" name="lsl.bracket" />
+						</ends-with>
+						<subscopes>
+							<include syntax="self" collection="comments" />
+							<include syntax="self" collection="properties" />
+							<include syntax="self" collection="methods" />
+							<scope name="lsl.keyword.modifier">
+								<strings>
+									<string>static</string>
+									<string>async</string>
+									<string>get</string>
+									<string>set</string>
+								</strings>
+							</scope>
+						</subscopes>
+					</scope>
+				</subscopes>
+			</scope>
+		</collection>
 
-         <!-- !Variables -->
-         <collection name="variables">
-             <!-- !Named Function Variables -->
-             <scope name="lsl.definition.function.variable">
-                 <symbol type="function">
-                     <context behavior="subtree" foldable="false" />
-                 </symbol>
-                 <starts-with>
-                     <expression>\b(let|var|const)\s+((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(=)\s*(?:(async)\s+)?(function)(\*)?(?=\s*\()</expression>
-                     <capture number="1" name="lsl.keyword.construct" />
-                     <capture number="2" name="lsl.function.identifier.name" />
-                     <capture number="3" name="lsl.operator.equals" />
-                     <capture number="4" name="lsl.keyword.modifier" />
-                     <capture number="5" name="lsl.keyword.construct" />
-                     <capture number="6" name="lsl.operator" />
-                 </starts-with>
-                 <ends-with />
-                 <subscopes anchored="true">
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="arguments" />
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="function-blocks" />
-                 </subscopes>
-             </scope>
-             <scope name="lsl.definition.function.variable">
-                 <symbol type="function">
-                     <context behavior="subtree" foldable="false" />
-                 </symbol>
-                 <starts-with>
-                     <expression>((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(=)\s*(?:(async)\s+)?(function)(\*)?(?=\s*\()</expression>
-                     <capture number="1" name="lsl.function.identifier.name" />
-                     <capture number="2" name="lsl.operator.equals" />
-                     <capture number="3" name="lsl.keyword.modifier" />
-                     <capture number="4" name="lsl.keyword.construct" />
-                     <capture number="5" name="lsl.operator" />
-                 </starts-with>
-                 <ends-with />
-                 <subscopes anchored="true">
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="arguments" />
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="function-blocks" />
-                 </subscopes>
-             </scope>
+		<!-- !Variables -->
+		<collection name="variables">
+			<!-- !Named Function Variables -->
+			<scope name="lsl.definition.function.variable">
+				<symbol type="function">
+					<context behavior="subtree" foldable="false" />
+				</symbol>
+				<starts-with>
+					<expression>\b(let|var|const)\s+((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(=)\s*(?:(async)\s+)?(function)(\*)?(?=\s*\()</expression>
+					<capture number="1" name="lsl.keyword.construct" />
+					<capture number="2" name="lsl.function.identifier.name" />
+					<capture number="3" name="lsl.operator.equals" />
+					<capture number="4" name="lsl.keyword.modifier" />
+					<capture number="5" name="lsl.keyword.construct" />
+					<capture number="6" name="lsl.operator" />
+				</starts-with>
+				<ends-with />
+				<subscopes anchored="true">
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="arguments" />
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="function-blocks" />
+				</subscopes>
+			</scope>
+			<scope name="lsl.definition.function.variable">
+				<symbol type="function">
+					<context behavior="subtree" foldable="false" />
+				</symbol>
+				<starts-with>
+					<expression>((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(=)\s*(?:(async)\s+)?(function)(\*)?(?=\s*\()</expression>
+					<capture number="1" name="lsl.function.identifier.name" />
+					<capture number="2" name="lsl.operator.equals" />
+					<capture number="3" name="lsl.keyword.modifier" />
+					<capture number="4" name="lsl.keyword.construct" />
+					<capture number="5" name="lsl.operator" />
+				</starts-with>
+				<ends-with />
+				<subscopes anchored="true">
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="arguments" />
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="function-blocks" />
+				</subscopes>
+			</scope>
 
-             <!-- !Arrow Function Variables -->
-             <scope name="lsl.definition.function.arrow.named.local">
-                 <symbol type="function">
-                     <context behavior="subtree" foldable="false" />
-                 </symbol>
-                 <starts-with>
-                     <expression>
-                         \b(let|var|const)\s+((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(=)\s* # Variable
-                         (?:(async)\s+)?(?=(?:
-                             (?&lt;![A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]) # Not preceeded by an identifier
-                             (?:\(
-                                 (?:
-                                     # Opening parenthesis preceeded by an identifier (function call)
-                                     ((?&lt;=[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_])\()
-                                     # Closing parenthesis not followed by the arrow operator
-                                     | (\)(?!\s*=&gt;))
-                                     # All characters other than parenthesis
-                                     | [^\(\)]
-                                 )*
-                             \)) # (arg, arg) =>
-                             |(?:(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*) # arg =>
-                         )\s*=&gt;\s*)
-                     </expression>
-                     <capture number="1" name="lsl.keyword.construct" />
-                     <capture number="2" name="lsl.identifier.function.name" />
-                     <capture number="3" name="lsl.operator.equals" />
-                     <capture number="4" name="lsl.keyword.modifier" />
-                 </starts-with>
-                 <ends-with />
-                 <subscopes anchored="true">
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="arrow-function-arguments" />
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <scope name="lsl.operator">
-                         <expression>=&gt;</expression>
-                     </scope>
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="arrow-function-body-expressions" />
-                 </subscopes>
-             </scope>
-             <scope name="lsl.definition.function.arrow.named.global">
-                 <symbol type="function">
-                     <context behavior="subtree" foldable="false" />
-                 </symbol>
-                 <starts-with>
-                     <expression>
-                         ((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(=)\s* # Variable
-                         (?:(async)\s+)?(?=(?:
-                             (?&lt;![A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]) # Not preceeded by an identifier
-                             (?:\(
-                                 (?:
-                                     # Opening parenthesis preceeded by an identifier (function call)
-                                     ((?&lt;=[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_])\()
-                                     # Closing parenthesis not followed by the arrow operator
-                                     | (\)(?!\s*=&gt;))
-                                     # All characters other than parenthesis
-                                     | [^\(\)]
-                                 )*
-                             \)) # (arg, arg) =>
-                             |(?:(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*) # arg =>
-                         )\s*=&gt;\s*)
-                     </expression>
-                     <capture number="1" name="lsl.identifier.function.name" />
-                     <capture number="2" name="lsl.operator.equals" />
-                     <capture number="3" name="lsl.keyword.modifier" />
-                 </starts-with>
-                 <ends-with />
-                 <subscopes anchored="true">
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="arrow-function-arguments" />
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <scope name="lsl.operator">
-                         <expression>=&gt;</expression>
-                     </scope>
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="arrow-function-body-expressions" />
-                 </subscopes>
-             </scope>
+			<!-- !Arrow Function Variables -->
+			<scope name="lsl.definition.function.arrow.named.local">
+				<symbol type="function">
+					<context behavior="subtree" foldable="false" />
+				</symbol>
+				<starts-with>
+					<expression>
+						\b(let|var|const)\s+((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(=)\s* # Variable
+						(?:(async)\s+)?(?=(?:
+							(?&lt;![A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]) # Not preceeded by an identifier
+							(?:\(
+								(?:
+									# Opening parenthesis preceeded by an identifier (function call)
+									((?&lt;=[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_])\()
+									# Closing parenthesis not followed by the arrow operator
+									| (\)(?!\s*=&gt;))
+									# All characters other than parenthesis
+									| [^\(\)]
+								)*
+							\)) # (arg, arg) =>
+							|(?:(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*) # arg =>
+						)\s*=&gt;\s*)
+					</expression>
+					<capture number="1" name="lsl.keyword.construct" />
+					<capture number="2" name="lsl.identifier.function.name" />
+					<capture number="3" name="lsl.operator.equals" />
+					<capture number="4" name="lsl.keyword.modifier" />
+				</starts-with>
+				<ends-with />
+				<subscopes anchored="true">
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="arrow-function-arguments" />
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<scope name="lsl.operator">
+						<expression>=&gt;</expression>
+					</scope>
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="arrow-function-body-expressions" />
+				</subscopes>
+			</scope>
+			<scope name="lsl.definition.function.arrow.named.global">
+				<symbol type="function">
+					<context behavior="subtree" foldable="false" />
+				</symbol>
+				<starts-with>
+					<expression>
+						((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(=)\s* # Variable
+						(?:(async)\s+)?(?=(?:
+							(?&lt;![A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]) # Not preceeded by an identifier
+							(?:\(
+								(?:
+									# Opening parenthesis preceeded by an identifier (function call)
+									((?&lt;=[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_])\()
+									# Closing parenthesis not followed by the arrow operator
+									| (\)(?!\s*=&gt;))
+									# All characters other than parenthesis
+									| [^\(\)]
+								)*
+							\)) # (arg, arg) =>
+							|(?:(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*) # arg =>
+						)\s*=&gt;\s*)
+					</expression>
+					<capture number="1" name="lsl.identifier.function.name" />
+					<capture number="2" name="lsl.operator.equals" />
+					<capture number="3" name="lsl.keyword.modifier" />
+				</starts-with>
+				<ends-with />
+				<subscopes anchored="true">
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="arrow-function-arguments" />
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<scope name="lsl.operator">
+						<expression>=&gt;</expression>
+					</scope>
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="arrow-function-body-expressions" />
+				</subscopes>
+			</scope>
 
-             <scope name="lsl.definition.property">
-                 <symbol type="property" scope="private" />
-                 <expression>(this)(\.)(\#?[a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(\=)</expression>
-                 <capture number="1" name="lsl.keyword.self" />
-                 <capture number="2" name="lsl.operator" />
-                 <capture number="3" name="lsl.identifier.property.name" />
-                 <capture number="4" name="lsl.operator" />
-             </scope>
+			<scope name="lsl.definition.property">
+				<symbol type="property" scope="private" />
+				<expression>(this)(\.)(\#?[a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(\=)</expression>
+				<capture number="1" name="lsl.keyword.self" />
+				<capture number="2" name="lsl.operator" />
+				<capture number="3" name="lsl.identifier.property.name" />
+				<capture number="4" name="lsl.operator" />
+			</scope>
 
-             <!-- !Destructuring Assignment -->
-             <scope name="lsl.destructure-assignment-array">
-                 <starts-with>
-                     <expression>\b(let|var|const)\s+(\[)(?=[a-zA-ZA-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_,\s\.]+\]\s*\=)</expression>
-                     <capture number="1" name="lsl.keyword.construct" />
-                     <capture number="2" name="lsl.destructure.bracket" />
-                 </starts-with>
-                 <ends-with>
-                     <expression>\]</expression>
-                     <capture number="0" name="lsl.destructure.bracket" />
-                 </ends-with>
-                 <subscopes>
-                     <cut-off>
-                         <expression>(?=\b(?:static|async|function|class|if|else|while|for)\b)</expression>
-                     </cut-off>
-                     <scope name="lsl.identifier">
-                         <symbol type="variable" scope="local" />
-                         <expression>(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*</expression>
-                     </scope>
-                     <scope name="lsl.rest">
-                         <symbol type="variable" scope="local" />
-                         <expression>(\.\.\.)((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)</expression>
-                         <capture number="1" name="lsl.rest.operator" />
-                         <capture number="2" name="lsl.rest.identifier.name" />
-                     </scope>
-                     <scope name="lsl.comma">
-                         <expression>,</expression>
-                     </scope>
-                 </subscopes>
-             </scope>
-             <scope name="lsl.destructure-assignment-array">
-                 <starts-with>
-                     <expression>(?&lt;![a-zA-ZA-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_])(\[)(?=[a-zA-ZA-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_,\s\.]+\]\s*\=)</expression>
-                     <capture number="1" name="lsl.destructure.bracket" />
-                 </starts-with>
-                 <ends-with>
-                     <expression>\]</expression>
-                     <capture number="0" name="lsl.destructure.bracket" />
-                 </ends-with>
-                 <subscopes>
-                     <cut-off>
-                         <expression>(?=\b(?:static|async|function|class|if|else|while|for)\b)</expression>
-                     </cut-off>
-                     <scope name="lsl.identifier">
-                         <symbol type="variable" scope="local" />
-                         <expression>(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*</expression>
-                     </scope>
-                     <scope name="lsl.rest">
-                         <symbol type="variable" scope="local" />
-                         <expression>(\.\.\.)((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)</expression>
-                         <capture number="1" name="lsl.rest.operator" />
-                         <capture number="2" name="lsl.rest.identifier.name" />
-                     </scope>
-                     <scope name="lsl.comma">
-                         <expression>,</expression>
-                     </scope>
-                 </subscopes>
-             </scope>
-             <scope name="lsl.destructure-assignment-object">
-                 <starts-with>
-                     <expression>\b(let|var|const)\s+(\{)(?=[a-zA-ZA-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_,\s\.]+\}\s*\=)</expression>
-                     <capture number="1" name="lsl.keyword.construct" />
-                     <capture number="2" name="lsl.destructure.bracket" />
-                 </starts-with>
-                 <ends-with>
-                     <expression>\}</expression>
-                     <capture number="0" name="lsl.destructure.bracket" />
-                 </ends-with>
-                 <subscopes>
-                     <cut-off>
-                         <expression>(?=\b(?:static|async|function|class|if|else|while|for)\b)</expression>
-                     </cut-off>
-                     <scope name="lsl.identifier">
-                         <symbol type="variable" scope="local" />
-                         <expression>(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*</expression>
-                     </scope>
-                     <scope name="lsl.rest">
-                         <symbol type="variable" scope="local" />
-                         <expression>(\.\.\.)((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)</expression>
-                         <capture number="1" name="lsl.rest.operator" />
-                         <capture number="2" name="lsl.rest.identifier.name" />
-                     </scope>
-                     <scope name="lsl.comma">
-                         <expression>,</expression>
-                     </scope>
-                 </subscopes>
-             </scope>
-             <scope name="lsl.destructure-assignment-object">
-                 <starts-with>
-                     <expression>(?&lt;![a-zA-ZA-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_])(\{)(?=[a-zA-ZA-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_,\s\.]+\}\s*\=)</expression>
-                     <capture number="1" name="lsl.destructure.bracket" />
-                 </starts-with>
-                 <ends-with>
-                     <expression>\}</expression>
-                     <capture number="0" name="lsl.destructure.bracket" />
-                 </ends-with>
-                 <subscopes>
-                     <cut-off>
-                         <expression>(?=\b(?:static|async|function|class|if|else|while|for)\b)</expression>
-                     </cut-off>
-                     <scope name="lsl.identifier">
-                         <symbol type="variable" scope="local" />
-                         <expression>(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*</expression>
-                     </scope>
-                     <scope name="lsl.rest">
-                         <symbol type="variable" scope="local" />
-                         <expression>(\.\.\.)((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)</expression>
-                         <capture number="1" name="lsl.rest.operator" />
-                         <capture number="2" name="lsl.rest.identifier.name" />
-                     </scope>
-                     <scope name="lsl.comma">
-                         <expression>,</expression>
-                     </scope>
-                 </subscopes>
-             </scope>
+			<!-- !Destructuring Assignment -->
+			<scope name="lsl.destructure-assignment-array">
+				<starts-with>
+					<expression>\b(let|var|const)\s+(\[)(?=[a-zA-ZA-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_,\s\.]+\]\s*\=)</expression>
+					<capture number="1" name="lsl.keyword.construct" />
+					<capture number="2" name="lsl.destructure.bracket" />
+				</starts-with>
+				<ends-with>
+					<expression>\]</expression>
+					<capture number="0" name="lsl.destructure.bracket" />
+				</ends-with>
+				<subscopes>
+					<cut-off>
+						<expression>(?=\b(?:static|async|function|class|if|else|while|for)\b)</expression>
+					</cut-off>
+					<scope name="lsl.identifier">
+						<symbol type="variable" scope="local" />
+						<expression>(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*</expression>
+					</scope>
+					<scope name="lsl.rest">
+						<symbol type="variable" scope="local" />
+						<expression>(\.\.\.)((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)</expression>
+						<capture number="1" name="lsl.rest.operator" />
+						<capture number="2" name="lsl.rest.identifier.name" />
+					</scope>
+					<scope name="lsl.comma">
+						<expression>,</expression>
+					</scope>
+				</subscopes>
+			</scope>
+			<scope name="lsl.destructure-assignment-array">
+				<starts-with>
+					<expression>(?&lt;![a-zA-ZA-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_])(\[)(?=[a-zA-ZA-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_,\s\.]+\]\s*\=)</expression>
+					<capture number="1" name="lsl.destructure.bracket" />
+				</starts-with>
+				<ends-with>
+					<expression>\]</expression>
+					<capture number="0" name="lsl.destructure.bracket" />
+				</ends-with>
+				<subscopes>
+					<cut-off>
+						<expression>(?=\b(?:static|async|function|class|if|else|while|for)\b)</expression>
+					</cut-off>
+					<scope name="lsl.identifier">
+						<symbol type="variable" scope="local" />
+						<expression>(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*</expression>
+					</scope>
+					<scope name="lsl.rest">
+						<symbol type="variable" scope="local" />
+						<expression>(\.\.\.)((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)</expression>
+						<capture number="1" name="lsl.rest.operator" />
+						<capture number="2" name="lsl.rest.identifier.name" />
+					</scope>
+					<scope name="lsl.comma">
+						<expression>,</expression>
+					</scope>
+				</subscopes>
+			</scope>
+			<scope name="lsl.destructure-assignment-object">
+				<starts-with>
+					<expression>\b(let|var|const)\s+(\{)(?=[a-zA-ZA-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_,\s\.]+\}\s*\=)</expression>
+					<capture number="1" name="lsl.keyword.construct" />
+					<capture number="2" name="lsl.destructure.bracket" />
+				</starts-with>
+				<ends-with>
+					<expression>\}</expression>
+					<capture number="0" name="lsl.destructure.bracket" />
+				</ends-with>
+				<subscopes>
+					<cut-off>
+						<expression>(?=\b(?:static|async|function|class|if|else|while|for)\b)</expression>
+					</cut-off>
+					<scope name="lsl.identifier">
+						<symbol type="variable" scope="local" />
+						<expression>(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*</expression>
+					</scope>
+					<scope name="lsl.rest">
+						<symbol type="variable" scope="local" />
+						<expression>(\.\.\.)((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)</expression>
+						<capture number="1" name="lsl.rest.operator" />
+						<capture number="2" name="lsl.rest.identifier.name" />
+					</scope>
+					<scope name="lsl.comma">
+						<expression>,</expression>
+					</scope>
+				</subscopes>
+			</scope>
+			<scope name="lsl.destructure-assignment-object">
+				<starts-with>
+					<expression>(?&lt;![a-zA-ZA-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_])(\{)(?=[a-zA-ZA-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_,\s\.]+\}\s*\=)</expression>
+					<capture number="1" name="lsl.destructure.bracket" />
+				</starts-with>
+				<ends-with>
+					<expression>\}</expression>
+					<capture number="0" name="lsl.destructure.bracket" />
+				</ends-with>
+				<subscopes>
+					<cut-off>
+						<expression>(?=\b(?:static|async|function|class|if|else|while|for)\b)</expression>
+					</cut-off>
+					<scope name="lsl.identifier">
+						<symbol type="variable" scope="local" />
+						<expression>(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*</expression>
+					</scope>
+					<scope name="lsl.rest">
+						<symbol type="variable" scope="local" />
+						<expression>(\.\.\.)((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)</expression>
+						<capture number="1" name="lsl.rest.operator" />
+						<capture number="2" name="lsl.rest.identifier.name" />
+					</scope>
+					<scope name="lsl.comma">
+						<expression>,</expression>
+					</scope>
+				</subscopes>
+			</scope>
 
-             <scope name="lsl.definition.constant.local">
-                 <symbol type="constant" scope="local" />
-                 <expression>\b(const)\s+([a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(\=)</expression>
-                 <capture number="1" name="lsl.keyword.construct" />
-                 <capture number="2" name="lsl.identifier.name" />
-                 <capture number="3" name="lsl.operator" />
-             </scope>
+			<scope name="lsl.definition.constant.local">
+				<symbol type="constant" scope="local" />
+				<expression>\b(const)\s+([a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(\=)</expression>
+				<capture number="1" name="lsl.keyword.construct" />
+				<capture number="2" name="lsl.identifier.name" />
+				<capture number="3" name="lsl.operator" />
+			</scope>
 
-             <scope name="lsl.definition.variable.local">
-                 <symbol type="variable" scope="local" />
-                 <expression>\b(let|var)\s+([a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(\=)</expression>
-                 <capture number="1" name="lsl.keyword.construct" />
-                 <capture number="2" name="lsl.identifier.name" />
-                 <capture number="3" name="lsl.operator" />
-             </scope>
+			<scope name="lsl.definition.variable.local">
+				<symbol type="variable" scope="local" />
+				<expression>\b(let|var)\s+([a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(\=)</expression>
+				<capture number="1" name="lsl.keyword.construct" />
+				<capture number="2" name="lsl.identifier.name" />
+				<capture number="3" name="lsl.operator" />
+			</scope>
 
-             <scope name="lsl.definition.variable.global">
-                 <symbol type="variable" scope="global" />
-                 <expression>(?&lt;!\.)((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(\=(?!\=|&gt;))</expression>
-                 <capture number="1" name="lsl.identifier.name" />
-                 <capture number="2" name="lsl.operator" />
-             </scope>
-         </collection>
+			<scope name="lsl.definition.variable.global">
+				<symbol type="variable" scope="global" />
+				<expression>(?&lt;!\.)((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(\=(?!\=|&gt;))</expression>
+				<capture number="1" name="lsl.identifier.name" />
+				<capture number="2" name="lsl.operator" />
+			</scope>
+		</collection>
 
-         <!-- !Functions -->
-         <collection name="functions">
-             <scope name="lsl.definition.function.named">
-                 <symbol type="function">
-                     <context behavior="subtree" foldable="false" />
-                 </symbol>
-                 <starts-with>
-                     <expression>(?:\b(async)\s+)?\b(function)(\*)?\s+([a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)</expression>
-                     <capture number="1" name="lsl.keyword.modifier" />
-                     <capture number="2" name="lsl.keyword.construct" />
-                     <capture number="3" name="lsl.operator" />
-                     <capture number="4" name="lsl.identifier.function.name" />
-                 </starts-with>
-                 <ends-with />
-                 <subscopes anchored="true">
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="arguments" />
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="function-blocks" />
-                 </subscopes>
-             </scope>
+		<!-- !Functions -->
+		<collection name="functions">
+			<scope name="lsl.definition.function.named">
+				<symbol type="function">
+					<context behavior="subtree" foldable="false" />
+				</symbol>
+				<starts-with>
+					<expression>(?:\b(async)\s+)?\b(function)(\*)?\s+([a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)</expression>
+					<capture number="1" name="lsl.keyword.modifier" />
+					<capture number="2" name="lsl.keyword.construct" />
+					<capture number="3" name="lsl.operator" />
+					<capture number="4" name="lsl.identifier.function.name" />
+				</starts-with>
+				<ends-with />
+				<subscopes anchored="true">
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="arguments" />
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="function-blocks" />
+				</subscopes>
+			</scope>
 
-             <scope name="lsl.definition.function.anonymous">
-                 <symbol type="function" anonymous="true">
-                     <context behavior="subtree" foldable="false" />
-                 </symbol>
-                 <starts-with>
-                     <expression>(?:\b(async)\s+)?\b(function)(\*)?(?=\s*\()</expression>
-                     <capture number="1" name="lsl.keyword.modifier" />
-                     <capture number="2" name="lsl.keyword.construct" />
-                     <capture number="3" name="lsl.operator" />
-                 </starts-with>
-                 <ends-with />
-                 <subscopes anchored="true">
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="arguments" />
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="function-blocks" />
-                 </subscopes>
-             </scope>
-             <scope name="lsl.definition.function.arrow.anonymous">
-                 <symbol type="function" anonymous="true">
-                     <context behavior="subtree" foldable="false" />
-                 </symbol>
-                 <starts-with>
-                     <expression>(?:\b(async)\s+)?(?=(?:
-                         (?&lt;![A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]) # Not preceeded by an identifier
-                         (?:\(
-                             (?:
-                                 # Opening parenthesis preceeded by an identifier (function call)
-                                 ((?&lt;=[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_])\()
-                                 # Closing parenthesis not followed by the arrow operator
-                                 | (\)(?!\s*=&gt;))
-                                 # All characters other than parenthesis
-                                 | [^\(\)]
-                             )*
-                         \)) # (arg, arg) =>
-                         |(?:(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*) # arg =>
-                     )\s*=&gt;\s*)</expression>
-                     <capture number="1" name="lsl.keyword.modifier" />
-                 </starts-with>
-                 <ends-with />
-                 <subscopes anchored="true">
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="arrow-function-arguments" />
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <scope name="lsl.operator">
-                         <expression>=&gt;</expression>
-                     </scope>
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="arrow-function-body-expressions" />
-                 </subscopes>
-             </scope>
-         </collection>
+			<scope name="lsl.definition.function.anonymous">
+				<symbol type="function" anonymous="true">
+					<context behavior="subtree" foldable="false" />
+				</symbol>
+				<starts-with>
+					<expression>(?:\b(async)\s+)?\b(function)(\*)?(?=\s*\()</expression>
+					<capture number="1" name="lsl.keyword.modifier" />
+					<capture number="2" name="lsl.keyword.construct" />
+					<capture number="3" name="lsl.operator" />
+				</starts-with>
+				<ends-with />
+				<subscopes anchored="true">
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="arguments" />
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="function-blocks" />
+				</subscopes>
+			</scope>
+			<scope name="lsl.definition.function.arrow.anonymous">
+				<symbol type="function" anonymous="true">
+					<context behavior="subtree" foldable="false" />
+				</symbol>
+				<starts-with>
+					<expression>(?:\b(async)\s+)?(?=(?:
+						(?&lt;![A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]) # Not preceeded by an identifier
+						(?:\(
+							(?:
+								# Opening parenthesis preceeded by an identifier (function call)
+								((?&lt;=[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_])\()
+								# Closing parenthesis not followed by the arrow operator
+								| (\)(?!\s*=&gt;))
+								# All characters other than parenthesis
+								| [^\(\)]
+							)*
+						\)) # (arg, arg) =>
+						|(?:(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*) # arg =>
+					)\s*=&gt;\s*)</expression>
+					<capture number="1" name="lsl.keyword.modifier" />
+				</starts-with>
+				<ends-with />
+				<subscopes anchored="true">
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="arrow-function-arguments" />
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<scope name="lsl.operator">
+						<expression>=&gt;</expression>
+					</scope>
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="arrow-function-body-expressions" />
+				</subscopes>
+			</scope>
+		</collection>
 
-         <!-- !Methods -->
-         <collection name="methods">
-             <scope name="lsl.method.constructor">
-                 <symbol type="constructor">
-                     <context behavior="subtree" foldable="false" />
-                 </symbol>
-                 <starts-with>
-                     <expression>\b(constructor)\b</expression>
-                     <capture number="1" name="lsl.keyword.construct.name.constructor" />
-                 </starts-with>
-                 <ends-with />
-                 <subscopes anchored="true">
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="arguments" />
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="function-blocks" />
-                 </subscopes>
-             </scope>
+		<!-- !Methods -->
+		<collection name="methods">
+			<scope name="lsl.method.constructor">
+				<symbol type="constructor">
+					<context behavior="subtree" foldable="false" />
+				</symbol>
+				<starts-with>
+					<expression>\b(constructor)\b</expression>
+					<capture number="1" name="lsl.keyword.construct.name.constructor" />
+				</starts-with>
+				<ends-with />
+				<subscopes anchored="true">
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="arguments" />
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="function-blocks" />
+				</subscopes>
+			</scope>
 
-             <scope name="lsl.method.getter">
-                 <symbol type="getter">
-                     <context behavior="subtree" foldable="false" />
-                 </symbol>
-                 <starts-with>
-                     <expression>\b(get)\s+([a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\b</expression>
-                     <capture number="1" name="lsl.keyword.modifier" />
-                     <capture number="2" name="lsl.identifier.method.name" />
-                 </starts-with>
-                 <ends-with />
-                 <subscopes anchored="true">
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="arguments" />
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="function-blocks" />
-                 </subscopes>
-             </scope>
+			<scope name="lsl.method.getter">
+				<symbol type="getter">
+					<context behavior="subtree" foldable="false" />
+				</symbol>
+				<starts-with>
+					<expression>\b(get)\s+([a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\b</expression>
+					<capture number="1" name="lsl.keyword.modifier" />
+					<capture number="2" name="lsl.identifier.method.name" />
+				</starts-with>
+				<ends-with />
+				<subscopes anchored="true">
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="arguments" />
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="function-blocks" />
+				</subscopes>
+			</scope>
 
-             <scope name="lsl.method.setter">
-                 <symbol type="setter">
-                     <context behavior="subtree" foldable="false" />
-                 </symbol>
-                 <starts-with>
-                     <expression>\b(set)\s+([a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\b</expression>
-                     <capture number="1" name="lsl.keyword.modifier" />
-                     <capture number="2" name="lsl.identifier.method.name" />
-                 </starts-with>
-                 <ends-with />
-                 <subscopes anchored="true">
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="arguments" />
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="function-blocks" />
-                 </subscopes>
-             </scope>
+			<scope name="lsl.method.setter">
+				<symbol type="setter">
+					<context behavior="subtree" foldable="false" />
+				</symbol>
+				<starts-with>
+					<expression>\b(set)\s+([a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\b</expression>
+					<capture number="1" name="lsl.keyword.modifier" />
+					<capture number="2" name="lsl.identifier.method.name" />
+				</starts-with>
+				<ends-with />
+				<subscopes anchored="true">
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="arguments" />
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="function-blocks" />
+				</subscopes>
+			</scope>
 
-             <scope name="lsl.method">
-                 <symbol type="method">
-                     <context behavior="subtree" foldable="false" />
-                 </symbol>
-                 <starts-with>
-                     <expression>(?:\b(static)\s+)?(?:\b(async)(\*)?\s+)?(\*)?([a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\b\s*(?=\()</expression>
-                     <capture number="1" name="lsl.keyword.modifier" />
-                     <capture number="2" name="lsl.keyword.modifier" />
-                     <capture number="3" name="lsl.operator" />
-                     <capture number="4" name="lsl.operator" />
-                     <capture number="5" name="lsl.identifier.method.name" />
-                 </starts-with>
-                 <ends-with />
-                 <subscopes anchored="true">
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="arguments" />
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="function-blocks" />
-                 </subscopes>
-             </scope>
+			<scope name="lsl.method">
+				<symbol type="method">
+					<context behavior="subtree" foldable="false" />
+				</symbol>
+				<starts-with>
+					<expression>(?:\b(static)\s+)?(?:\b(async)(\*)?\s+)?(\*)?([a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\b\s*(?=\()</expression>
+					<capture number="1" name="lsl.keyword.modifier" />
+					<capture number="2" name="lsl.keyword.modifier" />
+					<capture number="3" name="lsl.operator" />
+					<capture number="4" name="lsl.operator" />
+					<capture number="5" name="lsl.identifier.method.name" />
+				</starts-with>
+				<ends-with />
+				<subscopes anchored="true">
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="arguments" />
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="function-blocks" />
+				</subscopes>
+			</scope>
 
-             <scope name="lsl.method.getter.computed">
-                 <symbol type="getter">
-                     <context behavior="subtree" foldable="false" />
-                 </symbol>
-                 <starts-with>
-                     <expression>\b(get)\s+(\[)</expression>
-                     <capture number="1" name="lsl.keyword.modifier" />
-                     <capture number="2" name="lsl.bracket" />
-                 </starts-with>
-                 <ends-with />
-                 <subscopes anchored="true">
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <scope name="lsl.method.computed.expression.name">
-                         <starts-with>
-                             <expression>(?=[^\]])</expression>
-                         </starts-with>
-                         <ends-with>
-                             <expression>(?=\])</expression>
-                         </ends-with>
-                         <subscopes anchored="true">
-                             <include syntax="self" collection="expressions" repeat="true" />
-                         </subscopes>
-                     </scope>
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <scope name="lsl.bracket">
-                         <expression>\]</expression>
-                     </scope>
-                     <include syntax="self" collection="arguments" />
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="function-blocks" />
-                 </subscopes>
-             </scope>
+			<scope name="lsl.method.getter.computed">
+				<symbol type="getter">
+					<context behavior="subtree" foldable="false" />
+				</symbol>
+				<starts-with>
+					<expression>\b(get)\s+(\[)</expression>
+					<capture number="1" name="lsl.keyword.modifier" />
+					<capture number="2" name="lsl.bracket" />
+				</starts-with>
+				<ends-with />
+				<subscopes anchored="true">
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<scope name="lsl.method.computed.expression.name">
+						<starts-with>
+							<expression>(?=[^\]])</expression>
+						</starts-with>
+						<ends-with>
+							<expression>(?=\])</expression>
+						</ends-with>
+						<subscopes anchored="true">
+							<include syntax="self" collection="expressions" repeat="true" />
+						</subscopes>
+					</scope>
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<scope name="lsl.bracket">
+						<expression>\]</expression>
+					</scope>
+					<include syntax="self" collection="arguments" />
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="function-blocks" />
+				</subscopes>
+			</scope>
 
-             <scope name="lsl.method.setter.computed">
-                 <symbol type="setter">
-                     <context behavior="subtree" foldable="false" />
-                 </symbol>
-                 <starts-with>
-                     <expression>\b(set)\s+(\[)</expression>
-                     <capture number="1" name="lsl.keyword.modifier" />
-                     <capture number="2" name="lsl.bracket" />
-                 </starts-with>
-                 <ends-with />
-                 <subscopes anchored="true">
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <scope name="lsl.method.computed.expression.name">
-                         <starts-with>
-                             <expression>(?=[^\]])</expression>
-                         </starts-with>
-                         <ends-with>
-                             <expression>(?=\])</expression>
-                         </ends-with>
-                         <subscopes anchored="true">
-                             <include syntax="self" collection="expressions" repeat="true" />
-                         </subscopes>
-                     </scope>
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <scope name="lsl.bracket">
-                         <expression>\]</expression>
-                     </scope>
-                     <include syntax="self" collection="arguments" />
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="function-blocks" />
-                 </subscopes>
-             </scope>
+			<scope name="lsl.method.setter.computed">
+				<symbol type="setter">
+					<context behavior="subtree" foldable="false" />
+				</symbol>
+				<starts-with>
+					<expression>\b(set)\s+(\[)</expression>
+					<capture number="1" name="lsl.keyword.modifier" />
+					<capture number="2" name="lsl.bracket" />
+				</starts-with>
+				<ends-with />
+				<subscopes anchored="true">
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<scope name="lsl.method.computed.expression.name">
+						<starts-with>
+							<expression>(?=[^\]])</expression>
+						</starts-with>
+						<ends-with>
+							<expression>(?=\])</expression>
+						</ends-with>
+						<subscopes anchored="true">
+							<include syntax="self" collection="expressions" repeat="true" />
+						</subscopes>
+					</scope>
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<scope name="lsl.bracket">
+						<expression>\]</expression>
+					</scope>
+					<include syntax="self" collection="arguments" />
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="function-blocks" />
+				</subscopes>
+			</scope>
 
-             <scope name="lsl.method.computed">
-                 <symbol type="method">
-                     <context behavior="subtree" foldable="false" />
-                 </symbol>
-                 <starts-with>
-                     <expression>(?:(?:\b(async)(\*)?\s+)|(\*)?)(\[)</expression>
-                     <capture number="1" name="lsl.keyword.modifier" />
-                     <capture number="2" name="lsl.operator" />
-                     <capture number="3" name="lsl.operator" />
-                     <capture number="4" name="lsl.bracket" />
-                 </starts-with>
-                 <ends-with />
-                 <subscopes anchored="true">
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <scope name="lsl.method.computed.expression.name">
-                         <starts-with>
-                             <expression>(?=[^\]])</expression>
-                         </starts-with>
-                         <ends-with>
-                             <expression>(?=\])</expression>
-                         </ends-with>
-                         <subscopes anchored="true">
-                             <include syntax="self" collection="expressions" repeat="true" />
-                         </subscopes>
-                     </scope>
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <scope name="lsl.bracket">
-                         <expression>\]</expression>
-                     </scope>
-                     <include syntax="self" collection="arguments" />
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="function-blocks" />
-                 </subscopes>
-             </scope>
-         </collection>
+			<scope name="lsl.method.computed">
+				<symbol type="method">
+					<context behavior="subtree" foldable="false" />
+				</symbol>
+				<starts-with>
+					<expression>(?:(?:\b(async)(\*)?\s+)|(\*)?)(\[)</expression>
+					<capture number="1" name="lsl.keyword.modifier" />
+					<capture number="2" name="lsl.operator" />
+					<capture number="3" name="lsl.operator" />
+					<capture number="4" name="lsl.bracket" />
+				</starts-with>
+				<ends-with />
+				<subscopes anchored="true">
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<scope name="lsl.method.computed.expression.name">
+						<starts-with>
+							<expression>(?=[^\]])</expression>
+						</starts-with>
+						<ends-with>
+							<expression>(?=\])</expression>
+						</ends-with>
+						<subscopes anchored="true">
+							<include syntax="self" collection="expressions" repeat="true" />
+						</subscopes>
+					</scope>
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<scope name="lsl.bracket">
+						<expression>\]</expression>
+					</scope>
+					<include syntax="self" collection="arguments" />
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="function-blocks" />
+				</subscopes>
+			</scope>
+		</collection>
 
-         <!-- !Properties -->
-         <collection name="properties">
-             <scope name="lsl.class-field-private">
-                 <symbol type="property" scope="private" />
-                 <starts-with>
-                     <expression>(?:\b(static)\s+)?((\#)[a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)(?=\s*(?:\=|$))</expression>
-                     <capture number="1" name="lsl.keyword.modifier" />
-                     <capture number="2" name="lsl.identifier.name" />
-                     <capture number="3" name="lsl.operator" />
-                 </starts-with>
-                 <ends-with>
-                     <expression>(?=;|$)</expression>
-                 </ends-with>
-                 <subscopes>
-                     <cut-off>
-                         <expression>(?=\b(?:static|async|function|class|if|else|while|for)\b)</expression>
-                     </cut-off>
-                     <include syntax="self" collection="comments" />
-                     <include syntax="self" collection="keywords" />
-                     <include syntax="self" collection="values" />
-                     <include syntax="self" collection="identifiers" />
-                     <include syntax="self" collection="blocks" />
-                     <scope name="lsl.operator.equals">
-                         <expression>=</expression>
-                     </scope>
-                 </subscopes>
-             </scope>
+		<!-- !Properties -->
+		<collection name="properties">
+			<scope name="lsl.class-field-private">
+				<symbol type="property" scope="private" />
+				<starts-with>
+					<expression>(?:\b(static)\s+)?((\#)[a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)(?=\s*(?:\=|$))</expression>
+					<capture number="1" name="lsl.keyword.modifier" />
+					<capture number="2" name="lsl.identifier.name" />
+					<capture number="3" name="lsl.operator" />
+				</starts-with>
+				<ends-with>
+					<expression>(?=;|$)</expression>
+				</ends-with>
+				<subscopes>
+					<cut-off>
+						<expression>(?=\b(?:static|async|function|class|if|else|while|for)\b)</expression>
+					</cut-off>
+					<include syntax="self" collection="comments" />
+					<include syntax="self" collection="keywords" />
+					<include syntax="self" collection="values" />
+					<include syntax="self" collection="identifiers" />
+					<include syntax="self" collection="blocks" />
+					<scope name="lsl.operator.equals">
+						<expression>=</expression>
+					</scope>
+				</subscopes>
+			</scope>
 
-             <scope name="lsl.class-field">
-                 <symbol type="property" />
-                 <starts-with>
-                     <expression>(?:\b(static)\s+)?([a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)(?=\s*(?:\=|$))</expression>
-                     <capture number="1" name="lsl.keyword.modifier" />
-                     <capture number="2" name="lsl.identifier.name" />
-                 </starts-with>
-                 <ends-with>
-                     <expression>(?=;|$)</expression>
-                 </ends-with>
-                 <subscopes>
-                     <cut-off>
-                         <expression>(?=\b(?:static|async|function|class|if|else|while|for)\b)</expression>
-                     </cut-off>
-                     <include syntax="self" collection="comments" />
-                     <include syntax="self" collection="keywords" />
-                     <include syntax="self" collection="values" />
-                     <include syntax="self" collection="identifiers" />
-                     <include syntax="self" collection="blocks" />
-                     <scope name="lsl.operator.equals">
-                         <expression>=</expression>
-                     </scope>
-                 </subscopes>
-             </scope>
-         </collection>
+			<scope name="lsl.class-field">
+				<symbol type="property" />
+				<starts-with>
+					<expression>(?:\b(static)\s+)?([a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)(?=\s*(?:\=|$))</expression>
+					<capture number="1" name="lsl.keyword.modifier" />
+					<capture number="2" name="lsl.identifier.name" />
+				</starts-with>
+				<ends-with>
+					<expression>(?=;|$)</expression>
+				</ends-with>
+				<subscopes>
+					<cut-off>
+						<expression>(?=\b(?:static|async|function|class|if|else|while|for)\b)</expression>
+					</cut-off>
+					<include syntax="self" collection="comments" />
+					<include syntax="self" collection="keywords" />
+					<include syntax="self" collection="values" />
+					<include syntax="self" collection="identifiers" />
+					<include syntax="self" collection="blocks" />
+					<scope name="lsl.operator.equals">
+						<expression>=</expression>
+					</scope>
+				</subscopes>
+			</scope>
+		</collection>
 
-         <!-- !Arguments for Functions -->
-         <collection name="arguments">
-             <scope name="lsl.arguments">
-                 <include syntax="self" collection="comments" />
-                 <starts-with>
-                     <expression>\(</expression>
-                     <capture number="0" name="lsl.bracket" />
-                 </starts-with>
-                 <ends-with>
-                     <expression>\)</expression>
-                     <capture number="0" name="lsl.bracket" />
-                 </ends-with>
-                 <subscopes anchored="true">
-                     <include syntax="self" collection="argument-items" optional="true" repeat="true" />
-                 </subscopes>
-             </scope>
-         </collection>
+		<!-- !Arguments for Functions -->
+		<collection name="arguments">
+			<scope name="lsl.arguments">
+				<include syntax="self" collection="comments" />
+				<starts-with>
+					<expression>\(</expression>
+					<capture number="0" name="lsl.bracket" />
+				</starts-with>
+				<ends-with>
+					<expression>\)</expression>
+					<capture number="0" name="lsl.bracket" />
+				</ends-with>
+				<subscopes anchored="true">
+					<include syntax="self" collection="argument-items" optional="true" repeat="true" />
+				</subscopes>
+			</scope>
+		</collection>
 
-         <!-- !Argument Items -->
-         <collection name="argument-items">
-             <include syntax="self" collection="comments" />
+		<!-- !Argument Items -->
+		<collection name="argument-items">
+			<include syntax="self" collection="comments" />
 
-             <scope name="lsl.comma">
-                 <expression>,</expression>
-             </scope>
+			<scope name="lsl.comma">
+				<expression>,</expression>
+			</scope>
 
-             <scope name="lsl.destructure-array">
-                 <starts-with>
-                     <expression>\[</expression>
-                     <capture number="0" name="lsl.bracket" />
-                 </starts-with>
-                 <ends-with />
-                 <subscopes anchored="true">
-                     <include syntax="self" collection="argument-items" optional="true" repeat="true" />
+			<scope name="lsl.destructure-array">
+				<starts-with>
+					<expression>\[</expression>
+					<capture number="0" name="lsl.bracket" />
+				</starts-with>
+				<ends-with />
+				<subscopes anchored="true">
+					<include syntax="self" collection="argument-items" optional="true" repeat="true" />
 
-                     <scope name="lsl.bracket">
-                         <expression>\]</expression>
-                     </scope>
+					<scope name="lsl.bracket">
+						<expression>\]</expression>
+					</scope>
 
-                     <scope name="lsl.argument.default-value" optional="true">
-                         <starts-with>
-                             <expression>\=</expression>
-                             <capture number="0" name="lsl.operator" />
-                         </starts-with>
-                         <ends-with>
-                             <expression>(?=\)|\,)</expression>
-                         </ends-with>
-                         <subscopes anchored="true">
-                             <include syntax="self" collection="expressions" repeat="true" />
-                         </subscopes>
-                     </scope>
-                 </subscopes>
-             </scope>
+					<scope name="lsl.argument.default-value" optional="true">
+						<starts-with>
+							<expression>\=</expression>
+							<capture number="0" name="lsl.operator" />
+						</starts-with>
+						<ends-with>
+							<expression>(?=\)|\,)</expression>
+						</ends-with>
+						<subscopes anchored="true">
+							<include syntax="self" collection="expressions" repeat="true" />
+						</subscopes>
+					</scope>
+				</subscopes>
+			</scope>
 
-             <scope name="lsl.destructure-object">
-                 <starts-with>
-                     <expression>\{</expression>
-                     <capture number="0" name="lsl.bracket" />
-                 </starts-with>
-                 <ends-with />
-                 <subscopes anchored="true">
-                     <include syntax="self" collection="argument-items" optional="true" repeat="true" />
+			<scope name="lsl.destructure-object">
+				<starts-with>
+					<expression>\{</expression>
+					<capture number="0" name="lsl.bracket" />
+				</starts-with>
+				<ends-with />
+				<subscopes anchored="true">
+					<include syntax="self" collection="argument-items" optional="true" repeat="true" />
 
-                     <scope name="lsl.bracket">
-                         <expression>\}</expression>
-                     </scope>
+					<scope name="lsl.bracket">
+						<expression>\}</expression>
+					</scope>
 
-                     <scope name="lsl.argument.default-value" optional="true">
-                         <starts-with>
-                             <expression>\=</expression>
-                             <capture number="0" name="lsl.operator" />
-                         </starts-with>
-                         <ends-with>
-                             <expression>(?=\)|\,)</expression>
-                         </ends-with>
-                         <subscopes anchored="true">
-                             <include syntax="self" collection="expressions" repeat="true" />
-                         </subscopes>
-                     </scope>
-                 </subscopes>
-             </scope>
+					<scope name="lsl.argument.default-value" optional="true">
+						<starts-with>
+							<expression>\=</expression>
+							<capture number="0" name="lsl.operator" />
+						</starts-with>
+						<ends-with>
+							<expression>(?=\)|\,)</expression>
+						</ends-with>
+						<subscopes anchored="true">
+							<include syntax="self" collection="expressions" repeat="true" />
+						</subscopes>
+					</scope>
+				</subscopes>
+			</scope>
 
-             <scope name="lsl.argument.rest">
-                 <symbol type="argument" />
-                 <starts-with>
-                     <expression>(\.\.\.)\b([a-zA-Z_][A-Za-z0-9_]*)\b</expression>
-                     <capture number="1" name="lsl.operator" />
-                     <capture number="2" name="lsl.identifier.argument.rest.name" />
-                 </starts-with>
-                 <ends-with>
-                     <expression>(?=\)|\,)</expression>
-                 </ends-with>
-                 <subscopes anchored="true">
-                     <scope name="lsl.argument.default-value">
-                         <starts-with>
-                             <expression>\=</expression>
-                             <capture number="0" name="lsl.operator" />
-                         </starts-with>
-                         <ends-with>
-                             <expression>(?=\)|\,)</expression>
-                         </ends-with>
-                         <subscopes anchored="true">
-                             <include syntax="self" collection="expressions" repeat="true" />
-                         </subscopes>
-                     </scope>
-                 </subscopes>
-             </scope>
+			<scope name="lsl.argument.rest">
+				<symbol type="argument" />
+				<starts-with>
+					<expression>(\.\.\.)\b([a-zA-Z_][A-Za-z0-9_]*)\b</expression>
+					<capture number="1" name="lsl.operator" />
+					<capture number="2" name="lsl.identifier.argument.rest.name" />
+				</starts-with>
+				<ends-with>
+					<expression>(?=\)|\,)</expression>
+				</ends-with>
+				<subscopes anchored="true">
+					<scope name="lsl.argument.default-value">
+						<starts-with>
+							<expression>\=</expression>
+							<capture number="0" name="lsl.operator" />
+						</starts-with>
+						<ends-with>
+							<expression>(?=\)|\,)</expression>
+						</ends-with>
+						<subscopes anchored="true">
+							<include syntax="self" collection="expressions" repeat="true" />
+						</subscopes>
+					</scope>
+				</subscopes>
+			</scope>
 
-             <scope name="lsl.argument">
-                 <symbol type="argument" />
-                 <starts-with>
-                     <expression>\b([a-zA-Z_][A-Za-z0-9_]*)\b(\?|!)?</expression>
-                     <capture number="1" name="lsl.identifier.argument.name" />
-                     <capture number="2" name="lsl.operator" />
-                 </starts-with>
-                 <ends-with>
-                     <expression>(?=\)|\,)</expression>
-                 </ends-with>
-                 <subscopes anchored="true">
-                     <scope name="lsl.argument.default-value">
-                         <starts-with>
-                             <expression>\=</expression>
-                             <capture number="0" name="lsl.operator" />
-                         </starts-with>
-                         <ends-with>
-                             <expression>(?=\)|\,)</expression>
-                         </ends-with>
-                         <subscopes anchored="true">
-                             <include syntax="self" collection="expressions" repeat="true" />
-                         </subscopes>
-                     </scope>
-                 </subscopes>
-             </scope>
-         </collection>
+			<scope name="lsl.argument">
+				<symbol type="argument" />
+				<starts-with>
+					<expression>\b([a-zA-Z_][A-Za-z0-9_]*)\b(\?|!)?</expression>
+					<capture number="1" name="lsl.identifier.argument.name" />
+					<capture number="2" name="lsl.operator" />
+				</starts-with>
+				<ends-with>
+					<expression>(?=\)|\,)</expression>
+				</ends-with>
+				<subscopes anchored="true">
+					<scope name="lsl.argument.default-value">
+						<starts-with>
+							<expression>\=</expression>
+							<capture number="0" name="lsl.operator" />
+						</starts-with>
+						<ends-with>
+							<expression>(?=\)|\,)</expression>
+						</ends-with>
+						<subscopes anchored="true">
+							<include syntax="self" collection="expressions" repeat="true" />
+						</subscopes>
+					</scope>
+				</subscopes>
+			</scope>
+		</collection>
 
-         <!-- !Arguments for Arrow Functions -->
-         <collection name="arrow-function-arguments">
-             <scope name="lsl.identifier.argument.name.single">
-                 <symbol type="argument" />
-                 <expression>(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*(?=\s*=&gt;)</expression>
-             </scope>
-             <include syntax="self" collection="arguments" />
-         </collection>
+		<!-- !Arguments for Arrow Functions -->
+		<collection name="arrow-function-arguments">
+			<scope name="lsl.identifier.argument.name.single">
+				<symbol type="argument" />
+				<expression>(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*(?=\s*=&gt;)</expression>
+			</scope>
+			<include syntax="self" collection="arguments" />
+		</collection>
 
-         <!-- !Expressions for Arrow Functions -->
-         <collection name="arrow-function-body-expressions">
-             <include syntax="self" collection="function-blocks" />
-             <include syntax="self" collection="expressions" />
-         </collection>
+		<!-- !Expressions for Arrow Functions -->
+		<collection name="arrow-function-body-expressions">
+			<include syntax="self" collection="function-blocks" />
+			<include syntax="self" collection="expressions" />
+		</collection>
 
-         <!-- !Function Blocks -->
-         <collection name="function-blocks">
-             <scope name="lsl.block">
-                 <symbol type="block">
-                     <context behavior="subtree" fold-type="function" />
-                 </symbol>
-                 <starts-with>
-                     <expression>\{</expression>
-                     <capture number="0" name="lsl.bracket" />
-                 </starts-with>
-                 <ends-with>
-                     <expression>\}</expression>
-                     <capture number="0" name="lsl.bracket" />
-                 </ends-with>
-                 <subscopes>
-                     <include syntax="self" />
-                 </subscopes>
-             </scope>
-         </collection>
+		<!-- !Function Blocks -->
+		<collection name="function-blocks">
+			<scope name="lsl.block">
+				<symbol type="block">
+					<context behavior="subtree" fold-type="function" />
+				</symbol>
+				<starts-with>
+					<expression>\{</expression>
+					<capture number="0" name="lsl.bracket" />
+				</starts-with>
+				<ends-with>
+					<expression>\}</expression>
+					<capture number="0" name="lsl.bracket" />
+				</ends-with>
+				<subscopes>
+					<include syntax="self" />
+				</subscopes>
+			</scope>
+		</collection>
 
-         <!-- !Keywords -->
-         <collection name="keywords">
-             <scope name="lsl.keyword.construct">
-                 <strings>
-                     <string>class</string>
-                     <string>const</string>
-                     <string>constructor</string>
-                     <string>enum</string>
-                     <string>function</string>
-                     <string>interface</string>
-                     <string>label</string>
-                     <string>let</string>
-                     <string>new</string>
-                     <string>package</string>
-                     <string>var</string>
-                     <string>void</string>
-                 </strings>
-             </scope>
-             <scope name="lsl.keyword.modifier">
-                 <strings>
-                     <string>as</string>
-                     <string>async</string>
-                     <string>export</string>
-                     <string>extends</string>
-                     <string>from</string>
-                     <string>implements</string>
-                     <string>in</string>
-                     <string>instanceof</string>
-                     <string>of</string>
-                     <string>private</string>
-                     <string>protected</string>
-                     <string>public</string>
-                     <string>static</string>
-                     <string>typeof</string>
-                 </strings>
-             </scope>
-             <scope name="lsl.keyword.condition">
-                 <strings>
-                     <string>case</string>
-                     <string>catch</string>
-                     <string>default</string>
-                     <string>do</string>
-                     <string>else</string>
-                     <string>finally</string>
-                     <string>for</string>
-                     <string>if</string>
-                     <string>switch</string>
-                     <string>try</string>
-                     <string>while</string>
-                     <string>with</string>
-                 </strings>
-             </scope>
-             <scope name="lsl.keyword.statement">
-                 <strings>
-                     <string>await</string>
-                     <string>break</string>
-                     <string>continue</string>
-                     <string>debugger</string>
-                     <string>delete</string>
-                     <string>import</string>
-                     <string>return</string>
-                     <string>throw</string>
-                     <string>yield</string>
-                 </strings>
-             </scope>
-             <scope name="lsl.keyword.self">
-                 <strings>
-                     <string>this</string>
-                     <string>super</string>
-                 </strings>
-             </scope>
-         </collection>
+		<!-- !Keywords -->
+		<collection name="keywords">
+			<scope name="lsl.keyword.construct">
+				<strings>
+					<string>class</string>
+					<string>const</string>
+					<string>constructor</string>
+					<string>enum</string>
+					<string>function</string>
+					<string>interface</string>
+					<string>label</string>
+					<string>let</string>
+					<string>new</string>
+					<string>package</string>
+					<string>var</string>
+					<string>void</string>
+				</strings>
+			</scope>
+			<scope name="lsl.keyword.modifier">
+				<strings>
+					<string>as</string>
+					<string>async</string>
+					<string>export</string>
+					<string>extends</string>
+					<string>from</string>
+					<string>implements</string>
+					<string>in</string>
+					<string>instanceof</string>
+					<string>of</string>
+					<string>private</string>
+					<string>protected</string>
+					<string>public</string>
+					<string>static</string>
+					<string>typeof</string>
+				</strings>
+			</scope>
+			<scope name="lsl.keyword.condition">
+				<strings>
+					<string>do</string>
+					<string>else</string>
+					<string>for</string>
+					<string>if</string>
+					<string>jump</string>
+					<string>while</string>
+				</strings>
+			</scope>
+			<scope name="lsl.keyword.statement">
+				<strings>
+					<string>return</string>
+				</strings>
+			</scope>
+			<scope name="lsl.keyword.self">
+			</scope>
+		</collection>
 
-         <!-- !Expressions -->
-         <collection name="expressions">
-             <include syntax="self" collection="comments" />
-             <include syntax="self" collection="keywords" />
-             <include syntax="self" collection="values" />
-             <include syntax="self" collection="identifiers" />
-             <scope name="lsl.group">
-                 <starts-with>
-                     <expression>\(</expression>
-                     <capture number="0" name="lsl.bracket" />
-                 </starts-with>
-                 <ends-with>
-                     <expression>\)</expression>
-                     <capture number="0" name="lsl.bracket" />
-                 </ends-with>
-                 <subscopes>
-                     <include syntax="self" collection="expressions" />
-                 </subscopes>
-             </scope>
-             <include syntax="self" collection="blocks" />
-             <include syntax="self" collection="syntax" />
-         </collection>
+		<!-- !Expressions -->
+		<collection name="expressions">
+			<include syntax="self" collection="comments" />
+			<include syntax="self" collection="keywords" />
+			<include syntax="self" collection="values" />
+			<include syntax="self" collection="identifiers" />
+			<scope name="lsl.group">
+				<starts-with>
+					<expression>\(</expression>
+					<capture number="0" name="lsl.bracket" />
+				</starts-with>
+				<ends-with>
+					<expression>\)</expression>
+					<capture number="0" name="lsl.bracket" />
+				</ends-with>
+				<subscopes>
+					<include syntax="self" collection="expressions" />
+				</subscopes>
+			</scope>
+			<include syntax="self" collection="blocks" />
+			<include syntax="self" collection="syntax" />
+		</collection>
 
-         <!-- !Key Expressions -->
-         <collection name="key-expressions">
-             <include syntax="self" collection="comments" />
+		<!-- !Key Expressions -->
+		<collection name="key-expressions">
+			<include syntax="self" collection="comments" />
 
-             <!-- !Computed Keys -->
-             <scope name="lsl.key-expression.computed">
-                 <symbol type="property">
-                     <context behavior="subtree" />
-                 </symbol>
-                 <starts-with>
-                     <expression>(\[)(?=[^\]\{]+\]:)</expression>
-                     <capture number="1" name="lsl.bracket" />
-                 </starts-with>
-                 <ends-with>
-                     <expression>(?=,|\})</expression>
-                 </ends-with>
-                 <subscopes anchored="true" skip-whitespace="lazy">
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <scope name="lsl.key-expression.computed.expression.name">
-                         <starts-with>
-                             <expression>(?=[^\]])</expression>
-                         </starts-with>
-                         <ends-with>
-                             <expression>(?=\])</expression>
-                         </ends-with>
-                         <subscopes anchored="true">
-                             <include syntax="self" collection="expressions" repeat="true" />
-                         </subscopes>
-                     </scope>
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <scope name="lsl.bracket">
-                         <expression>\]</expression>
-                     </scope>
-                     <scope name="lsl.colon">
-                         <expression>:</expression>
-                     </scope>
-                     <include syntax="self" collection="expressions" repeat="true" />
-                 </subscopes>
-             </scope>
+			<!-- !Computed Keys -->
+			<scope name="lsl.key-expression.computed">
+				<symbol type="property">
+					<context behavior="subtree" />
+				</symbol>
+				<starts-with>
+					<expression>(\[)(?=[^\]\{]+\]:)</expression>
+					<capture number="1" name="lsl.bracket" />
+				</starts-with>
+				<ends-with>
+					<expression>(?=,|\})</expression>
+				</ends-with>
+				<subscopes anchored="true" skip-whitespace="lazy">
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<scope name="lsl.key-expression.computed.expression.name">
+						<starts-with>
+							<expression>(?=[^\]])</expression>
+						</starts-with>
+						<ends-with>
+							<expression>(?=\])</expression>
+						</ends-with>
+						<subscopes anchored="true">
+							<include syntax="self" collection="expressions" repeat="true" />
+						</subscopes>
+					</scope>
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<scope name="lsl.bracket">
+						<expression>\]</expression>
+					</scope>
+					<scope name="lsl.colon">
+						<expression>:</expression>
+					</scope>
+					<include syntax="self" collection="expressions" repeat="true" />
+				</subscopes>
+			</scope>
 
-             <!-- !Unquoted Keys -->
-             <scope name="lsl.key-expression.function">
-                 <symbol type="method" />
-                 <starts-with>
-                     <expression>((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(:)(?=\s*function\b)</expression>
-                     <capture number="`1`" name="lsl.identifier.key.name" />
-                     <capture number="2" name="lsl.colon" />
-                 </starts-with>
-                 <ends-with>
-                     <expression>(?=\}|,)</expression>
-                 </ends-with>
-                 <subscopes anchored="true" skip-whitespace="lazy">
-                     <scope name="lsl.key-expression.function">
-                         <expression>\b(function)(?:(\*)?|\b)</expression>
-                         <capture number="1" name="lsl.function.keyword.construct" />
-                         <capture number="2" name="lsl.operator" />
-                     </scope>
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="arguments" />
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="function-blocks" />
-                 </subscopes>
-             </scope>
-             <scope name="lsl.key-expression">
-                 <symbol type="property">
-                     <context behavior="subtree" />
-                 </symbol>
-                 <starts-with>
-                     <expression>((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(:)</expression>
-                     <capture number="1" name="lsl.identifier.key.name" />
-                     <capture number="2" name="lsl.colon" />
-                 </starts-with>
-                 <ends-with>
-                     <expression>(?=\}|,)</expression>
-                 </ends-with>
-                 <subscopes anchored="true" skip-whitespace="lazy">
-                     <include syntax="self" collection="expressions" />
-                 </subscopes>
-             </scope>
+			<!-- !Unquoted Keys -->
+			<scope name="lsl.key-expression.function">
+				<symbol type="method" />
+				<starts-with>
+					<expression>((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(:)(?=\s*function\b)</expression>
+					<capture number="`1`" name="lsl.identifier.key.name" />
+					<capture number="2" name="lsl.colon" />
+				</starts-with>
+				<ends-with>
+					<expression>(?=\}|,)</expression>
+				</ends-with>
+				<subscopes anchored="true" skip-whitespace="lazy">
+					<scope name="lsl.key-expression.function">
+						<expression>\b(function)(?:(\*)?|\b)</expression>
+						<capture number="1" name="lsl.function.keyword.construct" />
+						<capture number="2" name="lsl.operator" />
+					</scope>
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="arguments" />
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="function-blocks" />
+				</subscopes>
+			</scope>
+			<scope name="lsl.key-expression">
+				<symbol type="property">
+					<context behavior="subtree" />
+				</symbol>
+				<starts-with>
+					<expression>((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(:)</expression>
+					<capture number="1" name="lsl.identifier.key.name" />
+					<capture number="2" name="lsl.colon" />
+				</starts-with>
+				<ends-with>
+					<expression>(?=\}|,)</expression>
+				</ends-with>
+				<subscopes anchored="true" skip-whitespace="lazy">
+					<include syntax="self" collection="expressions" />
+				</subscopes>
+			</scope>
 
-             <!-- !Quoted Keys -->
-             <scope name="lsl.key-expression.function.quoted">
-                 <symbol type="method" />
-                 <starts-with>
-                     <expression>((&quot;|&apos;)((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)(\2))\s*(:)(?=\s*function\b)</expression>
-                     <capture number="1" name="lsl.key.string" />
-                     <capture number="2" name="lsl.key.string.delimiter" />
-                     <capture number="3" name="lsl.identifier.key.name" />
-                     <capture number="4" name="lsl.key.string.delimiter" />
-                     <capture number="5" name="lsl.colon" />
-                 </starts-with>
-                 <ends-with>
-                     <expression>(?=\}|,)</expression>
-                 </ends-with>
-                 <subscopes anchored="true">
-                     <scope name="lsl.key-expression.function">
-                         <expression>\b(function)(?:(\*)?|\b)</expression>
-                         <capture number="1" name="lsl.function.keyword.construct" />
-                         <capture number="2" name="lsl.operator" />
-                     </scope>
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="arguments" />
-                     <include syntax="self" collection="comments" optional="true" repeat="true" />
-                     <include syntax="self" collection="function-blocks" />
-                 </subscopes>
-             </scope>
-             <scope name="lsl.key-expression.quoted">
-                 <symbol type="property">
-                     <context behavior="subtree" />
-                 </symbol>
-                 <starts-with>
-                     <expression>((&quot;|&apos;)((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)(\2))\s*(:)</expression>
-                     <capture number="1" name="lsl.key.string" />
-                     <capture number="2" name="lsl.key.string.delimiter" />
-                     <capture number="3" name="lsl.identifier.key.name" />
-                     <capture number="4" name="lsl.key.string.delimiter" />
-                     <capture number="5" name="lsl.colon" />
-                 </starts-with>
-                 <ends-with>
-                     <expression>(?=\}|,)</expression>
-                 </ends-with>
-                 <subscopes anchored="true">
-                     <include syntax="self" collection="expressions" repeat="true" />
-                 </subscopes>
-             </scope>
+			<!-- !Quoted Keys -->
+			<scope name="lsl.key-expression.function.quoted">
+				<symbol type="method" />
+				<starts-with>
+					<expression>((&quot;|&apos;)((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)(\2))\s*(:)(?=\s*function\b)</expression>
+					<capture number="1" name="lsl.key.string" />
+					<capture number="2" name="lsl.key.string.delimiter" />
+					<capture number="3" name="lsl.identifier.key.name" />
+					<capture number="4" name="lsl.key.string.delimiter" />
+					<capture number="5" name="lsl.colon" />
+				</starts-with>
+				<ends-with>
+					<expression>(?=\}|,)</expression>
+				</ends-with>
+				<subscopes anchored="true">
+					<scope name="lsl.key-expression.function">
+						<expression>\b(function)(?:(\*)?|\b)</expression>
+						<capture number="1" name="lsl.function.keyword.construct" />
+						<capture number="2" name="lsl.operator" />
+					</scope>
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="arguments" />
+					<include syntax="self" collection="comments" optional="true" repeat="true" />
+					<include syntax="self" collection="function-blocks" />
+				</subscopes>
+			</scope>
+			<scope name="lsl.key-expression.quoted">
+				<symbol type="property">
+					<context behavior="subtree" />
+				</symbol>
+				<starts-with>
+					<expression>((&quot;|&apos;)((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)(\2))\s*(:)</expression>
+					<capture number="1" name="lsl.key.string" />
+					<capture number="2" name="lsl.key.string.delimiter" />
+					<capture number="3" name="lsl.identifier.key.name" />
+					<capture number="4" name="lsl.key.string.delimiter" />
+					<capture number="5" name="lsl.colon" />
+				</starts-with>
+				<ends-with>
+					<expression>(?=\}|,)</expression>
+				</ends-with>
+				<subscopes anchored="true">
+					<include syntax="self" collection="expressions" repeat="true" />
+				</subscopes>
+			</scope>
 
-             <include syntax="self" collection="methods" />
+			<include syntax="self" collection="methods" />
 
-             <scope name="lsl.comma">
-                 <expression>,</expression>
-             </scope>
-         </collection>
+			<scope name="lsl.comma">
+				<expression>,</expression>
+			</scope>
+		</collection>
 
-         <!-- !Values -->
-         <collection name="values">
-             <include syntax="self" collection="strings" />
-             <include syntax="self" collection="functions" />
+		<!-- !Values -->
+		<collection name="values">
+			<include syntax="self" collection="strings" />
+			<include syntax="self" collection="functions" />
 
-             <scope name="lsl.object-literal">
-                 <symbol type="block">
-                     <context behavior="subtree" />
-                 </symbol>
-                 <starts-with>
-                     <expression>
-                         (?&lt;=[=\-+:,\(\[])\s*(\{)
-                         | (\{)(?=\s*[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]+\s*:|\})
-                     </expression>
-                     <capture number="1" name="lsl.block.bracket" />
-                     <capture number="2" name="lsl.block.bracket" />
-                 </starts-with>
-                 <ends-with>
-                     <expression>\}</expression>
-                     <capture number="0" name="lsl.block.bracket" />
-                 </ends-with>
-                 <subscopes>
-                     <include syntax="self" collection="key-expressions" />
-                     <include syntax="self" />
-                 </subscopes>
-             </scope>
+			<scope name="lsl.object-literal">
+				<symbol type="block">
+					<context behavior="subtree" />
+				</symbol>
+				<starts-with>
+					<expression>
+						(?&lt;=[=\-+:,\(\[])\s*(\{)
+						| (\{)(?=\s*[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]+\s*:|\})
+					</expression>
+					<capture number="1" name="lsl.block.bracket" />
+					<capture number="2" name="lsl.block.bracket" />
+				</starts-with>
+				<ends-with>
+					<expression>\}</expression>
+					<capture number="0" name="lsl.block.bracket" />
+				</ends-with>
+				<subscopes>
+					<include syntax="self" collection="key-expressions" />
+					<include syntax="self" />
+				</subscopes>
+			</scope>
 
-             <scope name="lsl.value.null">
-                 <strings>
-                     <string>null</string>
-                     <string>undefined</string>
-                     <string>NaN</string>
-                     <string>Infinity</string>
-                 </strings>
-             </scope>
+			<scope name="lsl.value.null">
+				<strings>
+					<string>null</string>
+					<string>undefined</string>
+					<string>NaN</string>
+					<string>Infinity</string>
+				</strings>
+			</scope>
 
-             <scope name="lsl.value.boolean">
-                 <strings>
-                     <string>true</string>
-                     <string>false</string>
-                 </strings>
-             </scope>
+			<scope name="lsl.value.boolean">
+				<strings>
+					<string>true</string>
+					<string>false</string>
+				</strings>
+			</scope>
 
-             <scope name="lsl.value.number.binary">
-                 <expression>\b(0[bB])([01]+)\b</expression>
-                 <capture number="1" name="lsl.value.number.binary.prefix" />
-             </scope>
-             <scope name="lsl.value.number.octal">
-                 <expression>\b(0[oO])([0-7]+)\b</expression>
-                 <capture number="1" name="lsl.value.number.octal.prefix" />
-             </scope>
-             <scope name="lsl.value.number.hexadecimal">
-                 <expression>\b(0[xX])([a-fA-F0-9]+)\b</expression>
-                 <capture number="1" name="lsl.value.number.hexadecimal.prefix" />
-             </scope>
-             <scope name="lsl.value.number.decimal">
-                 <expression>
-                     (-)? # sign
-                     (
-                         \b\d+(\.\d*)? # 0, 0., 0.0
-                         | \.\d+ # .0
-                     )
-                     ((e|E)(\+|-)?\d+)? # exponent
-                     \b
-                 </expression>
-                 <capture number="1" name="lsl.operator" />
-             </scope>
+			<scope name="lsl.value.number.binary">
+				<expression>\b(0[bB])([01]+)\b</expression>
+				<capture number="1" name="lsl.value.number.binary.prefix" />
+			</scope>
+			<scope name="lsl.value.number.octal">
+				<expression>\b(0[oO])([0-7]+)\b</expression>
+				<capture number="1" name="lsl.value.number.octal.prefix" />
+			</scope>
+			<scope name="lsl.value.number.hexadecimal">
+				<expression>\b(0[xX])([a-fA-F0-9]+)\b</expression>
+				<capture number="1" name="lsl.value.number.hexadecimal.prefix" />
+			</scope>
+			<scope name="lsl.value.number.decimal">
+				<expression>
+					(-)? # sign
+					(
+						\b\d+(\.\d*)? # 0, 0., 0.0
+						| \.\d+ # .0
+					)
+					((e|E)(\+|-)?\d+)? # exponent
+					\b
+				</expression>
+				<capture number="1" name="lsl.operator" />
+			</scope>
 
-             <scope name="lsl.collection.array">
-                 <starts-with>
-                     <expression>\[</expression>
-                     <capture number="0" name="lsl.bracket" />
-                 </starts-with>
-                 <ends-with>
-                     <expression>\]</expression>
-                     <capture number="0" name="lsl.bracket" />
-                 </ends-with>
-                 <subscopes>
-                     <include syntax="self" collection="expressions" />
-                 </subscopes>
-             </scope>
-         </collection>
+			<scope name="lsl.collection.array">
+				<starts-with>
+					<expression>\[</expression>
+					<capture number="0" name="lsl.bracket" />
+				</starts-with>
+				<ends-with>
+					<expression>\]</expression>
+					<capture number="0" name="lsl.bracket" />
+				</ends-with>
+				<subscopes>
+					<include syntax="self" collection="expressions" />
+				</subscopes>
+			</scope>
+		</collection>
 
-         <!-- !Strings -->
-         <collection name="strings">
-             <scope name="lsl.string.backtick-quoted">
-                 <starts-with>
-                     <expression>`</expression>
-                     <capture number="0" name="lsl.string.backtick-quoted.delimiter" />
-                 </starts-with>
-                 <ends-with>
-                     <expression>`</expression>
-                     <capture number="0" name="lsl.string.backtick-quoted.delimiter" />
-                 </ends-with>
-                 <subscopes>
-                     <scope name="lsl.string.backtick-quoted.escape">
-                         <expression>\\.</expression>
-                     </scope>
-                     <scope name="lsl.string-template-block" reset-styles="true">
-                         <starts-with>
-                             <expression>\$\{</expression>
-                             <capture number="0" name="lsl.string-template.open" />
-                         </starts-with>
-                         <ends-with>
-                             <expression>\}</expression>
-                             <capture number="0" name="lsl.string-template.close" />
-                         </ends-with>
-                         <subscopes>
-                             <include syntax="self" collection="string-literal-inline-expressions" />
-                         </subscopes>
-                     </scope>
-                 </subscopes>
-             </scope>
-             <scope name="lsl.string.double-quoted">
-                 <starts-with>
-                     <expression>&quot;</expression>
-                     <capture number="0" name="lsl.string.double-quoted.delimiter" />
-                 </starts-with>
-                 <ends-with>
-                     <expression>&quot;|(?:(?&lt;!\\)$)</expression>
-                     <capture number="0" name="lsl.string.double-quoted.delimiter" />
-                 </ends-with>
-                 <subscopes>
-                     <scope name="lsl.string.double-quoted.escape">
-                         <expression>\\.</expression>
-                     </scope>
-                 </subscopes>
-             </scope>
-             <scope name="lsl.string.single-quoted">
-                 <starts-with>
-                     <expression>&apos;</expression>
-                     <capture number="0" name="lsl.string.single-quoted.delimiter" />
-                 </starts-with>
-                 <ends-with>
-                     <expression>&apos;|(?:(?&lt;!\\)$)</expression>
-                     <capture number="0" name="lsl.string.single-quoted.delimiter" />
-                 </ends-with>
-                 <subscopes>
-                     <scope name="lsl.string.single-quoted.escape">
-                         <expression>\\.</expression>
-                     </scope>
-                 </subscopes>
-             </scope>
-             <scope name="lsl.string.regex">
-                 <starts-with>
-                     <expression>(?&lt;=[\[=(?:+,!]|^|return|=&gt;|:|&amp;&amp;|\|\|)\s*(/)(?=[^/*+?].*/)</expression>
-                     <capture number="1" name="lsl.string.regex.delimiter" />
-                 </starts-with>
-                 <ends-with>
-                     <expression>(/)([cgimosuxy]+\b)?</expression>
-                     <capture number="1" name="lsl.string.regex.delimiter" />
-                 </ends-with>
-                 <subscopes>
-                     <scope name="lsl.string.regex.escape">
-                         <expression>\\.</expression>
-                     </scope>
-                     <scope name="lsl.string.regex.character-class">
-                         <starts-with>
-                             <expression>\[</expression>
-                         </starts-with>
-                         <ends-with>
-                             <expression>\]</expression>
-                         </ends-with>
-                         <subscopes>
-                             <scope name="lsl.string.regex.escape">
-                                 <expression>\\.</expression>
-                             </scope>
-                             <cut-off>
-                                 <expression>(?=/)</expression>
-                             </cut-off>
-                         </subscopes>
-                     </scope>
-                 </subscopes>
-             </scope>
-         </collection>
+		<!-- !Strings -->
+		<collection name="strings">
+			<scope name="lsl.string.backtick-quoted">
+				<starts-with>
+					<expression>`</expression>
+					<capture number="0" name="lsl.string.backtick-quoted.delimiter" />
+				</starts-with>
+				<ends-with>
+					<expression>`</expression>
+					<capture number="0" name="lsl.string.backtick-quoted.delimiter" />
+				</ends-with>
+				<subscopes>
+					<scope name="lsl.string.backtick-quoted.escape">
+						<expression>\\.</expression>
+					</scope>
+					<scope name="lsl.string-template-block" reset-styles="true">
+						<starts-with>
+							<expression>\$\{</expression>
+							<capture number="0" name="lsl.string-template.open" />
+						</starts-with>
+						<ends-with>
+							<expression>\}</expression>
+							<capture number="0" name="lsl.string-template.close" />
+						</ends-with>
+						<subscopes>
+							<include syntax="self" collection="string-literal-inline-expressions" />
+						</subscopes>
+					</scope>
+				</subscopes>
+			</scope>
+			<scope name="lsl.string.double-quoted">
+				<starts-with>
+					<expression>&quot;</expression>
+					<capture number="0" name="lsl.string.double-quoted.delimiter" />
+				</starts-with>
+				<ends-with>
+					<expression>&quot;|(?:(?&lt;!\\)$)</expression>
+					<capture number="0" name="lsl.string.double-quoted.delimiter" />
+				</ends-with>
+				<subscopes>
+					<scope name="lsl.string.double-quoted.escape">
+						<expression>\\.</expression>
+					</scope>
+				</subscopes>
+			</scope>
+			<scope name="lsl.string.single-quoted">
+				<starts-with>
+					<expression>&apos;</expression>
+					<capture number="0" name="lsl.string.single-quoted.delimiter" />
+				</starts-with>
+				<ends-with>
+					<expression>&apos;|(?:(?&lt;!\\)$)</expression>
+					<capture number="0" name="lsl.string.single-quoted.delimiter" />
+				</ends-with>
+				<subscopes>
+					<scope name="lsl.string.single-quoted.escape">
+						<expression>\\.</expression>
+					</scope>
+				</subscopes>
+			</scope>
+			<scope name="lsl.string.regex">
+				<starts-with>
+					<expression>(?&lt;=[\[=(?:+,!]|^|return|=&gt;|:|&amp;&amp;|\|\|)\s*(/)(?=[^/*+?].*/)</expression>
+					<capture number="1" name="lsl.string.regex.delimiter" />
+				</starts-with>
+				<ends-with>
+					<expression>(/)([cgimosuxy]+\b)?</expression>
+					<capture number="1" name="lsl.string.regex.delimiter" />
+				</ends-with>
+				<subscopes>
+					<scope name="lsl.string.regex.escape">
+						<expression>\\.</expression>
+					</scope>
+					<scope name="lsl.string.regex.character-class">
+						<starts-with>
+							<expression>\[</expression>
+						</starts-with>
+						<ends-with>
+							<expression>\]</expression>
+						</ends-with>
+						<subscopes>
+							<scope name="lsl.string.regex.escape">
+								<expression>\\.</expression>
+							</scope>
+							<cut-off>
+								<expression>(?=/)</expression>
+							</cut-off>
+						</subscopes>
+					</scope>
+				</subscopes>
+			</scope>
+		</collection>
 
-         <!-- !Expressions for String Literals -->
-         <collection name="string-literal-inline-expressions">
-             <scope name="lsl.string-literal.inline-expression">
-                 <starts-with>
-                     <expression>(?=[^;|{])</expression>
-                 </starts-with>
-                 <ends-with>
-                     <expression>(?=\})</expression>
-                 </ends-with>
-                 <subscopes>
-                     <include syntax="self" collection="expressions" />
-                 </subscopes>
-             </scope>
-         </collection>
+		<!-- !Expressions for String Literals -->
+		<collection name="string-literal-inline-expressions">
+			<scope name="lsl.string-literal.inline-expression">
+				<starts-with>
+					<expression>(?=[^;|{])</expression>
+				</starts-with>
+				<ends-with>
+					<expression>(?=\})</expression>
+				</ends-with>
+				<subscopes>
+					<include syntax="self" collection="expressions" />
+				</subscopes>
+			</scope>
+		</collection>
 
-         <!-- !Identifiers -->
-         <collection name="identifiers">
-             <scope name="lsl.identifier.core.global">
-                 <strings prefix="(?&lt;!\.)">
-                     <string>arguments</string>
-                     <string>crypto</string>
-                     <string>document</string>
-                     <string>localStorage</string>
-                     <string>sessionStorage</string>
-                     <string>window</string>
-                     <string>Object</string>
-                     <string>Symbol</string>
-                     <string>Boolean</string>
-                     <string>Date</string>
-                     <string>Function</string>
-                     <string>Math</string>
-                     <string>Number</string>
-                     <string>String</string>
-                     <string>RegExp</string>
-                     <string>Array</string>
-                     <string>Int8Array</string>
-                     <string>Uint8Array</string>
-                     <string>Uint8ClampedArray</string>
-                     <string>Int16Array</string>
-                     <string>Uint16Array</string>
-                     <string>Int32Array</string>
-                     <string>Uint32Array</string>
-                     <string>Float32Array</string>
-                     <string>Float64Array</string>
-                     <string>Map</string>
-                     <string>Set</string>
-                     <string>WeakMap</string>
-                     <string>WeakSet</string>
-                     <string>ArrayBuffer</string>
-                     <string>DataView</string>
-                     <string>JSON</string>
-                     <string>Promise</string>
-                     <string>Generator</string>
-                     <string>GeneratorFunction</string>
-                     <string>Reflect</string>
-                     <string>Proxy</string>
-                     <string>Intl</string>
-                     <string>Error</string>
-                     <string>EvalError</string>
-                     <string>InternalError</string>
-                     <string>RangeError</string>
-                     <string>ReferenceError</string>
-                     <string>SyntaxError</string>
-                     <string>TypeError</string>
-                     <string>URIError</string>
-                 </strings>
-             </scope>
-             <scope name="lsl.identifier.core.function">
-                 <strings prefix="(?&lt;!\.)" suffix="(?=\()">
-                     <string>decodeURLComponent</string>
-                     <string>decodeURI</string>
-                     <string>encodeURIComponent</string>
-                     <string>encodeURI</string>
-                     <string>escape</string>
-                     <string>eval</string>
-                     <string>isFinite</string>
-                     <string>isNaN</string>
-                     <string>parseFloat</string>
-                     <string>parseInt</string>
-                     <string>unescape</string>
-                 </strings>
-             </scope>
-             <scope name="lsl.identifier.property">
-                 <expression>(?&lt;=\.)((?:\#?)[a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\b(?!\()</expression>
-             </scope>
-             <scope name="lsl.identifier.method">
-                 <expression>(?&lt;=\.)([a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)(?=\()</expression>
-             </scope>
-             <scope name="lsl.identifier.function">
-                 <expression>(?&lt;!\.)((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)(?=\()</expression>
-             </scope>
-             <scope name="lsl.identifier.constant">
-                 <expression>(?&lt;![a-z0-9_])(?:\b[A-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*</expression>
-             </scope>
-             <scope name="lsl.identifier">
-                 <expression>(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*</expression>
-             </scope>
-         </collection>
+		<!-- !Identifiers -->
+		<collection name="identifiers">
+			<scope name="lsl.identifier.core.states">
+				<strings prefix="(?&lt;!\.)">
+					<string>default</string>
+					<string>state</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.core.events">
+				<strings prefix="(?&lt;!\.)">
+					<string>at_rot_target</string>
+					<string>at_target</string>
+					<string>attach</string>
+					<string>changed</string>
+					<string>collision</string>
+					<string>collision_end</string>
+					<string>collision_start</string>
+					<string>control</string>
+					<string>dataserver</string>
+					<string>email</string>
+					<string>http_request</string>
+					<string>http_response</string>
+					<string>land_collision</string>
+					<string>land_collision_end</string>
+					<string>land_collision_start</string>
+					<string>link_message</string>
+					<string>listen</string>
+					<string>money</string>
+					<string>moving_end</string>
+					<string>moving_start</string>
+					<string>no_sensor</string>
+					<string>not_at_rot_target</string>
+					<string>not_at_target</string>
+					<string>object_rez</string>
+					<string>on_rez</string>
+					<string>path_update</string>
+					<string>remote_data</string>
+					<string>run_time_permissions</string>
+					<string>sensor</string>
+					<string>state_entry</string>
+					<string>state_exit</string>
+					<string>timer</string>
+					<string>touch</string>
+					<string>touch_end</string>
+					<string>touch_start</string>
+					<string>transaction_result</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.core.function">
+				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
+					<string>llAbs</string>
+					<string>llAcos</string>
+					<string>llAddToLandBanList</string>
+					<string>llAddToLandPassList</string>
+					<string>llAdjustSoundVolume</string>
+					<string>llAllowInventoryDrop</string>
+					<string>llAngleBetween</string>
+					<string>llApplyImpulse</string>
+					<string>llApplyRotationalImpulse</string>
+					<string>llAsin</string>
+					<string>llAtan2</string>
+					<string>llAttachToAvatar</string>
+					<string>llAttachToAvatarTemp</string>
+					<string>llAvatarOnLinkSitTarget</string>
+					<string>llAvatarOnSitTarget</string>
+					<string>llAxes2Rot</string>
+					<string>llAxisAngle2Rot</string>
+					<string>llBase64ToInteger</string>
+					<string>llBase64ToString</string>
+					<string>llBreakAllLinks</string>
+					<string>llBreakLink</string>
+					<string>llCSV2List</string>
+					<string>llCastRay</string>
+					<string>llCeil</string>
+					<string>llClearCameraParams</string>
+					<string>llClearLinkMedia</string>
+					<string>llClearPrimMedia</string>
+					<string>llCloseRemoteDataChannel</string>
+					<string>llCollisionFilter</string>
+					<string>llCollisionSound</string>
+					<string>llCos</string>
+					<string>llCreateCharacter</string>
+					<string>llCreateLink</string>
+					<string>llDeleteCharacter</string>
+					<string>llDeleteSubList</string>
+					<string>llDeleteSubString</string>
+					<string>llDetachFromAvatar</string>
+					<string>llDetectedGrab</string>
+					<string>llDetectedGroup</string>
+					<string>llDetectedKey</string>
+					<string>llDetectedLinkNumber</string>
+					<string>llDetectedName</string>
+					<string>llDetectedOwner</string>
+					<string>llDetectedPos</string>
+					<string>llDetectedRot</string>
+					<string>llDetectedTouchBinormal</string>
+					<string>llDetectedTouchFace</string>
+					<string>llDetectedTouchNormal</string>
+					<string>llDetectedTouchPos</string>
+					<string>llDetectedTouchST</string>
+					<string>llDetectedTouchUV</string>
+					<string>llDetectedType</string>
+					<string>llDetectedVel</string>
+					<string>llDialog</string>
+					<string>llDie</string>
+					<string>llDumpList2String</string>
+					<string>llEdgeOfWorld</string>
+					<string>llEjectFromLand</string>
+					<string>llEmail</string>
+					<string>llEscapeURL</string>
+					<string>llEuler2Rot</string>
+					<string>llEvade</string>
+					<string>llExecCharacterCmd</string>
+					<string>llFabs</string>
+					<string>llFleeFrom</string>
+					<string>llFloor</string>
+					<string>llForceMouselook</string>
+					<string>llFrand</string>
+					<string>llGenerateKey</string>
+					<string>llGetAccel</string>
+					<string>llGetAgentInfo</string>
+					<string>llGetAgentLanguage</string>
+					<string>llGetAgentList</string>
+					<string>llGetAgentSize</string>
+					<string>llGetAlpha</string>
+					<string>llGetAndResetTime</string>
+					<string>llGetAnimation</string>
+					<string>llGetAnimationList</string>
+					<string>llGetAnimationOverride</string>
+					<string>llGetAttached</string>
+					<string>llGetBoundingBox</string>
+					<string>llGetCameraPos</string>
+					<string>llGetCameraRot</string>
+					<string>llGetCenterOfMass</string>
+					<string>llGetClosestNavPoint</string>
+					<string>llGetColor</string>
+					<string>llGetCreator</string>
+					<string>llGetDate</string>
+					<string>llGetDisplayName</string>
+					<string>llGetEnergy</string>
+					<string>llGetEnv</string>
+					<string>llGetForce</string>
+					<string>llGetFreeMemory</string>
+					<string>llGetFreeURLs</string>
+					<string>llGetGMTclock</string>
+					<string>llGetGeometricCenter</string>
+					<string>llGetHTTPHeader</string>
+					<string>llGetInventoryCreator</string>
+					<string>llGetInventoryKey</string>
+					<string>llGetInventoryName</string>
+					<string>llGetInventoryNumber</string>
+					<string>llGetInventoryPermMask</string>
+					<string>llGetInventoryType</string>
+					<string>llGetKey</string>
+					<string>llGetLandOwnerAt</string>
+					<string>llGetLinkKey</string>
+					<string>llGetLinkMedia</string>
+					<string>llGetLinkName</string>
+					<string>llGetLinkNumber</string>
+					<string>llGetLinkNumberOfSides</string>
+					<string>llGetLinkPrimitiveParams</string>
+					<string>llGetListEntryType</string>
+					<string>llGetListLength</string>
+					<string>llGetLocalPos</string>
+					<string>llGetLocalRot</string>
+					<string>llGetMass</string>
+					<string>llGetMassMKS</string>
+					<string>llGetMaxScaleFactor</string>
+					<string>llGetMemoryLimit</string>
+					<string>llGetMinScaleFactor</string>
+					<string>llGetNextEmail</string>
+					<string>llGetNotecardLine</string>
+					<string>llGetNumberOfNotecardLines</string>
+					<string>llGetNumberOfPrims</string>
+					<string>llGetNumberOfSides</string>
+					<string>llGetObjectDesc</string>
+					<string>llGetObjectDetails</string>
+					<string>llGetObjectMass</string>
+					<string>llGetObjectName</string>
+					<string>llGetObjectPermMask</string>
+					<string>llGetObjectPrimCount</string>
+					<string>llGetOmega</string>
+					<string>llGetOwner</string>
+					<string>llGetOwnerKey</string>
+					<string>llGetParcelDetails</string>
+					<string>llGetParcelFlags</string>
+					<string>llGetParcelMaxPrims</string>
+					<string>llGetParcelMusicURL</string>
+					<string>llGetParcelPrimCount</string>
+					<string>llGetParcelPrimOwners</string>
+					<string>llGetPermissions</string>
+					<string>llGetPermissionsKey</string>
+					<string>llGetPhysicsMaterial</string>
+					<string>llGetPos</string>
+					<string>llGetPrimMediaParams</string>
+					<string>llGetPrimitiveParams</string>
+					<string>llGetRegionAgentCount</string>
+					<string>llGetRegionCorner</string>
+					<string>llGetRegionFPS</string>
+					<string>llGetRegionFlags</string>
+					<string>llGetRegionName</string>
+					<string>llGetRegionTimeDilation</string>
+					<string>llGetRootPosition</string>
+					<string>llGetRootRotation</string>
+					<string>llGetRot</string>
+					<string>llGetSPMaxMemory</string>
+					<string>llGetScale</string>
+					<string>llGetScriptName</string>
+					<string>llGetScriptState</string>
+					<string>llGetSimStats</string>
+					<string>llGetSimulatorHostname</string>
+					<string>llGetStartParameter</string>
+					<string>llGetStaticPath</string>
+					<string>llGetStatus</string>
+					<string>llGetSubString</string>
+					<string>llGetSunDirection</string>
+					<string>llGetTexture</string>
+					<string>llGetTextureOffset</string>
+					<string>llGetTextureRot</string>
+					<string>llGetTextureScale</string>
+					<string>llGetTime</string>
+					<string>llGetTimeOfDay</string>
+					<string>llGetTimestamp</string>
+					<string>llGetTorque</string>
+					<string>llGetUnixTime</string>
+					<string>llGetUsedMemory</string>
+					<string>llGetUsername</string>
+					<string>llGetVel</string>
+					<string>llGetWallclock</string>
+					<string>llGiveInventory</string>
+					<string>llGiveInventoryList</string>
+					<string>llGiveMoney</string>
+					<string>llGround</string>
+					<string>llGroundContour</string>
+					<string>llGroundNormal</string>
+					<string>llGroundRepel</string>
+					<string>llGroundSlope</string>
+					<string>llHTTPRequest</string>
+					<string>llHTTPResponse</string>
+					<string>llInsertString</string>
+					<string>llInstantMessage</string>
+					<string>llIntegerToBase64</string>
+					<string>llJson2List</string>
+					<string>llJsonGetValue</string>
+					<string>llJsonSetValue</string>
+					<string>llJsonValueType</string>
+					<string>llKey2Name</string>
+					<string>llLinkParticleSystem</string>
+					<string>llLinkSitTarget</string>
+					<string>llList2CSV</string>
+					<string>llList2Float</string>
+					<string>llList2Integer</string>
+					<string>llList2Json</string>
+					<string>llList2Key</string>
+					<string>llList2List</string>
+					<string>llList2ListStrided</string>
+					<string>llList2Rot</string>
+					<string>llList2String</string>
+					<string>llList2Vector</string>
+					<string>llListFindList</string>
+					<string>llListInsertList</string>
+					<string>llListRandomize</string>
+					<string>llListReplaceList</string>
+					<string>llListSort</string>
+					<string>llListStatistics</string>
+					<string>llListen</string>
+					<string>llListenControl</string>
+					<string>llListenRemove</string>
+					<string>llLoadURL</string>
+					<string>llLog</string>
+					<string>llLog10</string>
+					<string>llLookAt</string>
+					<string>llLoopSound</string>
+					<string>llLoopSoundMaster</string>
+					<string>llLoopSoundSlave</string>
+					<string>llMD5String</string>
+					<string>llManageEstateAccess</string>
+					<string>llMapDestination</string>
+					<string>llMessageLinked</string>
+					<string>llMinEventDelay</string>
+					<string>llModPow</string>
+					<string>llModifyLand</string>
+					<string>llMoveToTarget</string>
+					<string>llNavigateTo</string>
+					<string>llOffsetTexture</string>
+					<string>llOpenRemoteDataChannel</string>
+					<string>llOverMyLand</string>
+					<string>llOwnerSay</string>
+					<string>llParcelMediaCommandList</string>
+					<string>llParcelMediaQuery</string>
+					<string>llParseString2List</string>
+					<string>llParseStringKeepNulls</string>
+					<string>llParticleSystem</string>
+					<string>llPassCollisions</string>
+					<string>llPassTouches</string>
+					<string>llPatrolPoints</string>
+					<string>llPlaySound</string>
+					<string>llPlaySoundSlave</string>
+					<string>llPow</string>
+					<string>llPreloadSound</string>
+					<string>llPursue</string>
+					<string>llPushObject</string>
+					<string>llRegionSay</string>
+					<string>llRegionSayTo</string>
+					<string>llReleaseControls</string>
+					<string>llReleaseURL</string>
+					<string>llRemoteDataReply</string>
+					<string>llRemoteLoadScriptPin</string>
+					<string>llRemoveFromLandBanList</string>
+					<string>llRemoveFromLandPassList</string>
+					<string>llRemoveInventory</string>
+					<string>llRemoveVehicleFlags</string>
+					<string>llRequestAgentData</string>
+					<string>llRequestDisplayName</string>
+					<string>llRequestInventoryData</string>
+					<string>llRequestPermissions</string>
+					<string>llRequestSecureURL</string>
+					<string>llRequestSimulatorData</string>
+					<string>llRequestURL</string>
+					<string>llRequestUsername</string>
+					<string>llResetAnimationOverride</string>
+					<string>llResetLandBanList</string>
+					<string>llResetLandPassList</string>
+					<string>llResetOtherScript</string>
+					<string>llResetScript</string>
+					<string>llResetTime</string>
+					<string>llReturnObjectsByID</string>
+					<string>llReturnObjectsByOwner</string>
+					<string>llRezAtRoot</string>
+					<string>llRezObject</string>
+					<string>llRot2Angle</string>
+					<string>llRot2Axis</string>
+					<string>llRot2Euler</string>
+					<string>llRot2Fwd</string>
+					<string>llRot2Left</string>
+					<string>llRot2Up</string>
+					<string>llRotBetween</string>
+					<string>llRotLookAt</string>
+					<string>llRotTarget</string>
+					<string>llRotTargetRemove</string>
+					<string>llRotateTexture</string>
+					<string>llRound</string>
+					<string>llSHA1String</string>
+					<string>llSameGroup</string>
+					<string>llSay</string>
+					<string>llScaleByFactor</string>
+					<string>llScaleTexture</string>
+					<string>llScriptDanger</string>
+					<string>llScriptProfiler</string>
+					<string>llSendRemoteData</string>
+					<string>llSensor</string>
+					<string>llSensorRemove</string>
+					<string>llSensorRepeat</string>
+					<string>llSetAlpha</string>
+					<string>llSetAngularVelocity</string>
+					<string>llSetAnimationOverride</string>
+					<string>llSetBuoyancy</string>
+					<string>llSetCameraAtOffset</string>
+					<string>llSetCameraEyeOffset</string>
+					<string>llSetCameraParams</string>
+					<string>llSetClickAction</string>
+					<string>llSetColor</string>
+					<string>llSetContentType</string>
+					<string>llSetDamage</string>
+					<string>llSetForce</string>
+					<string>llSetForceAndTorque</string>
+					<string>llSetHoverHeight</string>
+					<string>llSetKeyframedMotion</string>
+					<string>llSetLinkAlpha</string>
+					<string>llSetLinkCamera</string>
+					<string>llSetLinkColor</string>
+					<string>llSetLinkMedia</string>
+					<string>llSetLinkPrimitiveParams</string>
+					<string>llSetLinkPrimitiveParamsFast</string>
+					<string>llSetLinkTexture</string>
+					<string>llSetLinkTextureAnim</string>
+					<string>llSetLocalRot</string>
+					<string>llSetMemoryLimit</string>
+					<string>llSetObjectDesc</string>
+					<string>llSetObjectName</string>
+					<string>llSetParcelMusicURL</string>
+					<string>llSetPayPrice</string>
+					<string>llSetPhysicsMaterial</string>
+					<string>llSetPos</string>
+					<string>llSetPrimMediaParams</string>
+					<string>llSetPrimitiveParams</string>
+					<string>llSetRegionPos</string>
+					<string>llSetRemoteScriptAccessPin</string>
+					<string>llSetRot</string>
+					<string>llSetScale</string>
+					<string>llSetScriptState</string>
+					<string>llSetSitText</string>
+					<string>llSetSoundQueueing</string>
+					<string>llSetSoundRadius</string>
+					<string>llSetStatus</string>
+					<string>llSetText</string>
+					<string>llSetTexture</string>
+					<string>llSetTextureAnim</string>
+					<string>llSetTimerEvent</string>
+					<string>llSetTorque</string>
+					<string>llSetTouchText</string>
+					<string>llSetVehicleFlags</string>
+					<string>llSetVehicleFloatParam</string>
+					<string>llSetVehicleRotationParam</string>
+					<string>llSetVehicleType</string>
+					<string>llSetVehicleVectorParam</string>
+					<string>llSetVelocity</string>
+					<string>llShout</string>
+					<string>llSin</string>
+					<string>llSitTarget</string>
+					<string>llSleep</string>
+					<string>llSqrt</string>
+					<string>llStartAnimation</string>
+					<string>llStopAnimation</string>
+					<string>llStopHover</string>
+					<string>llStopLookAt</string>
+					<string>llStopMoveToTarget</string>
+					<string>llStopSound</string>
+					<string>llStringLength</string>
+					<string>llStringToBase64</string>
+					<string>llStringTrim</string>
+					<string>llSubStringIndex</string>
+					<string>llTakeControls</string>
+					<string>llTan</string>
+					<string>llTarget</string>
+					<string>llTargetOmega</string>
+					<string>llTargetRemove</string>
+					<string>llTeleportAgent</string>
+					<string>llTeleportAgentGlobalCoords</string>
+					<string>llTeleportAgentHome</string>
+					<string>llTextBox</string>
+					<string>llToLower</string>
+					<string>llToUpper</string>
+					<string>llTransferLindenDollars</string>
+					<string>llTriggerSound</string>
+					<string>llTriggerSoundLimited</string>
+					<string>llUnSit</string>
+					<string>llUnescapeURL</string>
+					<string>llUpdateCharacter</string>
+					<string>llVecDist</string>
+					<string>llVecMag</string>
+					<string>llVecNorm</string>
+					<string>llVolumeDetect</string>
+					<string>llWanderWithin</string>
+					<string>llWater</string>
+					<string>llWhisper</string>
+					<string>llWind</string>
+					<string>llXorBase64</string>
+				</strings>
+			</scope>
+			<!-- All past, present and future Linden Lab LSL functions start with ll..() -->
+			<scope name="lsl.identifier.core.function.unknown">
+				<strings prefix="(?&lt;!\.)ll" suffix="(?=\()">
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.ossl.function.avatar">
+				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
+					<string>osAddAgentToGroup</string>
+					<string>osAgentSaveAppearance</string>
+					<string>osAvatarName2Key</string>
+					<string>osAvatarPlayAnimation</string>
+					<string>osAvatarStopAnimation</string>
+					<string>osAvatarType</string>
+					<string>osCauseDamage</string>
+					<string>osCauseHealing</string>
+					<string>osDetectedCountry</string>
+					<string>osDropAttachment</string>
+					<string>osDropAttachmentAt</string>
+					<string>osEjectFromGroup</string>
+					<string>osForceAttachToAvatar</string>
+					<string>osForceAttachToAvatarFromInventory</string>
+					<string>osForceAttachToOtherAvatarFromInventory</string>
+					<string>osForceDetachFromAvatar</string>
+					<string>osForceDropAttachment</string>
+					<string>osForceDropAttachmentAt</string>
+					<string>osForceOtherSit</string>
+					<string>osGetAgentIP</string>
+					<string>osGetAgents</string>
+					<string>osGetAgentCountry</string>
+					<string>osGetAvatarHomeURI</string>
+					<string>osGetAvatarList</string>
+					<string>osGetGender</string>
+					<string>osGetHealRate</string>
+					<string>osGetHealth</string>
+					<string>osGetNumberOfAttachments</string>
+					<string>osGrantScriptPermissions</string>
+					<string>osInviteToGroup</string>
+					<string>osKickAvatar</string>
+					<string>osOwnerSaveAppearance</string>
+					<string>osRevokeScriptPermissions</string>
+					<string>osSetHealRate</string>
+					<string>osSetHealth</string>
+					<string>osSetOwnerSpeed</string>
+					<string>osSetSpeed</string>
+					<string>osLocalTeleportAgent</string>
+					<string>osTeleportAgent</string>
+					<string>osTeleportOwner</string>
+					<string>osReplaceAgentEnvironment</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.ossl.function.npc">
+				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
+					<string>osIsNpc</string>
+					<string>osNpcCreate</string>
+					<string>osGetNpcList</string>
+					<string>osNpcGetPos</string>
+					<string>osNpcGetRot</string>
+					<string>osNpcGetOwner</string>
+					<string>osNpcLookAt</string>
+					<string>osNpcLoadAppearance</string>
+					<string>osNpcMoveTo</string>
+					<string>osNpcMoveToTarget</string>
+					<string>osNpcPlayAnimation</string>
+					<string>osNpcRemove</string>
+					<string>osNpcSaveAppearance</string>
+					<string>osNpcSay</string>
+					<string>osNpcSayTo</string>
+					<string>osNpcSetProfileAbout</string>
+					<string>osNpcSetProfileImage</string>
+					<string>osNpcSetRot</string>
+					<string>osNpcShout</string>
+					<string>osNpcSit</string>
+					<string>osNpcStand</string>
+					<string>osNpcStopMoveToTarget</string>
+					<string>osNpcStopAnimation</string>
+					<string>osNpcTouch</string>
+					<string>osNpcWhisper</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.ossl.function.prim">
+				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
+					<string>osClearInertia</string>
+					<string>osClearObjectAnimations</string>
+					<string>osDie</string>
+					<string>osForceBreakAllLinks</string>
+					<string>osForceBreakLink</string>
+					<string>osForceCreateLink</string>
+					<string>osGetInertiaData</string>
+					<string>osGetInventoryItemKey</string>
+					<string>osGetInventoryName</string>
+					<string>osGetInventoryDesc</string>
+					<string>osGetInventoryLastOwner</string>
+					<string>osGetLastChangedEventKey</string>
+					<string>osGetLinkNumber</string>
+					<string>osGetLinkPrimitiveParams</string>
+					<string>osGetPrimitiveParams</string>
+					<string>osGetRezzingObject</string>
+					<string>osGetSitActiveRange</string>
+					<string>osGetLinkSitActiveRange</string>
+					<string>osGetStandTarget</string>
+					<string>osGetLinkStandTarget</string>
+					<string>osLinkParticleSystem</string>
+					<string>osMessageAttachments</string>
+					<string>osMessageObject</string>
+					<string>osParticleSystem</string>
+					<string>osSetInertia</string>
+					<string>osSetInertiaAsBox</string>
+					<string>osSetInertiaAsCylinder</string>
+					<string>osSetInertiaAsSphere</string>
+					<string>osSetPrimitiveParams</string>
+					<string>osSetProjectionParams</string>
+					<string>osSetSitActiveRange</string>
+					<string>osSetLinkSitActiveRange</string>
+					<string>osSetStandTarget</string>
+					<string>osSetLinkStandTarget</string>
+					<string>osTeleportObject</string>
+					<string>osVolumeDetect</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.ossl.function.prim.drawing">
+				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
+					<string>osDrawEllipse</string>
+					<string>osDrawFilledEllipse</string>
+					<string>osDrawFilledPolygon</string>
+					<string>osDrawFilledRectangle</string>
+					<string>osDrawImage</string>
+					<string>osDrawLine</string>
+					<string>osDrawPolygon</string>
+					<string>osDrawRectangle</string>
+					<string>osDrawResetTransform</string>
+					<string>osDrawRotationTransform</string>
+					<string>osDrawScaleTransform</string>
+					<string>osDrawText</string>
+					<string>osDrawTranslationTransform</string>
+					<string>osGetDrawStringSize</string>
+					<string>osMovePen</string>
+					<string>osSetFontName</string>
+					<string>osSetFontSize</string>
+					<string>osSetPenCap</string>
+					<string>osSetPenColor</string>
+					<string>osSetPenSize</string>
+					<string>osSetDynamicTextureData</string>
+					<string>osSetDynamicTextureDataFace</string>
+					<string>osSetDynamicTextureDataBlend</string>
+					<string>osSetDynamicTextureDataBlendFace</string>
+					<string>osSetDynamicTextureURL</string>
+					<string>osSetDynamicTextureURLBlend</string>
+					<string>osSetDynamicTextureURLBlendFace</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.ossl.notecard">
+				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
+					<string>osGetNotecard</string>
+					<string>osGetNotecardLine</string>
+					<string>osGetNumberOfNotecardLines</string>
+					<string>osMakeNotecard</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.ossl.sound">
+				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
+					<string>osAdjustSoundVolume</string>
+					<string>osCollisionSound</string>
+					<string>osLoopSound</string>
+					<string>osLoopSoundMaster</string>
+					<string>osLoopSoundSlave</string>
+					<string>osPlaySound</string>
+					<string>osPlaySoundSlave</string>
+					<string>osPreloadSound</string>
+					<string>osSetSoundRadius</string>
+					<string>osStopSound</string>
+					<string>osTriggerSound</string>
+					<string>osTriggerSoundLimited</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.ossl.function.http">
+				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
+					<string>osRequestSecureURL</string>
+					<string>osRequestURL</string>
+					<string>osSetContentType</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.ossl.function.parcel">
+				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
+					<string>osParcelJoin</string>
+					<string>osParcelSubdivide</string>
+					<string>osGetParcelDwell</string>
+					<string>osSetParcelDetails</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.ossl.function.terrain">
+				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
+					<string>osGetTerrainHeight</string>
+					<string>osSetTerrainHeight</string>
+					<string>osSetTerrainTexture</string>
+					<string>osSetTerrainTextureHeight</string>
+					<string>osTerrainFlush</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.ossl.function.region">
+				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
+					<string>osGetCurrentSunHour</string>
+					<string>osGetApparentTime</string>
+					<string>osGetApparentTimeString</string>
+					<string>osGetApparentRegionTime</string>
+					<string>osGetApparentRegionTimeString</string>
+					<string>osGetWindParam</string>
+					<string>osSetRegionWaterHeight</string>
+					<string>osSetWindParam</string>
+					<string>osWindActiveModelPluginName</string>
+					<string>osReplaceParcelEnvironment</string>
+					<string>osReplaceRegionEnvironment</string>
+					<string>osResetEnvironment</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.ossl.function.grid">
+				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
+					<string>osCheckODE</string>
+					<string>osGetGridCustom</string>
+					<string>osGetGridGatekeeperURI</string>
+					<string>osGetGridHomeURI</string>
+					<string>osGetGridLoginURI</string>
+					<string>osGetGridName</string>
+					<string>osGetGridNick</string>
+					<string>osGetMapTexture</string>
+					<string>osGetPhysicsEngineName</string>
+					<string>osGetPhysicsEngineType</string>
+					<string>osGetRegionMapTexture</string>
+					<string>osGetRegionSize</string>
+					<string>osGetRegionStats</string>
+					<string>osGetScriptEngineName</string>
+					<string>osGetSimulatorMemory</string>
+					<string>osGetSimulatorMemoryKB</string>
+					<string>osGetSimulatorVersion</string>
+					<string>osLoadedCreationDate</string>
+					<string>osLoadedCreationID</string>
+					<string>osLoadedCreationTime</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.ossl.function.administration">
+				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
+					<string>osConsoleCommand</string>
+					<string>osRegionNotice</string>
+					<string>osRegionRestart</string>
+					<string>osSetParcelMediaURL</string>
+					<string>osSetParcelMusicURL</string>
+					<string>osSetParcelSIPAddress</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.ossl.function.script">
+				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
+					<string>osResetAllScripts</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.ossl.function.string">
+				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
+					<string>osFormatString</string>
+					<string>osListenRegex</string>
+					<string>osMatchString</string>
+					<string>osRegexIsMatch</string>
+					<string>osReplaceString</string>
+					<string>osStringSubString</string>
+					<string>osStringStartsWith</string>
+					<string>osStringEndsWith</string>
+					<string>osStringIndexOf</string>
+					<string>osStringLastIndexOf</string>
+					<string>osStringRemove</string>
+					<string>osStringReplace</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.ossl.function.misc">
+				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
+					<string>osAngleBetween</string>
+					<string>osApproxEquals</string>
+					<string>osGetPSTWallclock</string>
+					<string>osListSortInPlace</string>
+					<string>osIsUUID</string>
+					<string>osIsNotValidNumber</string>
+					<string>osKey2Name</string>
+					<string>osMax</string>
+					<string>osMin</string>
+					<string>osRound</string>
+					<string>osSHA256</string>
+					<string>osSlerp</string>
+					<string>osUnixTimeToTimestamp</string>
+					<string>osVecDistSquare</string>
+					<string>osVecMagSquare</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.ossl.function.deprecated">
+				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
+					<string>osParcelSetDetails</string>
+					<string>osSetPenColour</string>
+					<string>osSunGetParam</string>
+					<string>osSunSetParam</string>
+					<string>osTerrainGetHeight</string>
+					<string>osTerrainSetHeight</string>
+					<string>osWindParamGet</string>
+					<string>osWindParamSet</string>
+					<string>osList2Double</string>
+					<string>osGetSunParam</string>
+					<string>osSetEstateSunSettings</string>
+					<string>osSetRegionSunSettings</string>
+					<string>osSetSunParam</string>
+					<string>osSetPrimFloatOnWater</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.core.storage-type">
+				<strings>
+					<string>float</string>
+					<string>integer</string>
+					<string>key</string>
+					<string>list</string>
+					<string>quaternion</string>
+					<string>rotation</string>
+					<string>string</string>
+					<string>vector</string>
+				</strings>
+			<scope name="lsl.identifier.function">
+				<expression>(?&lt;!\.)((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)(?=\()</expression>
+			</scope>
+			<scope name="lsl.identifier.constant">
+				<expression>(?&lt;![a-z0-9_])(?:\b[A-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*</expression>
+			</scope>
+			<scope name="lsl.identifier.constant.integer">
+				<strings>
+					<string>ACTIVE</string>
+					<string>AGENT</string>
+					<string>AGENT_ALWAYS_RUN</string>
+					<string>AGENT_ATTACHMENTS</string>
+					<string>AGENT_AUTOPILOT</string>
+					<string>AGENT_AWAY</string>
+					<string>AGENT_BUSY</string>
+					<string>AGENT_BY_LEGACY_NAME</string>
+					<string>AGENT_BY_USERNAME</string>
+					<string>AGENT_CROUCHING</string>
+					<string>AGENT_FLYING</string>
+					<string>AGENT_IN_AIR</string>
+					<string>AGENT_LIST_PARCEL</string>
+					<string>AGENT_LIST_PARCEL_OWNER</string>
+					<string>AGENT_LIST_REGION</string>
+					<string>AGENT_MOUSELOOK</string>
+					<string>AGENT_ON_OBJECT</string>
+					<string>AGENT_SCRIPTED</string>
+					<string>AGENT_SITTING</string>
+					<string>AGENT_TYPING</string>
+					<string>AGENT_WALKING</string>
+					<string>ALL_SIDES</string>
+					<string>ANIM_ON</string>
+					<string>ATTACH_AVATAR_CENTER</string>
+					<string>ATTACH_BACK</string>
+					<string>ATTACH_BELLY</string>
+					<string>ATTACH_CHEST</string>
+					<string>ATTACH_CHIN</string>
+					<string>ATTACH_HEAD</string>
+					<string>ATTACH_HUD_BOTTOM</string>
+					<string>ATTACH_HUD_BOTTOM_LEFT</string>
+					<string>ATTACH_HUD_BOTTOM_RIGHT</string>
+					<string>ATTACH_HUD_CENTER_1</string>
+					<string>ATTACH_HUD_CENTER_2</string>
+					<string>ATTACH_HUD_TOP_CENTER</string>
+					<string>ATTACH_HUD_TOP_LEFT</string>
+					<string>ATTACH_HUD_TOP_RIGHT</string>
+					<string>ATTACH_LEAR</string>
+					<string>ATTACH_LEFT_PEC</string>
+					<string>ATTACH_LEYE</string>
+					<string>ATTACH_LFOOT</string>
+					<string>ATTACH_LHAND</string>
+					<string>ATTACH_LHIP</string>
+					<string>ATTACH_LLARM</string>
+					<string>ATTACH_LLLEG</string>
+					<string>ATTACH_LSHOULDER</string>
+					<string>ATTACH_LUARM</string>
+					<string>ATTACH_LULEG</string>
+					<string>ATTACH_MOUTH</string>
+					<string>ATTACH_NECK</string>
+					<string>ATTACH_NOSE</string>
+					<string>ATTACH_PELVIS</string>
+					<string>ATTACH_REAR</string>
+					<string>ATTACH_REYE</string>
+					<string>ATTACH_RFOOT</string>
+					<string>ATTACH_RHAND</string>
+					<string>ATTACH_RHIP</string>
+					<string>ATTACH_RIGHT_PEC</string>
+					<string>ATTACH_RLARM</string>
+					<string>ATTACH_RLLEG</string>
+					<string>ATTACH_RSHOULDER</string>
+					<string>ATTACH_RUARM</string>
+					<string>ATTACH_RULEG</string>
+					<string>AVOID_CHARACTERS</string>
+					<string>AVOID_DYNAMIC_OBSTACLES</string>
+					<string>AVOID_NONE</string>
+					<string>CAMERA_ACTIVE</string>
+					<string>CAMERA_BEHINDNESS_ANGLE</string>
+					<string>CAMERA_BEHINDNESS_LAG</string>
+					<string>CAMERA_DISTANCE</string>
+					<string>CAMERA_FOCUS</string>
+					<string>CAMERA_FOCUS_LAG</string>
+					<string>CAMERA_FOCUS_LOCKED</string>
+					<string>CAMERA_FOCUS_OFFSET</string>
+					<string>CAMERA_FOCUS_THRESHOLD</string>
+					<string>CAMERA_PITCH</string>
+					<string>CAMERA_POSITION</string>
+					<string>CAMERA_POSITION_LAG</string>
+					<string>CAMERA_POSITION_LOCKED</string>
+					<string>CAMERA_POSITION_THRESHOLD</string>
+					<string>CHANGED_ALLOWED_DROP</string>
+					<string>CHANGED_COLOR</string>
+					<string>CHANGED_INVENTORY</string>
+					<string>CHANGED_LINK</string>
+					<string>CHANGED_MEDIA</string>
+					<string>CHANGED_OWNER</string>
+					<string>CHANGED_REGION</string>
+					<string>CHANGED_REGION_START</string>
+					<string>CHANGED_SCALE</string>
+					<string>CHANGED_SHAPE</string>
+					<string>CHANGED_TELEPORT</string>
+					<string>CHANGED_TEXTURE</string>
+					<string>CHARACTER_ACCOUNT_FOR_SKIPPED_FRAMES</string>
+					<string>CHARACTER_AVOIDANCE_MODE</string>
+					<string>CHARACTER_CMD_JUMP</string>
+					<string>CHARACTER_CMD_SMOOTH_STOP</string>
+					<string>CHARACTER_CMD_STOP</string>
+					<string>CHARACTER_DESIRED_SPEED</string>
+					<string>CHARACTER_DESIRED_TURN_SPEED</string>
+					<string>CHARACTER_LENGTH</string>
+					<string>CHARACTER_MAX_ACCEL</string>
+					<string>CHARACTER_MAX_DECEL</string>
+					<string>CHARACTER_MAX_SPEED</string>
+					<string>CHARACTER_MAX_TURN_RADIUS</string>
+					<string>CHARACTER_ORIENTATION</string>
+					<string>CHARACTER_RADIUS</string>
+					<string>CHARACTER_STAY_WITHIN_PARCEL</string>
+					<string>CHARACTER_TYPE</string>
+					<string>CHARACTER_TYPE_A</string>
+					<string>CHARACTER_TYPE_B</string>
+					<string>CHARACTER_TYPE_C</string>
+					<string>CHARACTER_TYPE_D</string>
+					<string>CHARACTER_TYPE_NONE</string>
+					<string>CLICK_ACTION_BUY</string>
+					<string>CLICK_ACTION_NONE</string>
+					<string>CLICK_ACTION_OPEN</string>
+					<string>CLICK_ACTION_OPEN_MEDIA</string>
+					<string>CLICK_ACTION_PAY</string>
+					<string>CLICK_ACTION_PLAY</string>
+					<string>CLICK_ACTION_SIT</string>
+					<string>CLICK_ACTION_TOUCH</string>
+					<string>CONTENT_TYPE_ATOM</string>
+					<string>CONTENT_TYPE_FORM</string>
+					<string>CONTENT_TYPE_HTML</string>
+					<string>CONTENT_TYPE_JSON</string>
+					<string>CONTENT_TYPE_LLSD</string>
+					<string>CONTENT_TYPE_RSS</string>
+					<string>CONTENT_TYPE_TEXT</string>
+					<string>CONTENT_TYPE_XHTML</string>
+					<string>CONTENT_TYPE_XML</string>
+					<string>CONTROL_BACK</string>
+					<string>CONTROL_DOWN</string>
+					<string>CONTROL_FWD</string>
+					<string>CONTROL_LBUTTON</string>
+					<string>CONTROL_LEFT</string>
+					<string>CONTROL_ML_LBUTTON</string>
+					<string>CONTROL_RIGHT</string>
+					<string>CONTROL_ROT_LEFT</string>
+					<string>CONTROL_ROT_RIGHT</string>
+					<string>CONTROL_UP</string>
+					<string>DATA_BORN</string>
+					<string>DATA_NAME</string>
+					<string>DATA_ONLINE</string>
+					<string>DATA_PAYINFO</string>
+					<string>DATA_SIM_POS</string>
+					<string>DATA_SIM_RATING</string>
+					<string>DATA_SIM_STATUS</string>
+					<string>DEBUG_CHANNEL</string>
+					<string>DENSITY</string>
+					<string>ERR_GENERIC</string>
+					<string>ERR_MALFORMED_PARAMS</string>
+					<string>ERR_PARCEL_PERMISSIONS</string>
+					<string>ERR_RUNTIME_PERMISSIONS</string>
+					<string>ERR_THROTTLED</string>
+					<string>ESTATE_ACCESS_ALLOWED_AGENT_ADD</string>
+					<string>ESTATE_ACCESS_ALLOWED_AGENT_REMOVE</string>
+					<string>ESTATE_ACCESS_ALLOWED_GROUP_ADD</string>
+					<string>ESTATE_ACCESS_ALLOWED_GROUP_REMOVE</string>
+					<string>ESTATE_ACCESS_BANNED_AGENT_ADD</string>
+					<string>ESTATE_ACCESS_BANNED_AGENT_REMOVE</string>
+					<string>FALSE</string>
+					<string>FORCE_DIRECT_PATH</string>
+					<string>FRICTION</string>
+					<string>GCNP_RADIUS</string>
+					<string>GCNP_STATIC</string>
+					<string>GRAVITY_MULTIPLIER</string>
+					<string>HORIZONTAL</string>
+					<string>HTTP_BODY_MAXLENGTH</string>
+					<string>HTTP_BODY_TRUNCATED</string>
+					<string>HTTP_CUSTOM_HEADER</string>
+					<string>HTTP_METHOD</string>
+					<string>HTTP_MIMETYPE</string>
+					<string>HTTP_PRAGMA_NO_CACHE</string>
+					<string>HTTP_VERBOSE_THROTTLE</string>
+					<string>HTTP_VERIFY_CERT</string>
+					<string>INVENTORY_ALL</string>
+					<string>INVENTORY_ANIMATION</string>
+					<string>INVENTORY_BODYPART</string>
+					<string>INVENTORY_CLOTHING</string>
+					<string>INVENTORY_GESTURE</string>
+					<string>INVENTORY_LANDMARK</string>
+					<string>INVENTORY_NONE</string>
+					<string>INVENTORY_NOTECARD</string>
+					<string>INVENTORY_OBJECT</string>
+					<string>INVENTORY_SCRIPT</string>
+					<string>INVENTORY_SOUND</string>
+					<string>INVENTORY_TEXTURE</string>
+					<string>JSON_APPEND</string>
+					<string>KFM_CMD_PAUSE</string>
+					<string>KFM_CMD_PLAY</string>
+					<string>KFM_CMD_SET_MODE</string>
+					<string>KFM_CMD_STOP</string>
+					<string>KFM_COMMAND</string>
+					<string>KFM_DATA</string>
+					<string>KFM_FORWARD</string>
+					<string>KFM_LOOP</string>
+					<string>KFM_MODE</string>
+					<string>KFM_PING_PONG</string>
+					<string>KFM_REVERSE</string>
+					<string>KFM_ROTATION</string>
+					<string>KFM_TRANSLATION</string>
+					<string>LAND_LEVEL</string>
+					<string>LAND_LOWER</string>
+					<string>LAND_NOISE</string>
+					<string>LAND_RAISE</string>
+					<string>LAND_REVERT</string>
+					<string>LAND_SMOOTH</string>
+					<string>LINK_ALL_CHILDREN</string>
+					<string>LINK_ALL_OTHERS</string>
+					<string>LINK_ROOT</string>
+					<string>LINK_SET</string>
+					<string>LINK_THIS</string>
+					<string>LIST_STAT_GEOMETRIC_MEAN</string>
+					<string>LIST_STAT_MAX</string>
+					<string>LIST_STAT_MEAN</string>
+					<string>LIST_STAT_MEDIAN</string>
+					<string>LIST_STAT_MIN</string>
+					<string>LIST_STAT_NUM_COUNT</string>
+					<string>LIST_STAT_RANGE</string>
+					<string>LIST_STAT_STD_DEV</string>
+					<string>LIST_STAT_SUM</string>
+					<string>LIST_STAT_SUM_SQUARES</string>
+					<string>LOOP</string>
+					<string>MASK_BASE</string>
+					<string>MASK_EVERYONE</string>
+					<string>MASK_GROUP</string>
+					<string>MASK_NEXT</string>
+					<string>MASK_OWNER</string>
+					<string>OBJECT_ATTACHED_POINT</string>
+					<string>OBJECT_CHARACTER_TIME</string>
+					<string>OBJECT_CREATOR</string>
+					<string>OBJECT_DESC</string>
+					<string>OBJECT_GROUP</string>
+					<string>OBJECT_NAME</string>
+					<string>OBJECT_OWNER</string>
+					<string>OBJECT_PATHFINDING_TYPE</string>
+					<string>OBJECT_PHANTOM</string>
+					<string>OBJECT_PHYSICS</string>
+					<string>OBJECT_PHYSICS_COST</string>
+					<string>OBJECT_POS</string>
+					<string>OBJECT_PRIM_EQUIVALENCE</string>
+					<string>OBJECT_RENDER_WEIGHT</string>
+					<string>OBJECT_RETURN_PARCEL</string>
+					<string>OBJECT_RETURN_PARCEL_OWNER</string>
+					<string>OBJECT_RETURN_REGION</string>
+					<string>OBJECT_ROOT</string>
+					<string>OBJECT_ROT</string>
+					<string>OBJECT_RUNNING_SCRIPT_COUNT</string>
+					<string>OBJECT_SCRIPT_MEMORY</string>
+					<string>OBJECT_SCRIPT_TIME</string>
+					<string>OBJECT_SERVER_COST</string>
+					<string>OBJECT_STREAMING_COST</string>
+					<string>OBJECT_TEMP_ON_REZ</string>
+					<string>OBJECT_TOTAL_SCRIPT_COUNT</string>
+					<string>OBJECT_UNKNOWN_DETAIL</string>
+					<string>OBJECT_VELOCITY</string>
+					<string>OPT_AVATAR</string>
+					<string>OPT_CHARACTER</string>
+					<string>OPT_EXCLUSION_VOLUME</string>
+					<string>OPT_LEGACY_LINKSET</string>
+					<string>OPT_MATERIAL_VOLUME</string>
+					<string>OPT_OTHER</string>
+					<string>OPT_STATIC_OBSTACLE</string>
+					<string>OPT_WALKABLE</string>
+					<string>PARCEL_COUNT_GROUP</string>
+					<string>PARCEL_COUNT_OTHER</string>
+					<string>PARCEL_COUNT_OWNER</string>
+					<string>PARCEL_COUNT_SELECTED</string>
+					<string>PARCEL_COUNT_TEMP</string>
+					<string>PARCEL_COUNT_TOTAL</string>
+					<string>PARCEL_DETAILS_AREA</string>
+					<string>PARCEL_DETAILS_DESC</string>
+					<string>PARCEL_DETAILS_GROUP</string>
+					<string>PARCEL_DETAILS_ID</string>
+					<string>PARCEL_DETAILS_NAME</string>
+					<string>PARCEL_DETAILS_OWNER</string>
+					<string>PARCEL_DETAILS_SEE_AVATARS</string>
+					<string>PARCEL_FLAG_ALLOW_ALL_OBJECT_ENTRY</string>
+					<string>PARCEL_FLAG_ALLOW_CREATE_GROUP_OBJECTS</string>
+					<string>PARCEL_FLAG_ALLOW_CREATE_OBJECTS</string>
+					<string>PARCEL_FLAG_ALLOW_DAMAGE</string>
+					<string>PARCEL_FLAG_ALLOW_FLY</string>
+					<string>PARCEL_FLAG_ALLOW_GROUP_OBJECT_ENTRY</string>
+					<string>PARCEL_FLAG_ALLOW_GROUP_SCRIPTS</string>
+					<string>PARCEL_FLAG_ALLOW_LANDMARK</string>
+					<string>PARCEL_FLAG_ALLOW_SCRIPTS</string>
+					<string>PARCEL_FLAG_ALLOW_TERRAFORM</string>
+					<string>PARCEL_FLAG_LOCAL_SOUND_ONLY</string>
+					<string>PARCEL_FLAG_RESTRICT_PUSHOBJECT</string>
+					<string>PARCEL_FLAG_USE_ACCESS_GROUP</string>
+					<string>PARCEL_FLAG_USE_ACCESS_LIST</string>
+					<string>PARCEL_FLAG_USE_BAN_LIST</string>
+					<string>PARCEL_FLAG_USE_LAND_PASS_LIST</string>
+					<string>PARCEL_MEDIA_COMMAND_AGENT</string>
+					<string>PARCEL_MEDIA_COMMAND_AUTO_ALIGN</string>
+					<string>PARCEL_MEDIA_COMMAND_DESC</string>
+					<string>PARCEL_MEDIA_COMMAND_LOOP</string>
+					<string>PARCEL_MEDIA_COMMAND_LOOP_SET</string>
+					<string>PARCEL_MEDIA_COMMAND_PAUSE</string>
+					<string>PARCEL_MEDIA_COMMAND_PLAY</string>
+					<string>PARCEL_MEDIA_COMMAND_SIZE</string>
+					<string>PARCEL_MEDIA_COMMAND_STOP</string>
+					<string>PARCEL_MEDIA_COMMAND_TEXTURE</string>
+					<string>PARCEL_MEDIA_COMMAND_TIME</string>
+					<string>PARCEL_MEDIA_COMMAND_TYPE</string>
+					<string>PARCEL_MEDIA_COMMAND_UNLOAD</string>
+					<string>PARCEL_MEDIA_COMMAND_URL</string>
+					<string>PASSIVE</string>
+					<string>PATROL_PAUSE_AT_WAYPOINTS</string>
+					<string>PAYMENT_INFO_ON_FILE</string>
+					<string>PAYMENT_INFO_USED</string>
+					<string>PAY_DEFAULT</string>
+					<string>PAY_HIDE</string>
+					<string>PERMISSION_ATTACH</string>
+					<string>PERMISSION_CHANGE_LINKS</string>
+					<string>PERMISSION_CONTROL_CAMERA</string>
+					<string>PERMISSION_DEBIT</string>
+					<string>PERMISSION_OVERRIDE_ANIMATIONS</string>
+					<string>PERMISSION_RETURN_OBJECTS</string>
+					<string>PERMISSION_SILENT_ESTATE_MANAGEMENT</string>
+					<string>PERMISSION_TAKE_CONTROLS</string>
+					<string>PERMISSION_TELEPORT</string>
+					<string>PERMISSION_TRACK_CAMERA</string>
+					<string>PERMISSION_TRIGGER_ANIMATION</string>
+					<string>PERM_ALL</string>
+					<string>PERM_COPY</string>
+					<string>PERM_MODIFY</string>
+					<string>PERM_MOVE</string>
+					<string>PERM_TRANSFER</string>
+					<string>PING_PONG</string>
+					<string>PRIM_BUMP_BARK</string>
+					<string>PRIM_BUMP_BLOBS</string>
+					<string>PRIM_BUMP_BRICKS</string>
+					<string>PRIM_BUMP_BRIGHT</string>
+					<string>PRIM_BUMP_CHECKER</string>
+					<string>PRIM_BUMP_CONCRETE</string>
+					<string>PRIM_BUMP_DARK</string>
+					<string>PRIM_BUMP_DISKS</string>
+					<string>PRIM_BUMP_GRAVEL</string>
+					<string>PRIM_BUMP_LARGETILE</string>
+					<string>PRIM_BUMP_NONE</string>
+					<string>PRIM_BUMP_SHINY</string>
+					<string>PRIM_BUMP_SIDING</string>
+					<string>PRIM_BUMP_STONE</string>
+					<string>PRIM_BUMP_STUCCO</string>
+					<string>PRIM_BUMP_SUCTION</string>
+					<string>PRIM_BUMP_TILE</string>
+					<string>PRIM_BUMP_WEAVE</string>
+					<string>PRIM_BUMP_WOOD</string>
+					<string>PRIM_COLOR</string>
+					<string>PRIM_DESC</string>
+					<string>PRIM_FLEXIBLE</string>
+					<string>PRIM_FULLBRIGHT</string>
+					<string>PRIM_GLOW</string>
+					<string>PRIM_HOLE_CIRCLE</string>
+					<string>PRIM_HOLE_DEFAULT</string>
+					<string>PRIM_HOLE_SQUARE</string>
+					<string>PRIM_HOLE_TRIANGLE</string>
+					<string>PRIM_LINK_TARGET</string>
+					<string>PRIM_MATERIAL</string>
+					<string>PRIM_MATERIAL_FLESH</string>
+					<string>PRIM_MATERIAL_GLASS</string>
+					<string>PRIM_MATERIAL_METAL</string>
+					<string>PRIM_MATERIAL_PLASTIC</string>
+					<string>PRIM_MATERIAL_RUBBER</string>
+					<string>PRIM_MATERIAL_STONE</string>
+					<string>PRIM_MATERIAL_WOOD</string>
+					<string>PRIM_MEDIA_ALT_IMAGE_ENABLE</string>
+					<string>PRIM_MEDIA_AUTO_LOOP</string>
+					<string>PRIM_MEDIA_AUTO_PLAY</string>
+					<string>PRIM_MEDIA_AUTO_SCALE</string>
+					<string>PRIM_MEDIA_AUTO_ZOOM</string>
+					<string>PRIM_MEDIA_CONTROLS</string>
+					<string>PRIM_MEDIA_CONTROLS_MINI</string>
+					<string>PRIM_MEDIA_CONTROLS_STANDARD</string>
+					<string>PRIM_MEDIA_CURRENT_URL</string>
+					<string>PRIM_MEDIA_FIRST_CLICK_INTERACT</string>
+					<string>PRIM_MEDIA_HEIGHT_PIXELS</string>
+					<string>PRIM_MEDIA_HOME_URL</string>
+					<string>PRIM_MEDIA_MAX_HEIGHT_PIXELS</string>
+					<string>PRIM_MEDIA_MAX_URL_LENGTH</string>
+					<string>PRIM_MEDIA_MAX_WHITELIST_COUNT</string>
+					<string>PRIM_MEDIA_MAX_WHITELIST_SIZE</string>
+					<string>PRIM_MEDIA_MAX_WIDTH_PIXELS</string>
+					<string>PRIM_MEDIA_PARAM_MAX</string>
+					<string>PRIM_MEDIA_PERMS_CONTROL</string>
+					<string>PRIM_MEDIA_PERMS_INTERACT</string>
+					<string>PRIM_MEDIA_PERM_ANYONE</string>
+					<string>PRIM_MEDIA_PERM_GROUP</string>
+					<string>PRIM_MEDIA_PERM_NONE</string>
+					<string>PRIM_MEDIA_PERM_OWNER</string>
+					<string>PRIM_MEDIA_WHITELIST</string>
+					<string>PRIM_MEDIA_WHITELIST_ENABLE</string>
+					<string>PRIM_MEDIA_WIDTH_PIXELS</string>
+					<string>PRIM_NAME</string>
+					<string>PRIM_OMEGA</string>
+					<string>PRIM_PHANTOM</string>
+					<string>PRIM_PHYSICS</string>
+					<string>PRIM_PHYSICS_SHAPE_CONVEX</string>
+					<string>PRIM_PHYSICS_SHAPE_NONE</string>
+					<string>PRIM_PHYSICS_SHAPE_PRIM</string>
+					<string>PRIM_PHYSICS_SHAPE_TYPE</string>
+					<string>PRIM_POINT_LIGHT</string>
+					<string>PRIM_POSITION</string>
+					<string>PRIM_POS_LOCAL</string>
+					<string>PRIM_ROTATION</string>
+					<string>PRIM_ROT_LOCAL</string>
+					<string>PRIM_SCULPT_FLAG_INVERT</string>
+					<string>PRIM_SCULPT_FLAG_MIRROR</string>
+					<string>PRIM_SCULPT_TYPE_CYLINDER</string>
+					<string>PRIM_SCULPT_TYPE_MASK</string>
+					<string>PRIM_SCULPT_TYPE_PLANE</string>
+					<string>PRIM_SCULPT_TYPE_SPHERE</string>
+					<string>PRIM_SCULPT_TYPE_TORUS</string>
+					<string>PRIM_SHINY_HIGH</string>
+					<string>PRIM_SHINY_LOW</string>
+					<string>PRIM_SHINY_MEDIUM</string>
+					<string>PRIM_SHINY_NONE</string>
+					<string>PRIM_SIZE</string>
+					<string>PRIM_SLICE</string>
+					<string>PRIM_TEMP_ON_REZ</string>
+					<string>PRIM_TEXGEN</string>
+					<string>PRIM_TEXGEN_DEFAULT</string>
+					<string>PRIM_TEXGEN_PLANAR</string>
+					<string>PRIM_TEXT</string>
+					<string>PRIM_TEXTURE</string>
+					<string>PRIM_TYPE</string>
+					<string>PRIM_TYPE_BOX</string>
+					<string>PRIM_TYPE_CYLINDER</string>
+					<string>PRIM_TYPE_PRISM</string>
+					<string>PRIM_TYPE_RING</string>
+					<string>PRIM_TYPE_SCULPT</string>
+					<string>PRIM_TYPE_SPHERE</string>
+					<string>PRIM_TYPE_TORUS</string>
+					<string>PRIM_TYPE_TUBE</string>
+					<string>PROFILE_NONE</string>
+					<string>PROFILE_SCRIPT_MEMORY</string>
+					<string>PSYS_PART_BF_DEST_COLOR</string>
+					<string>PSYS_PART_BF_ONE</string>
+					<string>PSYS_PART_BF_ONE_MINUS_DEST_COLOR</string>
+					<string>PSYS_PART_BF_ONE_MINUS_SOURCE_ALPHA</string>
+					<string>PSYS_PART_BF_ONE_MINUS_SOURCE_COLOR</string>
+					<string>PSYS_PART_BF_SOURCE_ALPHA</string>
+					<string>PSYS_PART_BF_SOURCE_COLOR</string>
+					<string>PSYS_PART_BF_ZERO</string>
+					<string>PSYS_PART_BLEND_FUNC_DEST</string>
+					<string>PSYS_PART_BLEND_FUNC_SOURCE</string>
+					<string>PSYS_PART_BOUNCE_MASK</string>
+					<string>PSYS_PART_EMISSIVE_MASK</string>
+					<string>PSYS_PART_END_ALPHA</string>
+					<string>PSYS_PART_END_COLOR</string>
+					<string>PSYS_PART_END_GLOW</string>
+					<string>PSYS_PART_END_SCALE</string>
+					<string>PSYS_PART_FLAGS</string>
+					<string>PSYS_PART_FOLLOW_SRC_MASK</string>
+					<string>PSYS_PART_FOLLOW_VELOCITY_MASK</string>
+					<string>PSYS_PART_INTERP_COLOR_MASK</string>
+					<string>PSYS_PART_INTERP_SCALE_MASK</string>
+					<string>PSYS_PART_MAX_AGE</string>
+					<string>PSYS_PART_RIBBON_MASK</string>
+					<string>PSYS_PART_START_ALPHA</string>
+					<string>PSYS_PART_START_COLOR</string>
+					<string>PSYS_PART_START_GLOW</string>
+					<string>PSYS_PART_START_SCALE</string>
+					<string>PSYS_PART_TARGET_LINEAR_MASK</string>
+					<string>PSYS_PART_TARGET_POS_MASK</string>
+					<string>PSYS_PART_WIND_MASK</string>
+					<string>PSYS_SRC_ACCEL</string>
+					<string>PSYS_SRC_ANGLE_BEGIN</string>
+					<string>PSYS_SRC_ANGLE_END</string>
+					<string>PSYS_SRC_BURST_PART_COUNT</string>
+					<string>PSYS_SRC_BURST_RADIUS</string>
+					<string>PSYS_SRC_BURST_RATE</string>
+					<string>PSYS_SRC_BURST_SPEED_MAX</string>
+					<string>PSYS_SRC_BURST_SPEED_MIN</string>
+					<string>PSYS_SRC_MAX_AGE</string>
+					<string>PSYS_SRC_OMEGA</string>
+					<string>PSYS_SRC_PATTERN</string>
+					<string>PSYS_SRC_PATTERN_ANGLE</string>
+					<string>PSYS_SRC_PATTERN_ANGLE_CONE</string>
+					<string>PSYS_SRC_PATTERN_ANGLE_CONE_EMPTY</string>
+					<string>PSYS_SRC_PATTERN_DROP</string>
+					<string>PSYS_SRC_PATTERN_EXPLODE</string>
+					<string>PSYS_SRC_TARGET_KEY</string>
+					<string>PSYS_SRC_TEXTURE</string>
+					<string>PUBLIC_CHANNEL</string>
+					<string>PURSUIT_FUZZ_FACTOR</string>
+					<string>PURSUIT_GOAL_TOLERANCE</string>
+					<string>PURSUIT_INTERCEPT</string>
+					<string>PURSUIT_OFFSET</string>
+					<string>PU_EVADE_HIDDEN</string>
+					<string>PU_EVADE_SPOTTED</string>
+					<string>PU_FAILURE_DYNAMIC_PATHFINDING_DISABLED</string>
+					<string>PU_FAILURE_INVALID_GOAL</string>
+					<string>PU_FAILURE_INVALID_START</string>
+					<string>PU_FAILURE_NO_NAVMESH</string>
+					<string>PU_FAILURE_NO_VALID_DESTINATION</string>
+					<string>PU_FAILURE_OTHER</string>
+					<string>PU_FAILURE_PARCEL_UNREACHABLE</string>
+					<string>PU_FAILURE_TARGET_GONE</string>
+					<string>PU_FAILURE_UNREACHABLE</string>
+					<string>PU_GOAL_REACHED</string>
+					<string>PU_SLOWDOWN_DISTANCE_REACHED</string>
+					<string>RCERR_CAST_TIME_EXCEEDED</string>
+					<string>RCERR_SIM_PERF_LOW</string>
+					<string>RCERR_UNKNOWN</string>
+					<string>RC_DATA_FLAGS</string>
+					<string>RC_DETECT_PHANTOM</string>
+					<string>RC_GET_LINK_NUM</string>
+					<string>RC_GET_NORMAL</string>
+					<string>RC_GET_ROOT_KEY</string>
+					<string>RC_MAX_HITS</string>
+					<string>RC_REJECT_AGENTS</string>
+					<string>RC_REJECT_LAND</string>
+					<string>RC_REJECT_NONPHYSICAL</string>
+					<string>RC_REJECT_PHYSICAL</string>
+					<string>RC_REJECT_TYPES</string>
+					<string>REGION_FLAG_ALLOW_DAMAGE</string>
+					<string>REGION_FLAG_ALLOW_DIRECT_TELEPORT</string>
+					<string>REGION_FLAG_BLOCK_FLY</string>
+					<string>REGION_FLAG_BLOCK_TERRAFORM</string>
+					<string>REGION_FLAG_DISABLE_COLLISIONS</string>
+					<string>REGION_FLAG_DISABLE_PHYSICS</string>
+					<string>REGION_FLAG_FIXED_SUN</string>
+					<string>REGION_FLAG_RESTRICT_PUSHOBJECT</string>
+					<string>REGION_FLAG_SANDBOX</string>
+					<string>REMOTE_DATA_CHANNEL</string>
+					<string>REMOTE_DATA_REPLY</string>
+					<string>REMOTE_DATA_REQUEST</string>
+					<string>REQUIRE_LINE_OF_SIGHT</string>
+					<string>RESTITUTION</string>
+					<string>REVERSE</string>
+					<string>ROTATE</string>
+					<string>SCALE</string>
+					<string>SCRIPTED</string>
+					<string>SIM_STAT_PCT_CHARS_STEPPED</string>
+					<string>SMOOTH</string>
+					<string>STATUS_BLOCK_GRAB</string>
+					<string>STATUS_BLOCK_GRAB_OBJECT</string>
+					<string>STATUS_BOUNDS_ERROR</string>
+					<string>STATUS_CAST_SHADOWS</string>
+					<string>STATUS_DIE_AT_EDGE</string>
+					<string>STATUS_INTERNAL_ERROR</string>
+					<string>STATUS_MALFORMED_PARAMS</string>
+					<string>STATUS_NOT_FOUND</string>
+					<string>STATUS_NOT_SUPPORTED</string>
+					<string>STATUS_OK</string>
+					<string>STATUS_PHANTOM</string>
+					<string>STATUS_PHYSICS</string>
+					<string>STATUS_RETURN_AT_EDGE</string>
+					<string>STATUS_ROTATE_X</string>
+					<string>STATUS_ROTATE_Y</string>
+					<string>STATUS_ROTATE_Z</string>
+					<string>STATUS_SANDBOX</string>
+					<string>STATUS_TYPE_MISMATCH</string>
+					<string>STATUS_WHITELIST_FAILED</string>
+					<string>STRING_TRIM</string>
+					<string>STRING_TRIM_HEAD</string>
+					<string>STRING_TRIM_TAIL</string>
+					<string>TOUCH_INVALID_FACE</string>
+					<string>TRAVERSAL_TYPE</string>
+					<string>TRAVERSAL_TYPE_FAST</string>
+					<string>TRAVERSAL_TYPE_NONE</string>
+					<string>TRAVERSAL_TYPE_SLOW</string>
+					<string>TRUE</string>
+					<string>TYPE_FLOAT</string>
+					<string>TYPE_INTEGER</string>
+					<string>TYPE_INVALID</string>
+					<string>TYPE_KEY</string>
+					<string>TYPE_ROTATION</string>
+					<string>TYPE_STRING</string>
+					<string>TYPE_VECTOR</string>
+					<string>VEHICLE_ANGULAR_DEFLECTION_EFFICIENCY</string>
+					<string>VEHICLE_ANGULAR_DEFLECTION_TIMESCALE</string>
+					<string>VEHICLE_ANGULAR_FRICTION_TIMESCALE</string>
+					<string>VEHICLE_ANGULAR_MOTOR_DECAY_TIMESCALE</string>
+					<string>VEHICLE_ANGULAR_MOTOR_DIRECTION</string>
+					<string>VEHICLE_ANGULAR_MOTOR_TIMESCALE</string>
+					<string>VEHICLE_BANKING_EFFICIENCY</string>
+					<string>VEHICLE_BANKING_MIX</string>
+					<string>VEHICLE_BANKING_TIMESCALE</string>
+					<string>VEHICLE_BUOYANCY</string>
+					<string>VEHICLE_FLAG_CAMERA_DECOUPLED</string>
+					<string>VEHICLE_FLAG_HOVER_GLOBAL_HEIGHT</string>
+					<string>VEHICLE_FLAG_HOVER_TERRAIN_ONLY</string>
+					<string>VEHICLE_FLAG_HOVER_UP_ONLY</string>
+					<string>VEHICLE_FLAG_HOVER_WATER_ONLY</string>
+					<string>VEHICLE_FLAG_LIMIT_MOTOR_UP</string>
+					<string>VEHICLE_FLAG_LIMIT_ROLL_ONLY</string>
+					<string>VEHICLE_FLAG_MOUSELOOK_BANK</string>
+					<string>VEHICLE_FLAG_MOUSELOOK_STEER</string>
+					<string>VEHICLE_FLAG_NO_DEFLECTION_UP</string>
+					<string>VEHICLE_HOVER_EFFICIENCY</string>
+					<string>VEHICLE_HOVER_HEIGHT</string>
+					<string>VEHICLE_HOVER_TIMESCALE</string>
+					<string>VEHICLE_LINEAR_DEFLECTION_EFFICIENCY</string>
+					<string>VEHICLE_LINEAR_DEFLECTION_TIMESCALE</string>
+					<string>VEHICLE_LINEAR_FRICTION_TIMESCALE</string>
+					<string>VEHICLE_LINEAR_MOTOR_DECAY_TIMESCALE</string>
+					<string>VEHICLE_LINEAR_MOTOR_DIRECTION</string>
+					<string>VEHICLE_LINEAR_MOTOR_OFFSET</string>
+					<string>VEHICLE_LINEAR_MOTOR_TIMESCALE</string>
+					<string>VEHICLE_REFERENCE_FRAME</string>
+					<string>VEHICLE_TYPE_AIRPLANE</string>
+					<string>VEHICLE_TYPE_BALLOON</string>
+					<string>VEHICLE_TYPE_BOAT</string>
+					<string>VEHICLE_TYPE_CAR</string>
+					<string>VEHICLE_TYPE_NONE</string>
+					<string>VEHICLE_TYPE_SLED</string>
+					<string>VEHICLE_VERTICAL_ATTRACTION_EFFICIENCY</string>
+					<string>VEHICLE_VERTICAL_ATTRACTION_TIMESCALE</string>
+					<string>VERTICAL</string>
+					<string>WANDER_PAUSE_AT_WAYPOINTS</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.constant.string">
+				<strings>
+					<string>EOF</string>
+					<string>JSON_ARRAY</string>
+					<string>JSON_DELETE</string>
+					<string>JSON_FALSE</string>
+					<string>JSON_INVALID</string>
+					<string>JSON_NULL</string>
+					<string>JSON_NUMBER</string>
+					<string>JSON_OBJECT</string>
+					<string>JSON_STRING</string>
+					<string>JSON_TRUE</string>
+					<string>NULL_KEY</string>
+					<string>TEXTURE_BLANK</string>
+					<string>TEXTURE_DEFAULT</string>
+					<string>TEXTURE_MEDIA</string>
+					<string>TEXTURE_PLYWOOD</string>
+					<string>TEXTURE_TRANSPARENT</string>
+					<string>URL_REQUEST_DENIED</string>
+					<string>URL_REQUEST_GRANTED</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.constant.float">
+				<strings>
+					<string>DEG_TO_RAD</string>
+					<string>PI</string>
+					<string>PI_BY_TWO</string>
+					<string>RAD_TO_DEG</string>
+					<string>SQRT2</string>
+					<string>TWO_PI</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.constant.vector">
+				<strings>
+					<string>TOUCH_INVALID_TEXCOORD</string>
+					<string>TOUCH_INVALID_VECTOR</string>
+					<string>ZERO_VECTOR</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.constant.vector">
+				<strings>
+					<string>ZERO_ROTATION</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier">
+				<expression>(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*</expression>
+			</scope>
+		</collection>
 
-         <!-- !Syntax -->
-         <collection name="syntax">
-             <scope name="lsl.operator">
-                 <expression>(\+|\-|\*|/|%|\+\+|\-\-|\=|\=\=|!\=|\+\=|\-\=|\*\=|/\=|%\=|\&lt;|\&gt;|\&lt;\=|\&gt;=|\=\=\=|!\=\=|&amp;&amp;|\||\|\||!|\^|&amp;|\&lt;\&lt;|\&gt;\&gt;|~)</expression>
-             </scope>
-             <scope name="lsl.operator.spread">
-                 <expression>\.\.\.</expression>
-             </scope>
-             <scope name="lsl.dot">
-                 <expression>\.</expression>
-             </scope>
-             <scope name="lsl.bracket">
-                 <expression>[\(\[\)\]]</expression>
-             </scope>
-             <scope name="lsl.comma">
-                 <expression>,</expression>
-             </scope>
-             <scope name="lsl.semicolon">
-                 <expression>;</expression>
-             </scope>
-         </collection>
-     </collections>
- </syntax>
+		<!-- !Syntax -->
+		<collection name="syntax">
+			<scope name="lsl.operator">
+				<expression>(\+|\-|\*|/|%|\+\+|\-\-|\=|\=\=|!\=|\+\=|\-\=|\*\=|/\=|%\=|\&lt;|\&gt;|\&lt;\=|\&gt;=|\=\=\=|!\=\=|&amp;&amp;|\||\|\||!|\^|&amp;|\&lt;\&lt;|\&gt;\&gt;|~)</expression>
+			</scope>
+			<scope name="lsl.operator.spread">
+				<expression>\.\.\.</expression>
+			</scope>
+			<scope name="lsl.dot">
+				<expression>\.</expression>
+			</scope>
+			<scope name="lsl.bracket">
+				<expression>[\(\[\)\]]</expression>
+			</scope>
+			<scope name="lsl.comma">
+				<expression>,</expression>
+			</scope>
+			<scope name="lsl.semicolon">
+				<expression>;</expression>
+			</scope>
+		</collection>
+	</collections>
+</syntax>
