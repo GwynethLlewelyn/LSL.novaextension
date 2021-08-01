@@ -44,14 +44,12 @@
 		<pair open="{" close="}" />
 		<pair open="[" close="]" />
 		<pair open="(" close=")" />
-		<pair open="&apos;" close="&apos;" />
 		<pair open="&quot;" close="&quot;" />
-		<pair open="`" close="`" />
 	</surrounding-pairs>
 
 	<scopes>
 		<include syntax="self" collection="comments" />
-		<include syntax="self" collection="definitions" />
+		<include syntax="self" collection="pragmas" />
 		<include syntax="self" collection="variables" />
 		<include syntax="self" collection="functions" />
 		<include syntax="self" collection="keywords" />
@@ -98,270 +96,17 @@
 			</scope>
 		</collection>
 
-		<!-- !Definitions -->
+		<!-- !Pragmas (Firestorm only) -->
 		<collection name="definitions">
 
 		</collection>
 
 		<!-- !Variables -->
 		<collection name="variables">
-			<!-- !Named Function Variables -->
-			<scope name="lsl.definition.function.variable">
-				<symbol type="function">
-					<context behavior="subtree" foldable="false" />
-				</symbol>
-				<starts-with>
-					<expression>\b(let|var|const)\s+((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(=)\s*(?:(async)\s+)?(function)(\*)?(?=\s*\()</expression>
-					<capture number="1" name="lsl.keyword.construct" />
-					<capture number="2" name="lsl.function.identifier.name" />
-					<capture number="3" name="lsl.operator.equals" />
-					<capture number="4" name="lsl.keyword.modifier" />
-					<capture number="5" name="lsl.keyword.construct" />
-					<capture number="6" name="lsl.operator" />
-				</starts-with>
-				<ends-with />
-				<subscopes anchored="true">
-					<include syntax="self" collection="comments" optional="true" repeat="true" />
-					<include syntax="self" collection="arguments" />
-					<include syntax="self" collection="comments" optional="true" repeat="true" />
-					<include syntax="self" collection="function-blocks" />
-				</subscopes>
-			</scope>
-			<scope name="lsl.definition.function.variable">
-				<symbol type="function">
-					<context behavior="subtree" foldable="false" />
-				</symbol>
-				<starts-with>
-					<expression>((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(=)\s*(?:(async)\s+)?(function)(\*)?(?=\s*\()</expression>
-					<capture number="1" name="lsl.function.identifier.name" />
-					<capture number="2" name="lsl.operator.equals" />
-					<capture number="3" name="lsl.keyword.modifier" />
-					<capture number="4" name="lsl.keyword.construct" />
-					<capture number="5" name="lsl.operator" />
-				</starts-with>
-				<ends-with />
-				<subscopes anchored="true">
-					<include syntax="self" collection="comments" optional="true" repeat="true" />
-					<include syntax="self" collection="arguments" />
-					<include syntax="self" collection="comments" optional="true" repeat="true" />
-					<include syntax="self" collection="function-blocks" />
-				</subscopes>
-			</scope>
-
-			<!-- !Arrow Function Variables -->
-			<scope name="lsl.definition.function.arrow.named.local">
-				<symbol type="function">
-					<context behavior="subtree" foldable="false" />
-				</symbol>
-				<starts-with>
-					<expression>
-						\b(let|var|const)\s+((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(=)\s* # Variable
-						(?:(async)\s+)?(?=(?:
-							(?&lt;![A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]) # Not preceeded by an identifier
-							(?:\(
-								(?:
-									# Opening parenthesis preceeded by an identifier (function call)
-									((?&lt;=[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_])\()
-									# Closing parenthesis not followed by the arrow operator
-									| (\)(?!\s*=&gt;))
-									# All characters other than parenthesis
-									| [^\(\)]
-								)*
-							\)) # (arg, arg) =>
-							|(?:(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*) # arg =>
-						)\s*=&gt;\s*)
-					</expression>
-					<capture number="1" name="lsl.keyword.construct" />
-					<capture number="2" name="lsl.identifier.function.name" />
-					<capture number="3" name="lsl.operator.equals" />
-					<capture number="4" name="lsl.keyword.modifier" />
-				</starts-with>
-				<ends-with />
-				<subscopes anchored="true">
-					<include syntax="self" collection="comments" optional="true" repeat="true" />
-					<include syntax="self" collection="arrow-function-arguments" />
-					<include syntax="self" collection="comments" optional="true" repeat="true" />
-					<scope name="lsl.operator">
-						<expression>=&gt;</expression>
-					</scope>
-					<include syntax="self" collection="comments" optional="true" repeat="true" />
-					<include syntax="self" collection="arrow-function-body-expressions" />
-				</subscopes>
-			</scope>
-			<scope name="lsl.definition.function.arrow.named.global">
-				<symbol type="function">
-					<context behavior="subtree" foldable="false" />
-				</symbol>
-				<starts-with>
-					<expression>
-						((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(=)\s* # Variable
-						(?:(async)\s+)?(?=(?:
-							(?&lt;![A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]) # Not preceeded by an identifier
-							(?:\(
-								(?:
-									# Opening parenthesis preceeded by an identifier (function call)
-									((?&lt;=[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_])\()
-									# Closing parenthesis not followed by the arrow operator
-									| (\)(?!\s*=&gt;))
-									# All characters other than parenthesis
-									| [^\(\)]
-								)*
-							\)) # (arg, arg) =>
-							|(?:(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*) # arg =>
-						)\s*=&gt;\s*)
-					</expression>
-					<capture number="1" name="lsl.identifier.function.name" />
-					<capture number="2" name="lsl.operator.equals" />
-					<capture number="3" name="lsl.keyword.modifier" />
-				</starts-with>
-				<ends-with />
-				<subscopes anchored="true">
-					<include syntax="self" collection="comments" optional="true" repeat="true" />
-					<include syntax="self" collection="arrow-function-arguments" />
-					<include syntax="self" collection="comments" optional="true" repeat="true" />
-					<scope name="lsl.operator">
-						<expression>=&gt;</expression>
-					</scope>
-					<include syntax="self" collection="comments" optional="true" repeat="true" />
-					<include syntax="self" collection="arrow-function-body-expressions" />
-				</subscopes>
-			</scope>
-
-			<scope name="lsl.definition.property">
-				<symbol type="property" scope="private" />
-				<expression>(\#?[a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(\=)</expression>
-				<capture number="1" name="lsl.identifier.property.name" />
-				<capture number="2" name="lsl.operator" />
-			</scope>
-
-			<!-- !Destructuring Assignment -->
-			<scope name="lsl.destructure-assignment-array">
-				<starts-with>
-					<expression>\b(let|var|const)\s+(\[)(?=[a-zA-ZA-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_,\s\.]+\]\s*\=)</expression>
-					<capture number="1" name="lsl.keyword.construct" />
-					<capture number="2" name="lsl.destructure.bracket" />
-				</starts-with>
-				<ends-with>
-					<expression>\]</expression>
-					<capture number="0" name="lsl.destructure.bracket" />
-				</ends-with>
-				<subscopes>
-					<cut-off>
-						<expression>(?=\b(?:if|else|while|for)\b)</expression>
-					</cut-off>
-					<scope name="lsl.identifier">
-						<symbol type="variable" scope="local" />
-						<expression>(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*</expression>
-					</scope>
-					<scope name="lsl.rest">
-						<symbol type="variable" scope="local" />
-						<expression>(\.\.\.)((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)</expression>
-						<capture number="1" name="lsl.rest.operator" />
-						<capture number="2" name="lsl.rest.identifier.name" />
-					</scope>
-					<scope name="lsl.comma">
-						<expression>,</expression>
-					</scope>
-				</subscopes>
-			</scope>
-			<scope name="lsl.destructure-assignment-array">
-				<starts-with>
-					<expression>(?&lt;![a-zA-ZA-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_])(\[)(?=[a-zA-ZA-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_,\s\.]+\]\s*\=)</expression>
-					<capture number="1" name="lsl.destructure.bracket" />
-				</starts-with>
-				<ends-with>
-					<expression>\]</expression>
-					<capture number="0" name="lsl.destructure.bracket" />
-				</ends-with>
-				<subscopes>
-					<cut-off>
-						<expression>(?=\b(?:if|else|while|for)\b)</expression>
-					</cut-off>
-					<scope name="lsl.identifier">
-						<symbol type="variable" scope="local" />
-						<expression>(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*</expression>
-					</scope>
-					<scope name="lsl.rest">
-						<symbol type="variable" scope="local" />
-						<expression>(\.\.\.)((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)</expression>
-						<capture number="1" name="lsl.rest.operator" />
-						<capture number="2" name="lsl.rest.identifier.name" />
-					</scope>
-					<scope name="lsl.comma">
-						<expression>,</expression>
-					</scope>
-				</subscopes>
-			</scope>
-			<scope name="lsl.destructure-assignment-object">
-				<starts-with>
-					<expression>\b(let|var|const)\s+(\{)(?=[a-zA-ZA-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_,\s\.]+\}\s*\=)</expression>
-					<capture number="1" name="lsl.keyword.construct" />
-					<capture number="2" name="lsl.destructure.bracket" />
-				</starts-with>
-				<ends-with>
-					<expression>\}</expression>
-					<capture number="0" name="lsl.destructure.bracket" />
-				</ends-with>
-				<subscopes>
-					<cut-off>
-						<expression>(?=\b(?:if|else|while|for)\b)</expression>
-					</cut-off>
-					<scope name="lsl.identifier">
-						<symbol type="variable" scope="local" />
-						<expression>(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*</expression>
-					</scope>
-					<scope name="lsl.rest">
-						<symbol type="variable" scope="local" />
-						<expression>(\.\.\.)((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)</expression>
-						<capture number="1" name="lsl.rest.operator" />
-						<capture number="2" name="lsl.rest.identifier.name" />
-					</scope>
-					<scope name="lsl.comma">
-						<expression>,</expression>
-					</scope>
-				</subscopes>
-			</scope>
-			<scope name="lsl.destructure-assignment-object">
-				<starts-with>
-					<expression>(?&lt;![a-zA-ZA-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_])(\{)(?=[a-zA-ZA-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_,\s\.]+\}\s*\=)</expression>
-					<capture number="1" name="lsl.destructure.bracket" />
-				</starts-with>
-				<ends-with>
-					<expression>\}</expression>
-					<capture number="0" name="lsl.destructure.bracket" />
-				</ends-with>
-				<subscopes>
-					<cut-off>
-						<expression>(?=\b(?:if|else|while|for)\b)</expression>
-					</cut-off>
-					<scope name="lsl.identifier">
-						<symbol type="variable" scope="local" />
-						<expression>(?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*</expression>
-					</scope>
-					<scope name="lsl.rest">
-						<symbol type="variable" scope="local" />
-						<expression>(\.\.\.)((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)</expression>
-						<capture number="1" name="lsl.rest.operator" />
-						<capture number="2" name="lsl.rest.identifier.name" />
-					</scope>
-					<scope name="lsl.comma">
-						<expression>,</expression>
-					</scope>
-				</subscopes>
-			</scope>
-
-			<scope name="lsl.definition.constant.local">
-				<symbol type="constant" scope="local" />
-				<expression>\b(const)\s+([a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(\=)</expression>
-				<capture number="1" name="lsl.keyword.construct" />
-				<capture number="2" name="lsl.identifier.name" />
-				<capture number="3" name="lsl.operator" />
-			</scope>
-
 			<scope name="lsl.definition.variable.local">
 				<symbol type="variable" scope="local" />
-				<expression>\b(let|var)\s+([a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)\s*(\=)</expression>
-				<capture number="1" name="lsl.keyword.construct" />
+				<expression>\b(float|integer|key|list|quaternion|rotation|string|vector)\s+([a-zA-Z_][A-Za-z0-9_]*)\s*(\=)?</expression>
+				<capture number="1" name="lsl.identifier.type" />
 				<capture number="2" name="lsl.identifier.name" />
 				<capture number="3" name="lsl.operator" />
 			</scope>
@@ -592,60 +337,6 @@
 			</scope>
 		</collection>
 
-		<!-- !Properties -->
-		<collection name="properties">
-			<scope name="lsl.class-field-private">
-				<symbol type="property" scope="private" />
-				<starts-with>
-					<expression>(?:\b(static)\s+)?((\#)[a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)(?=\s*(?:\=|$))</expression>
-					<capture number="1" name="lsl.keyword.modifier" />
-					<capture number="2" name="lsl.identifier.name" />
-					<capture number="3" name="lsl.operator" />
-				</starts-with>
-				<ends-with>
-					<expression>(?=;|$)</expression>
-				</ends-with>
-				<subscopes>
-					<cut-off>
-						<expression>(?=\b(?:if|else|while|for)\b)</expression>
-					</cut-off>
-					<include syntax="self" collection="comments" />
-					<include syntax="self" collection="keywords" />
-					<include syntax="self" collection="values" />
-					<include syntax="self" collection="identifiers" />
-					<include syntax="self" collection="blocks" />
-					<scope name="lsl.operator.equals">
-						<expression>=</expression>
-					</scope>
-				</subscopes>
-			</scope>
-
-			<scope name="lsl.class-field">
-				<symbol type="property" />
-				<starts-with>
-					<expression>(?:\b(static)\s+)?([a-zA-Z_\$][A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)(?=\s*(?:\=|$))</expression>
-					<capture number="1" name="lsl.keyword.modifier" />
-					<capture number="2" name="lsl.identifier.name" />
-				</starts-with>
-				<ends-with>
-					<expression>(?=;|$)</expression>
-				</ends-with>
-				<subscopes>
-					<cut-off>
-						<expression>(?=\b(?:if|else|while|for)\b)</expression>
-					</cut-off>
-					<include syntax="self" collection="comments" />
-					<include syntax="self" collection="keywords" />
-					<include syntax="self" collection="values" />
-					<include syntax="self" collection="identifiers" />
-					<include syntax="self" collection="blocks" />
-					<scope name="lsl.operator.equals">
-						<expression>=</expression>
-					</scope>
-				</subscopes>
-			</scope>
-		</collection>
-
 		<!-- !Arguments for Functions -->
 		<collection name="arguments">
 			<scope name="lsl.arguments">
@@ -728,32 +419,6 @@
 				</subscopes>
 			</scope>
 
-			<scope name="lsl.argument.rest">
-				<symbol type="argument" />
-				<starts-with>
-					<expression>(\.\.\.)\b([a-zA-Z_][A-Za-z0-9_]*)\b</expression>
-					<capture number="1" name="lsl.operator" />
-					<capture number="2" name="lsl.identifier.argument.rest.name" />
-				</starts-with>
-				<ends-with>
-					<expression>(?=\)|\,)</expression>
-				</ends-with>
-				<subscopes anchored="true">
-					<scope name="lsl.argument.default-value">
-						<starts-with>
-							<expression>\=</expression>
-							<capture number="0" name="lsl.operator" />
-						</starts-with>
-						<ends-with>
-							<expression>(?=\)|\,)</expression>
-						</ends-with>
-						<subscopes anchored="true">
-							<include syntax="self" collection="expressions" repeat="true" />
-						</subscopes>
-					</scope>
-				</subscopes>
-			</scope>
-
 			<scope name="lsl.argument">
 				<symbol type="argument" />
 				<starts-with>
@@ -820,36 +485,8 @@
 		<collection name="keywords">
 			<scope name="lsl.keyword.construct">
 				<strings>
-					<string>class</string>
-					<string>const</string>
-					<string>constructor</string>
-					<string>enum</string>
-					<string>function</string>
-					<string>interface</string>
-					<string>label</string>
-					<string>let</string>
-					<string>new</string>
-					<string>package</string>
-					<string>var</string>
-					<string>void</string>
-				</strings>
-			</scope>
-			<scope name="lsl.keyword.modifier">
-				<strings>
-					<string>as</string>
-					<string>async</string>
-					<string>export</string>
-					<string>extends</string>
-					<string>from</string>
-					<string>implements</string>
-					<string>in</string>
-					<string>instanceof</string>
-					<string>of</string>
-					<string>private</string>
-					<string>protected</string>
-					<string>public</string>
-					<string>static</string>
-					<string>typeof</string>
+					<string>default</string>
+					<string>state</string>
 				</strings>
 			</scope>
 			<scope name="lsl.keyword.condition">
@@ -971,39 +608,12 @@
 					<include syntax="self" collection="expressions" />
 				</subscopes>
 			</scope>
-
-			<!-- !Quoted Keys -->
-			<scope name="lsl.key-expression.function.quoted">
-				<symbol type="method" />
-				<starts-with>
-					<expression>((&quot;|&apos;)((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)(\2))\s*(:)(?=\s*function\b)</expression>
-					<capture number="1" name="lsl.key.string" />
-					<capture number="2" name="lsl.key.string.delimiter" />
-					<capture number="3" name="lsl.identifier.key.name" />
-					<capture number="4" name="lsl.key.string.delimiter" />
-					<capture number="5" name="lsl.colon" />
-				</starts-with>
-				<ends-with>
-					<expression>(?=\}|,)</expression>
-				</ends-with>
-				<subscopes anchored="true">
-					<scope name="lsl.key-expression.function">
-						<expression>\b(function)(?:(\*)?|\b)</expression>
-						<capture number="1" name="lsl.function.keyword.construct" />
-						<capture number="2" name="lsl.operator" />
-					</scope>
-					<include syntax="self" collection="comments" optional="true" repeat="true" />
-					<include syntax="self" collection="arguments" />
-					<include syntax="self" collection="comments" optional="true" repeat="true" />
-					<include syntax="self" collection="function-blocks" />
-				</subscopes>
-			</scope>
 			<scope name="lsl.key-expression.quoted">
 				<symbol type="property">
 					<context behavior="subtree" />
 				</symbol>
 				<starts-with>
-					<expression>((&quot;|&apos;)((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)(\2))\s*(:)</expression>
+					<expression>((&quot;)((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)(\2))\s*(:)</expression>
 					<capture number="1" name="lsl.key.string" />
 					<capture number="2" name="lsl.key.string.delimiter" />
 					<capture number="3" name="lsl.identifier.key.name" />
@@ -1054,17 +664,17 @@
 
 			<scope name="lsl.value.null">
 				<strings>
-					<string>null</string>
-					<string>undefined</string>
-					<string>NaN</string>
-					<string>Infinity</string>
+					<string>JSON_NULL</string>
+					<string>NULL_KEY</string>
+					<string>ZERO_ROTATION</string>
+					<string>ZERO_VECTOR</string>
 				</strings>
 			</scope>
 
 			<scope name="lsl.value.boolean">
 				<strings>
-					<string>true</string>
-					<string>false</string>
+					<string>TRUE</string>
+					<string>FALSE</string>
 				</strings>
 			</scope>
 
@@ -1092,7 +702,6 @@
 				</expression>
 				<capture number="1" name="lsl.operator" />
 			</scope>
-
 			<scope name="lsl.collection.array">
 				<starts-with>
 					<expression>\[</expression>
@@ -1110,33 +719,11 @@
 
 		<!-- !Strings -->
 		<collection name="strings">
-			<scope name="lsl.string.backtick-quoted">
-				<starts-with>
-					<expression>`</expression>
-					<capture number="0" name="lsl.string.backtick-quoted.delimiter" />
-				</starts-with>
-				<ends-with>
-					<expression>`</expression>
-					<capture number="0" name="lsl.string.backtick-quoted.delimiter" />
-				</ends-with>
-				<subscopes>
-					<scope name="lsl.string.backtick-quoted.escape">
-						<expression>\\.</expression>
-					</scope>
-					<scope name="lsl.string-template-block" reset-styles="true">
-						<starts-with>
-							<expression>\$\{</expression>
-							<capture number="0" name="lsl.string-template.open" />
-						</starts-with>
-						<ends-with>
-							<expression>\}</expression>
-							<capture number="0" name="lsl.string-template.close" />
-						</ends-with>
-						<subscopes>
-							<include syntax="self" collection="string-literal-inline-expressions" />
-						</subscopes>
-					</scope>
-				</subscopes>
+			<scope name="lsl.string.key">
+				<expression>(&quot;)([0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12})(&quot;)</expression>
+				<capture number="0" name="lsl.string.double-quoted.delimiter" />
+				<capture number="1" name="lsl.string.key.uuid" />
+				<capture number="2" name="lsl.string.double-quoted.delimiter" />
 			</scope>
 			<scope name="lsl.string.double-quoted">
 				<starts-with>
@@ -1149,21 +736,6 @@
 				</ends-with>
 				<subscopes>
 					<scope name="lsl.string.double-quoted.escape">
-						<expression>\\.</expression>
-					</scope>
-				</subscopes>
-			</scope>
-			<scope name="lsl.string.single-quoted">
-				<starts-with>
-					<expression>&apos;</expression>
-					<capture number="0" name="lsl.string.single-quoted.delimiter" />
-				</starts-with>
-				<ends-with>
-					<expression>&apos;|(?:(?&lt;!\\)$)</expression>
-					<capture number="0" name="lsl.string.single-quoted.delimiter" />
-				</ends-with>
-				<subscopes>
-					<scope name="lsl.string.single-quoted.escape">
 						<expression>\\.</expression>
 					</scope>
 				</subscopes>
@@ -1201,30 +773,20 @@
 			</scope>
 		</collection>
 
-		<!-- !Expressions for String Literals -->
-		<collection name="string-literal-inline-expressions">
-			<scope name="lsl.string-literal.inline-expression">
-				<starts-with>
-					<expression>(?=[^;|{])</expression>
-				</starts-with>
-				<ends-with>
-					<expression>(?=\})</expression>
-				</ends-with>
-				<subscopes>
-					<include syntax="self" collection="expressions" />
-				</subscopes>
-			</scope>
-		</collection>
-
 		<!-- !Identifiers -->
 		<collection name="identifiers">
-			<scope name="lsl.identifier.core.states">
+			<scope name="lsl.identifier.core.function">
 				<strings prefix="(?&lt;!\.)">
 					<string>default</string>
 					<string>state</string>
 				</strings>
 			</scope>
-			<scope name="lsl.identifier.core.events">
+			<scope name="lsl.identifier.core.reserved">
+				<strings prefix="(?&lt;!\.)">
+					<string>event</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.core.function.event">
 				<strings prefix="(?&lt;!\.)">
 					<string>at_rot_target</string>
 					<string>at_target</string>
@@ -1671,7 +1233,7 @@
 				<expression>"(?&lt;!\.)ll([a-zA-Z_]+[a-zA-Z0-9_]*)(?=\()"</expression>
 				<capture number="1" name="lsl.identifier.function.name" />
 			</scope>
-			<scope name="lsl.identifier.ossl.function.avatar">
+			<scope name="lsl.identifier.core.function.ossl.avatar">
 				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
 					<string>osAddAgentToGroup</string>
 					<string>osAgentSaveAppearance</string>
@@ -1716,7 +1278,7 @@
 					<string>osReplaceAgentEnvironment</string>
 				</strings>
 			</scope>
-			<scope name="lsl.identifier.ossl.function.npc">
+			<scope name="lsl.identifier.core.function.ossl.npc">
 				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
 					<string>osIsNpc</string>
 					<string>osNpcCreate</string>
@@ -1745,7 +1307,7 @@
 					<string>osNpcWhisper</string>
 				</strings>
 			</scope>
-			<scope name="lsl.identifier.ossl.function.prim">
+			<scope name="lsl.identifier.core.function.ossl.prim">
 				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
 					<string>osClearInertia</string>
 					<string>osClearObjectAnimations</string>
@@ -1785,7 +1347,7 @@
 					<string>osVolumeDetect</string>
 				</strings>
 			</scope>
-			<scope name="lsl.identifier.ossl.function.prim.drawing">
+			<scope name="lsl.identifier.core.function.ossl.prim.drawing">
 				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
 					<string>osDrawEllipse</string>
 					<string>osDrawFilledEllipse</string>
@@ -1840,14 +1402,14 @@
 					<string>osTriggerSoundLimited</string>
 				</strings>
 			</scope>
-			<scope name="lsl.identifier.ossl.function.http">
+			<scope name="lsl.identifier.core.function.ossl.http">
 				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
 					<string>osRequestSecureURL</string>
 					<string>osRequestURL</string>
 					<string>osSetContentType</string>
 				</strings>
 			</scope>
-			<scope name="lsl.identifier.ossl.function.parcel">
+			<scope name="lsl.identifier.core.function.ossl.parcel">
 				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
 					<string>osParcelJoin</string>
 					<string>osParcelSubdivide</string>
@@ -1855,7 +1417,7 @@
 					<string>osSetParcelDetails</string>
 				</strings>
 			</scope>
-			<scope name="lsl.identifier.ossl.function.terrain">
+			<scope name="lsl.identifier.core.function.ossl.terrain">
 				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
 					<string>osGetTerrainHeight</string>
 					<string>osSetTerrainHeight</string>
@@ -1864,7 +1426,7 @@
 					<string>osTerrainFlush</string>
 				</strings>
 			</scope>
-			<scope name="lsl.identifier.ossl.function.region">
+			<scope name="lsl.identifier.core.function.ossl.region">
 				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
 					<string>osGetCurrentSunHour</string>
 					<string>osGetApparentTime</string>
@@ -1880,7 +1442,7 @@
 					<string>osResetEnvironment</string>
 				</strings>
 			</scope>
-			<scope name="lsl.identifier.ossl.function.grid">
+			<scope name="lsl.identifier.core.function.ossl.grid">
 				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
 					<string>osCheckODE</string>
 					<string>osGetGridCustom</string>
@@ -1904,7 +1466,7 @@
 					<string>osLoadedCreationTime</string>
 				</strings>
 			</scope>
-			<scope name="lsl.identifier.ossl.function.administration">
+			<scope name="lsl.identifier.core.function.ossl.administration">
 				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
 					<string>osConsoleCommand</string>
 					<string>osRegionNotice</string>
@@ -1914,12 +1476,12 @@
 					<string>osSetParcelSIPAddress</string>
 				</strings>
 			</scope>
-			<scope name="lsl.identifier.ossl.function.script">
+			<scope name="lsl.identifier.core.function.ossl.script">
 				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
 					<string>osResetAllScripts</string>
 				</strings>
 			</scope>
-			<scope name="lsl.identifier.ossl.function.string">
+			<scope name="lsl.identifier.core.function.ossl.string">
 				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
 					<string>osFormatString</string>
 					<string>osListenRegex</string>
@@ -1935,7 +1497,7 @@
 					<string>osStringReplace</string>
 				</strings>
 			</scope>
-			<scope name="lsl.identifier.ossl.function.misc">
+			<scope name="lsl.identifier.core.function.ossl.misc">
 				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
 					<string>osAngleBetween</string>
 					<string>osApproxEquals</string>
@@ -1954,7 +1516,7 @@
 					<string>osVecMagSquare</string>
 				</strings>
 			</scope>
-			<scope name="lsl.identifier.ossl.function.deprecated">
+			<scope name="lsl.identifier.core.function.ossl.deprecated">
 				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
 					<string>osParcelSetDetails</string>
 					<string>osSetPenColour</string>
@@ -1972,7 +1534,8 @@
 					<string>osSetPrimFloatOnWater</string>
 				</strings>
 			</scope>
-			<scope name="lsl.identifier.core.storage-type">
+			<scope name="lsl.identifier.type">
+				<symbol type="type" />
 				<strings>
 					<string>float</string>
 					<string>integer</string>
@@ -1986,9 +1549,6 @@
 			</scope>
 			<scope name="lsl.identifier.function">
 				<expression>(?&lt;!\.)((?:\b[a-zA-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*)(?=\()</expression>
-			</scope>
-			<scope name="lsl.identifier.constant">
-				<expression>(?&lt;![a-z0-9_])(?:\b[A-Z_]|\$)[A-Za-zÀ-ÖØ-öø-ÿŸřŘšŠžŽ0-9_]*</expression>
 			</scope>
 			<scope name="lsl.identifier.constant.integer">
 				<strings>
@@ -2772,7 +2332,7 @@
 					<string>WL_WATER_FOG_DENSITY_EXPONENT</string>
 				</strings>
 			</scope>
-			<scope name="lsl.identifier.constant.integer.ossl">
+			<scope name="lsl.identifier.constant.integer.ossl.img">
 				<strings>
 					<string>IMG_USE_BAKED_AUX1</string>
 					<string>IMG_USE_BAKED_AUX2</string>

@@ -189,7 +189,6 @@ ProcessThemes(string data, key id) // key id could be use for dialog message or 
 }
 default
 {
-
 	link_message(integer sender_num, integer num, string str, key id)
 	{
 		if (str == "SetUserKey") {
