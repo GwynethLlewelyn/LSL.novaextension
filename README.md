@@ -7,22 +7,24 @@ A Nova extension providing syntax highlighting for Linden Scripting Language (LS
 
 ## Language Support
 
-This extension currently supports the following features of Linden Scripting Language:
+### This extension currently supports the following features of Linden Scripting Language:
 
 - Syntax Highlighting for the latest version of LSL (as of the time of releasing this extension)
 - Auto-completions for major LSL constructions and functions (as far as I could make them work)
 - OpenSimulator LSL functions/constants
 
-Still missing:
+### Still missing syntax highlighting for:
 
 - Experiences
 - EEP settings
 - And probably a lot more that hasn't been updated to the SL Wiki yet...
-- Distinguishing global from local scopes for variables. This shouldn't be too hard, since LSL is rather rigid with declarations, but I haven't done it yet.
 
-Not done yet:
+### Not done yet:
 
 - Adding tooltips and parameter completion for _all_ functions (there are hundreds!)
+- Distinguishing global from local scopes for variables. This shouldn't be too hard, since LSL is rather rigid with declarations, but I haven't done it yet.
+
+## Disclaimers, Acknowledgements & Warnings
 
 Note that LSL is a language in perpetual flux, with Linden Lab constantly adding new features and functionality, and
 sometimes making older versions obsolete, shuffling parameters around, etc. so at some point in time this extension will
@@ -38,10 +40,10 @@ don't expect the results to be _exactly_ the same as inside the viewer's editor.
 your Nova theme, not the conventions set by Linden Lab. It's theoretically possible to create a new, specific theme to deal
 with the LL colour conventions, but I haven't done that yet (I'm not expecting many people to use _this_ extension!).
 
-## Disclaimer
+## Legal Acknowledgements
 
 Second Life®, Linden Scripting Language and the inSL logo are trademarks of Linden Research, Inc. No infringement is intended.
 
 Nova® is a registered trademark of Panic Inc.
 
-Gwyneth Llewelyn is not affiliated with either of these two companies, much less endorsed by any of them.
+Gwyneth Llewelyn is not affiliated with either of these companies, much less endorsed by any of them.
