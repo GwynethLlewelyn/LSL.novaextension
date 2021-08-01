@@ -105,7 +105,7 @@
 		<collection name="variables">
 			<scope name="lsl.definition.variable.local">
 				<symbol type="variable" scope="local" />
-				<expression>\b(float|integer|key|list|quaternion|rotation|string|vector)\s+([a-zA-Z_][A-Za-z0-9_]*)\s*(\=)?</expression>
+				<expression>\b(float|integer|key|list|quaternion|rotation|string|vector)\s+([a-zA-Z_][A-Za-z0-9_]*)\s*(\=|\;|\,)</expression>
 				<capture number="1" name="lsl.identifier.type" />
 				<capture number="2" name="lsl.identifier.name" />
 				<capture number="3" name="lsl.operator" />
