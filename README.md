@@ -18,6 +18,7 @@ Still missing:
 - Experiences
 - EEP settings
 - And probably a lot more that hasn't been updated to the SL Wiki yet...
+- Distinguishing global from local scopes for variables. This shouldn't be too hard, since LSL is rather rigid with declarations, but I haven't done it yet.
 
 Not done yet:
 
