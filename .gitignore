@@ -46,7 +46,6 @@ Temporary Items
 *.o
 *.a
 *.so
-Tools
 
 # Folders
 _obj
