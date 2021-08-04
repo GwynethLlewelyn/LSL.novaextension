@@ -5,7 +5,7 @@
 
 A Nova extension providing syntax highlighting for Linden Scripting Language (LSL), the scripting language used in the Second Life® and OpenSimulator virtual world platforms.
 
-Based on the amazing work providing (version 0.0.20210612000)
+Based on the amazing work by Sei Lisa and Mako Nozaki, who compiled the [LSL2 Keywords Database](https://github.com/Sei-Lisa/kwdb) (version 0.0.20210612000), without which I would need to do everything manually (like I did for the first release!).
 
 ## Language Support
 
@@ -17,28 +17,27 @@ Based on the amazing work providing (version 0.0.20210612000)
 
 ### Not done yet:
 
-- Adding tooltips and parameter completion for _all_ functions
+- Adding tooltips and parameter auto-completion for _all_ functions
 - Distinguishing global from local scopes for variables. This shouldn't be too hard, since LSL is rather rigid with declarations, but I haven't done it yet.
+- Automagically updating the syntax auto-completions every time Lisa & Nozaki update their own database
 
 ## Disclaimers, Acknowledgements & Warnings
 
-Like many other LSL syntax highlighters, this extension now uses the most excellent work done by Sei Lisa and Mako Nozaki
-on the LSL2/OSSL/AA Keywords Database and Derived Files Generator (also known as [KWDB](https://github.com/Sei-Lisa/kwdb)),
-providing a complete LSL2 Keywords Database for Second Life®, OpenSimulator, and AuroraSim.
+Like many other LSL syntax highlighters, this extension now uses the most excellent work done by Sei Lisa and Mako Nozaki on the LSL2/OSSL/AA Keywords Database and Derived Files Generator (also known as [KWDB](https://github.com/Sei-Lisa/kwdb)), providing a complete LSL2 Keywords Database for Second Life®, OpenSimulator, and AuroraSim.
 
-While not affiliated with Linden Lab, the developers of *KWDB* have collected information from a lot of different sources
-and attempt to maintain a list of keywords as current as possible. They also provide a few conversion utilities to
-transform the `kwdb.xml` database into several popular syntax highlighting schemes.
+While not affiliated with Linden Lab, the developers of *KWDB* have collected information from a lot of different sources and attempt to maintain a list of keywords as current as possible. They also provide a few conversion utilities to transform the `kwdb.xml` database into several popular syntax highlighting schemes.
 
-But please note that LSL is a language in perpetual flux, with Linden Lab (and the OpenSimulator core developer team!)
-constantly adding new features and functionality, and sometimes making older versions obsolete, shuffling parameters
-around, etc. so at some point in time this extension will be inevitably out of sync, until I figure out a way
-to automatically parse the XML from the KWDB from within this Nova extension...
+But please note that LSL is a language in perpetual flux, with Linden Lab (and the OpenSimulator core developer team!) constantly adding new features and functionality, and sometimes making older versions obsolete, shuffling parameters around, etc. so at some point in time this extension will be inevitably out of sync, until I figure out a way to automatically parse the XML from the KWDB from within this Nova extension...
 
-While this extension is _mostly_ working, and should give you adequate syntax colouring (and even reasonable scoping),
-don't expect the results to be _exactly_ the same as inside the viewer's editor. In particular, the colours will match
-your Nova theme, not the conventions set by Linden Lab. It's theoretically possible to create a new, specific theme to deal
-with the LL colour conventions, but I haven't done that yet (I'm not expecting many people to use _this_ extension!).
+While this extension is _mostly_ working, and should give you adequate syntax colouring (and even reasonable scoping) don't expect the results to be _exactly_ the same as inside the viewer's editor. In particular, the colours will match your Nova theme, not the conventions set by Linden Lab. It's theoretically possible to create a new, specific theme to deal with the LL colour conventions, but I haven't done that yet (I'm not expecting many people to use _this_ extension!).
+
+## Extra goodies!
+
+Warning: for tinkerers, hackers, and hard-core Nova extension programmers only!
+
+I've used the directory `/Tools` to keep around a few tools used to extract information from the *KWDB* and convert it into the XML that the Nova syntax extensions require. You're welcome to tinker with those, as well as submit push requests with your own contributions.
+
+Although it's more conventional to do those tools in either Perl or Python, which are especially well-suited to the task of parsing XML quickly, or, alternatively, do them in JavaScript, so that they could be simply integrated into Nova, I'm not proficient enough in either of those, so I simply did it in Go. The directory also includes a [README.md](Tools/README.md) with some simple tips on how to properly compile those.
 
 ## Legal Acknowledgements
 
@@ -46,8 +45,8 @@ Second Life®, Linden Scripting Language and the inSL logo are trademarks of Lin
 
 Nova® and the Nova logo are registered trademarks of Panic Inc.
 
-The KWDB (a.k.a. LSL2/OSSL/AA Keywords Database and Derived Files Generator) is copyrighted by Sei Lisa and Mako Nozaki
-and released under a [GNU Lesser General Public License 3](http://www.gnu.org/licenses/lgpl-3.0.html),
-with parts also copyrighted by Linden Lab and released under the same license.
+The KWDB (a.k.a. LSL2/OSSL/AA Keywords Database and Derived Files Generator) is copyrighted by Sei Lisa and Mako Nozaki and released under a [GNU Lesser General Public License 3](http://www.gnu.org/licenses/lgpl-3.0.html), with parts also copyrighted by Linden Lab and released under the same license.
+
+Some of the test files under the `/Tests` directory have been shamelessly copied from the LSL Portal section of the [Second Life Wiki](http://wiki.secondlife.com/wiki/LSL_Portal); their authors are credited on each of them.
 
 Gwyneth Llewelyn is not affiliated with either of these companies or organisations, much less endorsed by any of them.
