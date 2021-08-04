@@ -102,7 +102,7 @@
 	</set>
 
 	<!-- Globals -->
-	<set name="lsl.globals">
+	<set name="lsl.globals" symbol="constant" >
 		<completion string="FALSE" />
 		<completion string="TRUE" />
 		<completion string="NULL_KEY" />
@@ -212,7 +212,7 @@
 		<completion string="land_collision_start" />
 		<completion string="land_collision" />
 		<completion string="link_message">
-			<description>Triggered when object receives a link message via llMessageLinked function call.</description>
+			<description>Triggered when object receives a link message via llMessageLinked function call</description>
 			<behavior>
 				<append>(integer sender_num, integer num, string str, key id)</append>
 			</behavior>
