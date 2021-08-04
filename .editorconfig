@@ -9,3 +9,7 @@ indent_style = tab
 indent_size = tab
 tab_width = 4
 trim_trailing_whitespace = true
+
+# The property below is not yet universally supported
+[*.md]
+max_line_length = 108
