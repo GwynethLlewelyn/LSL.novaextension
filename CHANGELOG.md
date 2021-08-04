@@ -4,4 +4,4 @@ Syntax highlighting now based on parsing elements of the KWDB LSL2 Keywords Data
 
 ## Version 1.0.0
 
-Initial release with most of the syntax, some completions, and a menu option.
+Initial release with most of the syntax, some auto-completions, and a menu option.
