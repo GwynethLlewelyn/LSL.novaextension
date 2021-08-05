@@ -7,7 +7,7 @@
 	</meta>
 
 	<detectors>
-		<extension priority="1.0">lsl</extension>
+		<extension priority="1.0">lsl,ossl</extension>
 		<match-content lines="5" priority="1.0">^(//)?\s*vi:\s*(syntax|ft)=(lsl|Linden Scripting Language)\b</match-content>
 	</detectors>
 
@@ -792,17 +792,19 @@
 					<string>at_target</string>
 					<string>attach</string>
 					<string>changed</string>
-					<string>collision</string>
 					<string>collision_end</string>
 					<string>collision_start</string>
+					<string>collision</string>
 					<string>control</string>
 					<string>dataserver</string>
 					<string>email</string>
+					<string>experience_permissions_denied</string>
+					<string>experience_permissions</string>
 					<string>http_request</string>
 					<string>http_response</string>
-					<string>land_collision</string>
 					<string>land_collision_end</string>
 					<string>land_collision_start</string>
+					<string>land_collision</string>
 					<string>link_message</string>
 					<string>listen</string>
 					<string>money</string>
@@ -820,9 +822,9 @@
 					<string>state_entry</string>
 					<string>state_exit</string>
 					<string>timer</string>
-					<string>touch</string>
 					<string>touch_end</string>
 					<string>touch_start</string>
+					<string>touch</string>
 					<string>transaction_result</string>
 				</strings>
 			</scope>
@@ -833,6 +835,7 @@
 					<string>llAddToLandBanList</string>
 					<string>llAddToLandPassList</string>
 					<string>llAdjustSoundVolume</string>
+					<string>llAgentInExperience</string>
 					<string>llAllowInventoryDrop</string>
 					<string>llAngleBetween</string>
 					<string>llApplyImpulse</string>
@@ -842,6 +845,7 @@
 					<string>llAttachToAvatar</string>
 					<string>llAttachToAvatarTemp</string>
 					<string>llAvatarOnLinkSitTarget</string>
+					<string>llAvatarOnLinkSitTarget</string>
 					<string>llAvatarOnSitTarget</string>
 					<string>llAxes2Rot</string>
 					<string>llAxisAngle2Rot</string>
@@ -849,19 +853,26 @@
 					<string>llBase64ToString</string>
 					<string>llBreakAllLinks</string>
 					<string>llBreakLink</string>
-					<string>llCSV2List</string>
 					<string>llCastRay</string>
 					<string>llCeil</string>
+					<string>llChar</string>
 					<string>llClearCameraParams</string>
+					<string>llClearExperiencePermissions</string>
 					<string>llClearLinkMedia</string>
 					<string>llClearPrimMedia</string>
 					<string>llCloseRemoteDataChannel</string>
+					<string>llCloud</string>
 					<string>llCollisionFilter</string>
 					<string>llCollisionSound</string>
+					<string>llCollisionSprite</string>
 					<string>llCos</string>
 					<string>llCreateCharacter</string>
+					<string>llCreateKeyValue</string>
 					<string>llCreateLink</string>
+					<string>llCSV2List</string>
+					<string>llDataSizeKeyValue</string>
 					<string>llDeleteCharacter</string>
+					<string>llDeleteKeyValue</string>
 					<string>llDeleteSubList</string>
 					<string>llDeleteSubString</string>
 					<string>llDetachFromAvatar</string>
@@ -908,6 +919,7 @@
 					<string>llGetAnimationList</string>
 					<string>llGetAnimationOverride</string>
 					<string>llGetAttached</string>
+					<string>llGetAttachedList</string>
 					<string>llGetBoundingBox</string>
 					<string>llGetCameraPos</string>
 					<string>llGetCameraRot</string>
@@ -916,15 +928,22 @@
 					<string>llGetColor</string>
 					<string>llGetCreator</string>
 					<string>llGetDate</string>
+					<string>llGetDayLength</string>
+					<string>llGetDayOffset</string>
 					<string>llGetDisplayName</string>
 					<string>llGetEnergy</string>
 					<string>llGetEnv</string>
+					<string>llGetEnvironment</string>
+					<string>llGetExperienceDetails</string>
+					<string>llGetExperienceErrorMessage</string>
+					<string>llGetExperienceList</string>
 					<string>llGetForce</string>
 					<string>llGetFreeMemory</string>
 					<string>llGetFreeURLs</string>
-					<string>llGetGMTclock</string>
 					<string>llGetGeometricCenter</string>
+					<string>llGetGMTclock</string>
 					<string>llGetHTTPHeader</string>
+					<string>llGetInventoryAcquireTime</string>
 					<string>llGetInventoryCreator</string>
 					<string>llGetInventoryKey</string>
 					<string>llGetInventoryName</string>
@@ -948,11 +967,14 @@
 					<string>llGetMaxScaleFactor</string>
 					<string>llGetMemoryLimit</string>
 					<string>llGetMinScaleFactor</string>
+					<string>llGetMoonDirection</string>
+					<string>llGetMoonRotation</string>
 					<string>llGetNextEmail</string>
 					<string>llGetNotecardLine</string>
 					<string>llGetNumberOfNotecardLines</string>
 					<string>llGetNumberOfPrims</string>
 					<string>llGetNumberOfSides</string>
+					<string>llGetObjectAnimationNames</string>
 					<string>llGetObjectDesc</string>
 					<string>llGetObjectDetails</string>
 					<string>llGetObjectMass</string>
@@ -972,28 +994,36 @@
 					<string>llGetPermissionsKey</string>
 					<string>llGetPhysicsMaterial</string>
 					<string>llGetPos</string>
-					<string>llGetPrimMediaParams</string>
 					<string>llGetPrimitiveParams</string>
+					<string>llGetPrimMediaParams</string>
 					<string>llGetRegionAgentCount</string>
 					<string>llGetRegionCorner</string>
-					<string>llGetRegionFPS</string>
+					<string>llGetRegionDayLength</string>
+					<string>llGetRegionDayOffset</string>
 					<string>llGetRegionFlags</string>
+					<string>llGetRegionFPS</string>
+					<string>llGetRegionMoonDirection</string>
+					<string>llGetRegionMoonRotation</string>
 					<string>llGetRegionName</string>
+					<string>llGetRegionSunDirection</string>
+					<string>llGetRegionSunRotation</string>
 					<string>llGetRegionTimeDilation</string>
+					<string>llGetRegionTimeOfDay</string>
 					<string>llGetRootPosition</string>
 					<string>llGetRootRotation</string>
 					<string>llGetRot</string>
-					<string>llGetSPMaxMemory</string>
 					<string>llGetScale</string>
 					<string>llGetScriptName</string>
 					<string>llGetScriptState</string>
 					<string>llGetSimStats</string>
 					<string>llGetSimulatorHostname</string>
+					<string>llGetSPMaxMemory</string>
 					<string>llGetStartParameter</string>
 					<string>llGetStaticPath</string>
 					<string>llGetStatus</string>
 					<string>llGetSubString</string>
 					<string>llGetSunDirection</string>
+					<string>llGetSunRotation</string>
 					<string>llGetTexture</string>
 					<string>llGetTextureOffset</string>
 					<string>llGetTextureRot</string>
@@ -1010,11 +1040,13 @@
 					<string>llGiveInventory</string>
 					<string>llGiveInventoryList</string>
 					<string>llGiveMoney</string>
+					<string>llGodLikeRezObject</string>
 					<string>llGround</string>
 					<string>llGroundContour</string>
 					<string>llGroundNormal</string>
 					<string>llGroundRepel</string>
 					<string>llGroundSlope</string>
+					<string>llHash</string>
 					<string>llHTTPRequest</string>
 					<string>llHTTPResponse</string>
 					<string>llInsertString</string>
@@ -1025,7 +1057,12 @@
 					<string>llJsonSetValue</string>
 					<string>llJsonValueType</string>
 					<string>llKey2Name</string>
+					<string>llKeyCountKeyValue</string>
+					<string>llKeysKeyValue</string>
+					<string>llLinear2sRGB</string>
+					<string>llLinkLookAt</string>
 					<string>llLinkParticleSystem</string>
+					<string>llLinkRotLookAt</string>
 					<string>llLinkSitTarget</string>
 					<string>llList2CSV</string>
 					<string>llList2Float</string>
@@ -1037,15 +1074,15 @@
 					<string>llList2Rot</string>
 					<string>llList2String</string>
 					<string>llList2Vector</string>
+					<string>llListen</string>
+					<string>llListenControl</string>
+					<string>llListenRemove</string>
 					<string>llListFindList</string>
 					<string>llListInsertList</string>
 					<string>llListRandomize</string>
 					<string>llListReplaceList</string>
 					<string>llListSort</string>
 					<string>llListStatistics</string>
-					<string>llListen</string>
-					<string>llListenControl</string>
-					<string>llListenRemove</string>
 					<string>llLoadURL</string>
 					<string>llLog</string>
 					<string>llLog10</string>
@@ -1053,17 +1090,24 @@
 					<string>llLoopSound</string>
 					<string>llLoopSoundMaster</string>
 					<string>llLoopSoundSlave</string>
-					<string>llMD5String</string>
+					<string>llMakeExplosion</string>
+					<string>llMakeFire</string>
+					<string>llMakeFountain</string>
+					<string>llMakeSmoke</string>
 					<string>llManageEstateAccess</string>
 					<string>llMapDestination</string>
+					<string>llMD5String</string>
 					<string>llMessageLinked</string>
 					<string>llMinEventDelay</string>
-					<string>llModPow</string>
 					<string>llModifyLand</string>
+					<string>llModPow</string>
 					<string>llMoveToTarget</string>
+					<string>llName2Key</string>
 					<string>llNavigateTo</string>
 					<string>llOffsetTexture</string>
+					<string>llOpenFloater</string>
 					<string>llOpenRemoteDataChannel</string>
+					<string>llOrd</string>
 					<string>llOverMyLand</string>
 					<string>llOwnerSay</string>
 					<string>llParcelMediaCommandList</string>
@@ -1076,27 +1120,36 @@
 					<string>llPatrolPoints</string>
 					<string>llPlaySound</string>
 					<string>llPlaySoundSlave</string>
+					<string>llPointAt</string>
 					<string>llPow</string>
 					<string>llPreloadSound</string>
 					<string>llPursue</string>
 					<string>llPushObject</string>
+					<string>llReadKeyValue</string>
+					<string>llRefreshPrimURL</string>
 					<string>llRegionSay</string>
 					<string>llRegionSayTo</string>
+					<string>llReleaseCamera</string>
 					<string>llReleaseControls</string>
 					<string>llReleaseURL</string>
 					<string>llRemoteDataReply</string>
+					<string>llRemoteDataSetRegion</string>
+					<string>llRemoteLoadScript</string>
 					<string>llRemoteLoadScriptPin</string>
 					<string>llRemoveFromLandBanList</string>
 					<string>llRemoveFromLandPassList</string>
 					<string>llRemoveInventory</string>
 					<string>llRemoveVehicleFlags</string>
+					<string>llReplaceAgentEnvironment</string>
 					<string>llRequestAgentData</string>
 					<string>llRequestDisplayName</string>
+					<string>llRequestExperiencePermissions</string>
 					<string>llRequestInventoryData</string>
 					<string>llRequestPermissions</string>
 					<string>llRequestSecureURL</string>
 					<string>llRequestSimulatorData</string>
 					<string>llRequestURL</string>
+					<string>llRequestUserKey</string>
 					<string>llRequestUsername</string>
 					<string>llResetAnimationOverride</string>
 					<string>llResetLandBanList</string>
@@ -1114,13 +1167,12 @@
 					<string>llRot2Fwd</string>
 					<string>llRot2Left</string>
 					<string>llRot2Up</string>
+					<string>llRotateTexture</string>
 					<string>llRotBetween</string>
 					<string>llRotLookAt</string>
 					<string>llRotTarget</string>
 					<string>llRotTargetRemove</string>
-					<string>llRotateTexture</string>
 					<string>llRound</string>
-					<string>llSHA1String</string>
 					<string>llSameGroup</string>
 					<string>llSay</string>
 					<string>llScaleByFactor</string>
@@ -1131,6 +1183,7 @@
 					<string>llSensor</string>
 					<string>llSensorRemove</string>
 					<string>llSensorRepeat</string>
+					<string>llSetAgentEnvironment</string>
 					<string>llSetAlpha</string>
 					<string>llSetAngularVelocity</string>
 					<string>llSetAnimationOverride</string>
@@ -1145,6 +1198,7 @@
 					<string>llSetForce</string>
 					<string>llSetForceAndTorque</string>
 					<string>llSetHoverHeight</string>
+					<string>llSetInventoryPermMask</string>
 					<string>llSetKeyframedMotion</string>
 					<string>llSetLinkAlpha</string>
 					<string>llSetLinkCamera</string>
@@ -1158,12 +1212,14 @@
 					<string>llSetMemoryLimit</string>
 					<string>llSetObjectDesc</string>
 					<string>llSetObjectName</string>
+					<string>llSetObjectPermMask</string>
 					<string>llSetParcelMusicURL</string>
 					<string>llSetPayPrice</string>
 					<string>llSetPhysicsMaterial</string>
 					<string>llSetPos</string>
-					<string>llSetPrimMediaParams</string>
 					<string>llSetPrimitiveParams</string>
+					<string>llSetPrimMediaParams</string>
+					<string>llSetPrimURL</string>
 					<string>llSetRegionPos</string>
 					<string>llSetRemoteScriptAccessPin</string>
 					<string>llSetRot</string>
@@ -1185,24 +1241,34 @@
 					<string>llSetVehicleType</string>
 					<string>llSetVehicleVectorParam</string>
 					<string>llSetVelocity</string>
+					<string>llSHA1String</string>
 					<string>llShout</string>
 					<string>llSin</string>
+					<string>llSitOnLink</string>
 					<string>llSitTarget</string>
 					<string>llSleep</string>
+					<string>llSound</string>
+					<string>llSoundPreload</string>
 					<string>llSqrt</string>
+					<string>llsRGB2Linear</string>
 					<string>llStartAnimation</string>
+					<string>llStartObjectAnimation</string>
 					<string>llStopAnimation</string>
 					<string>llStopHover</string>
 					<string>llStopLookAt</string>
 					<string>llStopMoveToTarget</string>
+					<string>llStopObjectAnimation</string>
+					<string>llStopPointAt</string>
 					<string>llStopSound</string>
 					<string>llStringLength</string>
 					<string>llStringToBase64</string>
 					<string>llStringTrim</string>
 					<string>llSubStringIndex</string>
+					<string>llTakeCamera</string>
 					<string>llTakeControls</string>
 					<string>llTan</string>
 					<string>llTarget</string>
+					<string>llTargetedEmail</string>
 					<string>llTargetOmega</string>
 					<string>llTargetRemove</string>
 					<string>llTeleportAgent</string>
@@ -1214,18 +1280,22 @@
 					<string>llTransferLindenDollars</string>
 					<string>llTriggerSound</string>
 					<string>llTriggerSoundLimited</string>
-					<string>llUnSit</string>
 					<string>llUnescapeURL</string>
+					<string>llUnSit</string>
 					<string>llUpdateCharacter</string>
+					<string>llUpdateKeyValue</string>
 					<string>llVecDist</string>
 					<string>llVecMag</string>
 					<string>llVecNorm</string>
 					<string>llVolumeDetect</string>
 					<string>llWanderWithin</string>
+					<string>llWanderWithin</string>
 					<string>llWater</string>
 					<string>llWhisper</string>
 					<string>llWind</string>
 					<string>llXorBase64</string>
+					<string>llXorBase64Strings</string>
+					<string>llXorBase64StringsCorrect</string>
 				</strings>
 			</scope>
 			<!-- All past, present and future Linden Lab LSL functions start with ll..() -->
@@ -1534,9 +1604,83 @@
 					<string>osSetPrimFloatOnWater</string>
 				</strings>
 			</scope>
+			<scope name="lsl.identifier.core.function.ossl.windlight">
+				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
+					<string>lsClearWindlightScene</string>
+					<string>lsGetWindlightScene</string>
+					<string>lsSetWindlightScene</string>
+					<string>lsSetWindlightSceneTargeted</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.core.function.aa">
+				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
+					<string>aaAllRegionInstanceSay</string>
+					<string>aaAvatarFullName2Key</string>
+					<string>aaDeserializeXMLKeys</string>
+					<string>aaDeserializeXMLValues</string>
+					<string>aaFreezeAvatar</string>
+					<string>aaGetFlyDisabled</string>
+					<string>aaGetHealth</string>
+					<string>aaGetIsInfiniteRegion</string>
+					<string>aaGetLastOwner</string>
+					<string>aaGetLastOwner</string>
+					<string>aaGetTeam</string>
+					<string>aaGetTeamMembers</string>
+					<string>aaGetText</string>
+					<string>aaGetTextColor</string>
+					<string>aaGetWalkDisabled</string>
+					<string>aaJoinCombat</string>
+					<string>aaJoinCombatTeam</string>
+					<string>aaLeaveCombat</string>
+					<string>aaQueryDatabase</string>
+					<string>aaRaiseError</string>
+					<string>aaRequestCombatPermission</string>
+					<string>aaSayDistance</string>
+					<string>aaSayTo</string>
+					<string>aaSerializeXML</string>
+					<string>aaSetCloudDensity</string>
+					<string>aaSetConeOfSilence</string>
+					<string>aaSetEnv</string>
+					<string>aaSetFlyDisabled</string>
+					<string>aaSetWalkDisabled</string>
+					<string>aaThawAvatar</string>
+					<string>aaUpdateDatabase</string>
+					<string>aaWindlightAddDayCycleFrame</string>
+					<string>aaWindlightGetDayCycle</string>
+					<string>aaWindlightGetScene</string>
+					<string>aaWindlightGetScene</string>
+					<string>aaWindlightGetSceneDayCycleKeyFrameCount</string>
+					<string>aaWindlightGetSceneIsStatic</string>
+					<string>aaWindlightRemoveDayCycleFrame</string>
+					<string>aaWindlightSetScene</string>
+					<string>aaWindlightSetScene</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.core.function.bot">
+				<strings prefix="(?&lt;!\.)" suffix="(?=\()">
+					<string>botAddTag</string>
+					<string>botCreateBot</string>
+					<string>botFollowAvatar</string>
+					<string>botGetBotsWithTag</string>
+					<string>botGetWaitingTime</string>
+					<string>botPauseMovement</string>
+					<string>botRemoveBot</string>
+					<string>botRemoveBotsWithTag</string>
+					<string>botResumeMovement</string>
+					<string>botSendChatMessage</string>
+					<string>botSendIM</string>
+					<string>botSetMap</string>
+					<string>botSetShouldFly</string>
+					<string>botSitObject</string>
+					<string>botStandUp</string>
+					<string>botStopFollowAvatar</string>
+					<string>botTouchObject</string>
+				</strings>
+			</scope>
 			<scope name="lsl.identifier.type">
 				<symbol type="type" />
 				<strings>
+					<string>bool</string>
 					<string>float</string>
 					<string>integer</string>
 					<string>key</string>
@@ -1553,7 +1697,6 @@
 			<scope name="lsl.identifier.constant.integer">
 				<strings>
 					<string>ACTIVE</string>
-					<string>AGENT</string>
 					<string>AGENT_ALWAYS_RUN</string>
 					<string>AGENT_ATTACHMENTS</string>
 					<string>AGENT_AUTOPILOT</string>
@@ -1564,15 +1707,17 @@
 					<string>AGENT_CROUCHING</string>
 					<string>AGENT_FLYING</string>
 					<string>AGENT_IN_AIR</string>
-					<string>AGENT_LIST_PARCEL</string>
 					<string>AGENT_LIST_PARCEL_OWNER</string>
+					<string>AGENT_LIST_PARCEL</string>
 					<string>AGENT_LIST_REGION</string>
+					<string>AGENT_MALE</string>
 					<string>AGENT_MOUSELOOK</string>
 					<string>AGENT_ON_OBJECT</string>
 					<string>AGENT_SCRIPTED</string>
 					<string>AGENT_SITTING</string>
 					<string>AGENT_TYPING</string>
 					<string>AGENT_WALKING</string>
+					<string>AGENT</string>
 					<string>ALL_SIDES</string>
 					<string>ANIM_ON</string>
 					<string>ATTACH_AVATAR_CENTER</string>
@@ -1580,10 +1725,19 @@
 					<string>ATTACH_BELLY</string>
 					<string>ATTACH_CHEST</string>
 					<string>ATTACH_CHIN</string>
+					<string>ATTACH_FACE_JAW</string>
+					<string>ATTACH_FACE_LEAR</string>
+					<string>ATTACH_FACE_LEYE</string>
+					<string>ATTACH_FACE_REAR</string>
+					<string>ATTACH_FACE_REYE</string>
+					<string>ATTACH_FACE_TONGUE</string>
+					<string>ATTACH_GROIN</string>
 					<string>ATTACH_HEAD</string>
-					<string>ATTACH_HUD_BOTTOM</string>
+					<string>ATTACH_HIND_LFOOT</string>
+					<string>ATTACH_HIND_RFOOT</string>
 					<string>ATTACH_HUD_BOTTOM_LEFT</string>
 					<string>ATTACH_HUD_BOTTOM_RIGHT</string>
+					<string>ATTACH_HUD_BOTTOM</string>
 					<string>ATTACH_HUD_CENTER_1</string>
 					<string>ATTACH_HUD_CENTER_2</string>
 					<string>ATTACH_HUD_TOP_CENTER</string>
@@ -1593,13 +1747,17 @@
 					<string>ATTACH_LEFT_PEC</string>
 					<string>ATTACH_LEYE</string>
 					<string>ATTACH_LFOOT</string>
+					<string>ATTACH_LHAND_RING1</string>
 					<string>ATTACH_LHAND</string>
 					<string>ATTACH_LHIP</string>
 					<string>ATTACH_LLARM</string>
 					<string>ATTACH_LLLEG</string>
+					<string>ATTACH_LPEC</string>
+					<string>ATTACH_LPEC</string>
 					<string>ATTACH_LSHOULDER</string>
 					<string>ATTACH_LUARM</string>
 					<string>ATTACH_LULEG</string>
+					<string>ATTACH_LWING</string>
 					<string>ATTACH_MOUTH</string>
 					<string>ATTACH_NECK</string>
 					<string>ATTACH_NOSE</string>
@@ -1607,14 +1765,20 @@
 					<string>ATTACH_REAR</string>
 					<string>ATTACH_REYE</string>
 					<string>ATTACH_RFOOT</string>
+					<string>ATTACH_RHAND_RING1</string>
 					<string>ATTACH_RHAND</string>
 					<string>ATTACH_RHIP</string>
 					<string>ATTACH_RIGHT_PEC</string>
 					<string>ATTACH_RLARM</string>
 					<string>ATTACH_RLLEG</string>
+					<string>ATTACH_RPEC</string>
+					<string>ATTACH_RPEC</string>
 					<string>ATTACH_RSHOULDER</string>
 					<string>ATTACH_RUARM</string>
 					<string>ATTACH_RULEG</string>
+					<string>ATTACH_RWING</string>
+					<string>ATTACH_TAIL_BASE</string>
+					<string>ATTACH_TAIL_TIP</string>
 					<string>AVOID_CHARACTERS</string>
 					<string>AVOID_DYNAMIC_OBSTACLES</string>
 					<string>AVOID_NONE</string>
@@ -1622,29 +1786,43 @@
 					<string>CAMERA_BEHINDNESS_ANGLE</string>
 					<string>CAMERA_BEHINDNESS_LAG</string>
 					<string>CAMERA_DISTANCE</string>
-					<string>CAMERA_FOCUS</string>
 					<string>CAMERA_FOCUS_LAG</string>
 					<string>CAMERA_FOCUS_LOCKED</string>
+					<string>CAMERA_FOCUS_OFFSET_X</string>
+					<string>CAMERA_FOCUS_OFFSET_Y</string>
+					<string>CAMERA_FOCUS_OFFSET_Z</string>
 					<string>CAMERA_FOCUS_OFFSET</string>
 					<string>CAMERA_FOCUS_THRESHOLD</string>
+					<string>CAMERA_FOCUS_X</string>
+					<string>CAMERA_FOCUS_Y</string>
+					<string>CAMERA_FOCUS_Z</string>
+					<string>CAMERA_FOCUS</string>
 					<string>CAMERA_PITCH</string>
-					<string>CAMERA_POSITION</string>
 					<string>CAMERA_POSITION_LAG</string>
 					<string>CAMERA_POSITION_LOCKED</string>
 					<string>CAMERA_POSITION_THRESHOLD</string>
+					<string>CAMERA_POSITION_X</string>
+					<string>CAMERA_POSITION_Y</string>
+					<string>CAMERA_POSITION_Z</string>
+					<string>CAMERA_POSITION</string>
 					<string>CHANGED_ALLOWED_DROP</string>
+					<string>CHANGED_ANIMATION</string>
 					<string>CHANGED_COLOR</string>
 					<string>CHANGED_INVENTORY</string>
 					<string>CHANGED_LINK</string>
 					<string>CHANGED_MEDIA</string>
 					<string>CHANGED_OWNER</string>
-					<string>CHANGED_REGION</string>
+					<string>CHANGED_POSITION</string>
+					<string>CHANGED_REGION_RESTART</string>
 					<string>CHANGED_REGION_START</string>
+					<string>CHANGED_REGION</string>
 					<string>CHANGED_SCALE</string>
 					<string>CHANGED_SHAPE</string>
+					<string>CHANGED_STATE</string>
 					<string>CHANGED_TELEPORT</string>
 					<string>CHANGED_TEXTURE</string>
 					<string>CHARACTER_ACCOUNT_FOR_SKIPPED_FRAMES</string>
+					<string>CHARACTER_AVOIDANCE_MODE</string>
 					<string>CHARACTER_AVOIDANCE_MODE</string>
 					<string>CHARACTER_CMD_JUMP</string>
 					<string>CHARACTER_CMD_SMOOTH_STOP</string>
@@ -1653,26 +1831,38 @@
 					<string>CHARACTER_DESIRED_TURN_SPEED</string>
 					<string>CHARACTER_LENGTH</string>
 					<string>CHARACTER_MAX_ACCEL</string>
+					<string>CHARACTER_MAX_ACCEL</string>
+					<string>CHARACTER_MAX_ANGULAR_ACCEL</string>
+					<string>CHARACTER_MAX_ANGULAR_SPEED</string>
+					<string>CHARACTER_MAX_DECEL</string>
 					<string>CHARACTER_MAX_DECEL</string>
 					<string>CHARACTER_MAX_SPEED</string>
 					<string>CHARACTER_MAX_TURN_RADIUS</string>
 					<string>CHARACTER_ORIENTATION</string>
 					<string>CHARACTER_RADIUS</string>
 					<string>CHARACTER_STAY_WITHIN_PARCEL</string>
-					<string>CHARACTER_TYPE</string>
+					<string>CHARACTER_TURN_SPEED_MULTIPLIER</string>
+					<string>CHARACTER_TYPE_A</string>
 					<string>CHARACTER_TYPE_A</string>
 					<string>CHARACTER_TYPE_B</string>
+					<string>CHARACTER_TYPE_B</string>
+					<string>CHARACTER_TYPE_C</string>
 					<string>CHARACTER_TYPE_C</string>
 					<string>CHARACTER_TYPE_D</string>
+					<string>CHARACTER_TYPE_D</string>
 					<string>CHARACTER_TYPE_NONE</string>
+					<string>CHARACTER_TYPE_NONE</string>
+					<string>CHARACTER_TYPE</string>
+					<string>CHARACTER_TYPE</string>
 					<string>CLICK_ACTION_BUY</string>
 					<string>CLICK_ACTION_NONE</string>
-					<string>CLICK_ACTION_OPEN</string>
 					<string>CLICK_ACTION_OPEN_MEDIA</string>
+					<string>CLICK_ACTION_OPEN</string>
 					<string>CLICK_ACTION_PAY</string>
 					<string>CLICK_ACTION_PLAY</string>
 					<string>CLICK_ACTION_SIT</string>
 					<string>CLICK_ACTION_TOUCH</string>
+					<string>CLICK_ACTION_ZOOM</string>
 					<string>CONTENT_TYPE_ATOM</string>
 					<string>CONTENT_TYPE_FORM</string>
 					<string>CONTENT_TYPE_HTML</string>
@@ -1696,11 +1886,22 @@
 					<string>DATA_NAME</string>
 					<string>DATA_ONLINE</string>
 					<string>DATA_PAYINFO</string>
+					<string>DATA_RATING</string>
 					<string>DATA_SIM_POS</string>
 					<string>DATA_SIM_RATING</string>
+					<string>DATA_SIM_RELEASE</string>
 					<string>DATA_SIM_STATUS</string>
 					<string>DEBUG_CHANNEL</string>
 					<string>DENSITY</string>
+					<string>ENV_INVALID_AGENT</string>
+					<string>ENV_INVALID_RULE</string>
+					<string>ENV_NO_ENVIRONMENT</string>
+					<string>ENV_NO_EXPERIENCE_LAND</string>
+					<string>ENV_NO_EXPERIENCE_PERMISSION</string>
+					<string>ENV_NOT_EXPERIENCE</string>
+					<string>ENV_THROTTLE</string>
+					<string>ENV_VALIDATION_FAIL</string>
+					<string>ENVIRONMENT_DAYINFO</string>
 					<string>ERR_GENERIC</string>
 					<string>ERR_MALFORMED_PARAMS</string>
 					<string>ERR_PARCEL_PERMISSIONS</string>
@@ -1715,16 +1916,19 @@
 					<string>FALSE</string>
 					<string>FORCE_DIRECT_PATH</string>
 					<string>FRICTION</string>
+					<string>FRICTION</string>
 					<string>GCNP_RADIUS</string>
 					<string>GCNP_STATIC</string>
 					<string>GRAVITY_MULTIPLIER</string>
 					<string>HORIZONTAL</string>
+					<string>HTTP_ACCEPT</string>
 					<string>HTTP_BODY_MAXLENGTH</string>
 					<string>HTTP_BODY_TRUNCATED</string>
 					<string>HTTP_CUSTOM_HEADER</string>
 					<string>HTTP_METHOD</string>
 					<string>HTTP_MIMETYPE</string>
 					<string>HTTP_PRAGMA_NO_CACHE</string>
+					<string>HTTP_USER_AGENT</string>
 					<string>HTTP_VERBOSE_THROTTLE</string>
 					<string>HTTP_VERIFY_CERT</string>
 					<string>INVENTORY_ALL</string>
@@ -1737,27 +1941,42 @@
 					<string>INVENTORY_NOTECARD</string>
 					<string>INVENTORY_OBJECT</string>
 					<string>INVENTORY_SCRIPT</string>
+					<string>INVENTORY_SETTING</string>
 					<string>INVENTORY_SOUND</string>
 					<string>INVENTORY_TEXTURE</string>
 					<string>JSON_APPEND</string>
 					<string>KFM_CMD_PAUSE</string>
+					<string>KFM_CMD_PAUSE</string>
 					<string>KFM_CMD_PLAY</string>
-					<string>KFM_CMD_SET_MODE</string>
+					<string>KFM_CMD_PLAY</string>
+					<string>KFM_CMD_STOP</string>
 					<string>KFM_CMD_STOP</string>
 					<string>KFM_COMMAND</string>
+					<string>KFM_COMMAND</string>
+					<string>KFM_DATA</string>
 					<string>KFM_DATA</string>
 					<string>KFM_FORWARD</string>
+					<string>KFM_FORWARD</string>
+					<string>KFM_LOOP</string>
 					<string>KFM_LOOP</string>
 					<string>KFM_MODE</string>
+					<string>KFM_MODE</string>
+					<string>KFM_PING_PONG</string>
 					<string>KFM_PING_PONG</string>
 					<string>KFM_REVERSE</string>
+					<string>KFM_REVERSE</string>
+					<string>KFM_ROTATION</string>
 					<string>KFM_ROTATION</string>
 					<string>KFM_TRANSLATION</string>
+					<string>KFM_TRANSLATION</string>
+					<string>LAND_LARGE_BRUSH</string>
 					<string>LAND_LEVEL</string>
 					<string>LAND_LOWER</string>
+					<string>LAND_MEDIUM_BRUSH</string>
 					<string>LAND_NOISE</string>
 					<string>LAND_RAISE</string>
 					<string>LAND_REVERT</string>
+					<string>LAND_SMALL_BRUSH</string>
 					<string>LAND_SMOOTH</string>
 					<string>LINK_ALL_CHILDREN</string>
 					<string>LINK_ALL_OTHERS</string>
@@ -1765,6 +1984,7 @@
 					<string>LINK_SET</string>
 					<string>LINK_THIS</string>
 					<string>LIST_STAT_GEOMETRIC_MEAN</string>
+					<string>LIST_STAT_HARMONIC_MEAN</string>
 					<string>LIST_STAT_MAX</string>
 					<string>LIST_STAT_MEAN</string>
 					<string>LIST_STAT_MEDIAN</string>
@@ -1772,39 +1992,62 @@
 					<string>LIST_STAT_NUM_COUNT</string>
 					<string>LIST_STAT_RANGE</string>
 					<string>LIST_STAT_STD_DEV</string>
-					<string>LIST_STAT_SUM</string>
 					<string>LIST_STAT_SUM_SQUARES</string>
+					<string>LIST_STAT_SUM</string>
 					<string>LOOP</string>
+					<string>LSL_STATUS_BOUNDS_ERROR</string>
+					<string>LSL_STATUS_INTERNAL_ERROR</string>
+					<string>LSL_STATUS_MALFORMED_PARAMS</string>
+					<string>LSL_STATUS_NOT_FOUND</string>
+					<string>LSL_STATUS_NOT_SUPPORTED</string>
+					<string>LSL_STATUS_OK</string>
+					<string>LSL_STATUS_TYPE_MISMATCH</string>
+					<string>LSL_STATUS_WHITELIST_FAILED</string>
 					<string>MASK_BASE</string>
 					<string>MASK_EVERYONE</string>
 					<string>MASK_GROUP</string>
 					<string>MASK_NEXT</string>
 					<string>MASK_OWNER</string>
+					<string>NPC</string>
 					<string>OBJECT_ATTACHED_POINT</string>
+					<string>OBJECT_ATTACHED_SLOTS_AVAILABLE</string>
+					<string>OBJECT_BODY_SHAPE_TYPE</string>
 					<string>OBJECT_CHARACTER_TIME</string>
+					<string>OBJECT_CLICK_ACTION</string>
+					<string>OBJECT_CREATION_TIME</string>
 					<string>OBJECT_CREATOR</string>
 					<string>OBJECT_DESC</string>
+					<string>OBJECT_GROUP_TAG</string>
 					<string>OBJECT_GROUP</string>
+					<string>OBJECT_HOVER_HEIGHT</string>
+					<string>OBJECT_LAST_OWNER_ID</string>
 					<string>OBJECT_NAME</string>
+					<string>OBJECT_OMEGA</string>
 					<string>OBJECT_OWNER</string>
 					<string>OBJECT_PATHFINDING_TYPE</string>
 					<string>OBJECT_PHANTOM</string>
-					<string>OBJECT_PHYSICS</string>
 					<string>OBJECT_PHYSICS_COST</string>
+					<string>OBJECT_PHYSICS</string>
 					<string>OBJECT_POS</string>
+					<string>OBJECT_PRIM_COUNT</string>
 					<string>OBJECT_PRIM_EQUIVALENCE</string>
 					<string>OBJECT_RENDER_WEIGHT</string>
-					<string>OBJECT_RETURN_PARCEL</string>
 					<string>OBJECT_RETURN_PARCEL_OWNER</string>
+					<string>OBJECT_RETURN_PARCEL</string>
 					<string>OBJECT_RETURN_REGION</string>
+					<string>OBJECT_REZZER_KEY</string>
 					<string>OBJECT_ROOT</string>
 					<string>OBJECT_ROT</string>
 					<string>OBJECT_RUNNING_SCRIPT_COUNT</string>
 					<string>OBJECT_SCRIPT_MEMORY</string>
 					<string>OBJECT_SCRIPT_TIME</string>
+					<string>OBJECT_SELECT_COUNT</string>
 					<string>OBJECT_SERVER_COST</string>
+					<string>OBJECT_SIT_COUNT</string>
 					<string>OBJECT_STREAMING_COST</string>
+					<string>OBJECT_TEMP_ATTACHED</string>
 					<string>OBJECT_TEMP_ON_REZ</string>
+					<string>OBJECT_TOTAL_INVENTORY_COUNT</string>
 					<string>OBJECT_TOTAL_SCRIPT_COUNT</string>
 					<string>OBJECT_UNKNOWN_DETAIL</string>
 					<string>OBJECT_VELOCITY</string>
@@ -1823,11 +2066,13 @@
 					<string>PARCEL_COUNT_TEMP</string>
 					<string>PARCEL_COUNT_TOTAL</string>
 					<string>PARCEL_DETAILS_AREA</string>
+					<string>PARCEL_DETAILS_CLAIMDATE</string>
 					<string>PARCEL_DETAILS_DESC</string>
 					<string>PARCEL_DETAILS_GROUP</string>
 					<string>PARCEL_DETAILS_ID</string>
 					<string>PARCEL_DETAILS_NAME</string>
 					<string>PARCEL_DETAILS_OWNER</string>
+					<string>PARCEL_DETAILS_PRIVACY</string>
 					<string>PARCEL_DETAILS_SEE_AVATARS</string>
 					<string>PARCEL_FLAG_ALLOW_ALL_OBJECT_ENTRY</string>
 					<string>PARCEL_FLAG_ALLOW_CREATE_GROUP_OBJECTS</string>
@@ -1848,8 +2093,8 @@
 					<string>PARCEL_MEDIA_COMMAND_AGENT</string>
 					<string>PARCEL_MEDIA_COMMAND_AUTO_ALIGN</string>
 					<string>PARCEL_MEDIA_COMMAND_DESC</string>
-					<string>PARCEL_MEDIA_COMMAND_LOOP</string>
 					<string>PARCEL_MEDIA_COMMAND_LOOP_SET</string>
+					<string>PARCEL_MEDIA_COMMAND_LOOP</string>
 					<string>PARCEL_MEDIA_COMMAND_PAUSE</string>
 					<string>PARCEL_MEDIA_COMMAND_PLAY</string>
 					<string>PARCEL_MEDIA_COMMAND_SIZE</string>
@@ -1859,29 +2104,43 @@
 					<string>PARCEL_MEDIA_COMMAND_TYPE</string>
 					<string>PARCEL_MEDIA_COMMAND_UNLOAD</string>
 					<string>PARCEL_MEDIA_COMMAND_URL</string>
+					<string>PASS_ALWAYS</string>
+					<string>PASS_IF_NOT_HANDLED</string>
+					<string>PASS_NEVER</string>
 					<string>PASSIVE</string>
 					<string>PATROL_PAUSE_AT_WAYPOINTS</string>
-					<string>PAYMENT_INFO_ON_FILE</string>
-					<string>PAYMENT_INFO_USED</string>
 					<string>PAY_DEFAULT</string>
 					<string>PAY_HIDE</string>
+					<string>PAYMENT_INFO_ON_FILE</string>
+					<string>PAYMENT_INFO_USED</string>
+					<string>PERM_ALL</string>
+					<string>PERM_COPY</string>
+					<string>PERM_MODIFY</string>
+					<string>PERM_MOVE</string>
+					<string>PERM_TRANSFER</string>
 					<string>PERMISSION_ATTACH</string>
+					<string>PERMISSION_CHANGE_JOINTS</string>
 					<string>PERMISSION_CHANGE_LINKS</string>
+					<string>PERMISSION_CHANGE_PERMISSIONS</string>
+					<string>PERMISSION_COMBAT</string>
 					<string>PERMISSION_CONTROL_CAMERA</string>
 					<string>PERMISSION_DEBIT</string>
 					<string>PERMISSION_OVERRIDE_ANIMATIONS</string>
+					<string>PERMISSION_RELEASE_OWNERSHIP</string>
+					<string>PERMISSION_REMAP_CONTROLS</string>
 					<string>PERMISSION_RETURN_OBJECTS</string>
 					<string>PERMISSION_SILENT_ESTATE_MANAGEMENT</string>
 					<string>PERMISSION_TAKE_CONTROLS</string>
 					<string>PERMISSION_TELEPORT</string>
 					<string>PERMISSION_TRACK_CAMERA</string>
 					<string>PERMISSION_TRIGGER_ANIMATION</string>
-					<string>PERM_ALL</string>
-					<string>PERM_COPY</string>
-					<string>PERM_MODIFY</string>
-					<string>PERM_MOVE</string>
-					<string>PERM_TRANSFER</string>
 					<string>PING_PONG</string>
+					<string>PRIM_ALLOW_UNSIT</string>
+					<string>PRIM_ALPHA_MODE_BLEND</string>
+					<string>PRIM_ALPHA_MODE_EMISSIVE</string>
+					<string>PRIM_ALPHA_MODE_MASK</string>
+					<string>PRIM_ALPHA_MODE_NONE</string>
+					<string>PRIM_ALPHA_MODE</string>
 					<string>PRIM_BUMP_BARK</string>
 					<string>PRIM_BUMP_BLOBS</string>
 					<string>PRIM_BUMP_BRICKS</string>
@@ -1901,6 +2160,7 @@
 					<string>PRIM_BUMP_TILE</string>
 					<string>PRIM_BUMP_WEAVE</string>
 					<string>PRIM_BUMP_WOOD</string>
+					<string>PRIM_CAST_SHADOWS</string>
 					<string>PRIM_COLOR</string>
 					<string>PRIM_DESC</string>
 					<string>PRIM_FLEXIBLE</string>
@@ -1911,22 +2171,23 @@
 					<string>PRIM_HOLE_SQUARE</string>
 					<string>PRIM_HOLE_TRIANGLE</string>
 					<string>PRIM_LINK_TARGET</string>
-					<string>PRIM_MATERIAL</string>
 					<string>PRIM_MATERIAL_FLESH</string>
 					<string>PRIM_MATERIAL_GLASS</string>
+					<string>PRIM_MATERIAL_LIGHT</string>
 					<string>PRIM_MATERIAL_METAL</string>
 					<string>PRIM_MATERIAL_PLASTIC</string>
 					<string>PRIM_MATERIAL_RUBBER</string>
 					<string>PRIM_MATERIAL_STONE</string>
 					<string>PRIM_MATERIAL_WOOD</string>
+					<string>PRIM_MATERIAL</string>
 					<string>PRIM_MEDIA_ALT_IMAGE_ENABLE</string>
 					<string>PRIM_MEDIA_AUTO_LOOP</string>
 					<string>PRIM_MEDIA_AUTO_PLAY</string>
 					<string>PRIM_MEDIA_AUTO_SCALE</string>
 					<string>PRIM_MEDIA_AUTO_ZOOM</string>
-					<string>PRIM_MEDIA_CONTROLS</string>
 					<string>PRIM_MEDIA_CONTROLS_MINI</string>
 					<string>PRIM_MEDIA_CONTROLS_STANDARD</string>
+					<string>PRIM_MEDIA_CONTROLS</string>
 					<string>PRIM_MEDIA_CURRENT_URL</string>
 					<string>PRIM_MEDIA_FIRST_CLICK_INTERACT</string>
 					<string>PRIM_MEDIA_HEIGHT_PIXELS</string>
@@ -1937,32 +2198,36 @@
 					<string>PRIM_MEDIA_MAX_WHITELIST_SIZE</string>
 					<string>PRIM_MEDIA_MAX_WIDTH_PIXELS</string>
 					<string>PRIM_MEDIA_PARAM_MAX</string>
-					<string>PRIM_MEDIA_PERMS_CONTROL</string>
-					<string>PRIM_MEDIA_PERMS_INTERACT</string>
 					<string>PRIM_MEDIA_PERM_ANYONE</string>
 					<string>PRIM_MEDIA_PERM_GROUP</string>
 					<string>PRIM_MEDIA_PERM_NONE</string>
 					<string>PRIM_MEDIA_PERM_OWNER</string>
-					<string>PRIM_MEDIA_WHITELIST</string>
+					<string>PRIM_MEDIA_PERMS_CONTROL</string>
+					<string>PRIM_MEDIA_PERMS_INTERACT</string>
 					<string>PRIM_MEDIA_WHITELIST_ENABLE</string>
+					<string>PRIM_MEDIA_WHITELIST</string>
 					<string>PRIM_MEDIA_WIDTH_PIXELS</string>
 					<string>PRIM_NAME</string>
+					<string>PRIM_NORMAL</string>
 					<string>PRIM_OMEGA</string>
 					<string>PRIM_PHANTOM</string>
-					<string>PRIM_PHYSICS</string>
+					<string>PRIM_PHYSICS_MATERIAL</string>
 					<string>PRIM_PHYSICS_SHAPE_CONVEX</string>
 					<string>PRIM_PHYSICS_SHAPE_NONE</string>
 					<string>PRIM_PHYSICS_SHAPE_PRIM</string>
 					<string>PRIM_PHYSICS_SHAPE_TYPE</string>
+					<string>PRIM_PHYSICS</string>
 					<string>PRIM_POINT_LIGHT</string>
-					<string>PRIM_POSITION</string>
 					<string>PRIM_POS_LOCAL</string>
-					<string>PRIM_ROTATION</string>
+					<string>PRIM_POSITION</string>
 					<string>PRIM_ROT_LOCAL</string>
+					<string>PRIM_ROTATION</string>
+					<string>PRIM_SCRIPTED_SIT_ONLY</string>
 					<string>PRIM_SCULPT_FLAG_INVERT</string>
 					<string>PRIM_SCULPT_FLAG_MIRROR</string>
 					<string>PRIM_SCULPT_TYPE_CYLINDER</string>
 					<string>PRIM_SCULPT_TYPE_MASK</string>
+					<string>PRIM_SCULPT_TYPE_MESH</string>
 					<string>PRIM_SCULPT_TYPE_PLANE</string>
 					<string>PRIM_SCULPT_TYPE_SPHERE</string>
 					<string>PRIM_SCULPT_TYPE_TORUS</string>
@@ -1970,15 +2235,16 @@
 					<string>PRIM_SHINY_LOW</string>
 					<string>PRIM_SHINY_MEDIUM</string>
 					<string>PRIM_SHINY_NONE</string>
+					<string>PRIM_SIT_TARGET</string>
 					<string>PRIM_SIZE</string>
 					<string>PRIM_SLICE</string>
+					<string>PRIM_SPECULAR</string>
 					<string>PRIM_TEMP_ON_REZ</string>
-					<string>PRIM_TEXGEN</string>
 					<string>PRIM_TEXGEN_DEFAULT</string>
 					<string>PRIM_TEXGEN_PLANAR</string>
+					<string>PRIM_TEXGEN</string>
 					<string>PRIM_TEXT</string>
 					<string>PRIM_TEXTURE</string>
-					<string>PRIM_TYPE</string>
 					<string>PRIM_TYPE_BOX</string>
 					<string>PRIM_TYPE_CYLINDER</string>
 					<string>PRIM_TYPE_PRISM</string>
@@ -1987,13 +2253,14 @@
 					<string>PRIM_TYPE_SPHERE</string>
 					<string>PRIM_TYPE_TORUS</string>
 					<string>PRIM_TYPE_TUBE</string>
+					<string>PRIM_TYPE</string>
 					<string>PROFILE_NONE</string>
 					<string>PROFILE_SCRIPT_MEMORY</string>
 					<string>PSYS_PART_BF_DEST_COLOR</string>
-					<string>PSYS_PART_BF_ONE</string>
 					<string>PSYS_PART_BF_ONE_MINUS_DEST_COLOR</string>
 					<string>PSYS_PART_BF_ONE_MINUS_SOURCE_ALPHA</string>
 					<string>PSYS_PART_BF_ONE_MINUS_SOURCE_COLOR</string>
+					<string>PSYS_PART_BF_ONE</string>
 					<string>PSYS_PART_BF_SOURCE_ALPHA</string>
 					<string>PSYS_PART_BF_SOURCE_COLOR</string>
 					<string>PSYS_PART_BF_ZERO</string>
@@ -2027,21 +2294,19 @@
 					<string>PSYS_SRC_BURST_RATE</string>
 					<string>PSYS_SRC_BURST_SPEED_MAX</string>
 					<string>PSYS_SRC_BURST_SPEED_MIN</string>
+					<string>PSYS_SRC_INNERANGLE</string>
 					<string>PSYS_SRC_MAX_AGE</string>
+					<string>PSYS_SRC_OBJ_REL_MASK</string>
 					<string>PSYS_SRC_OMEGA</string>
-					<string>PSYS_SRC_PATTERN</string>
-					<string>PSYS_SRC_PATTERN_ANGLE</string>
-					<string>PSYS_SRC_PATTERN_ANGLE_CONE</string>
+					<string>PSYS_SRC_OUTERANGLE</string>
 					<string>PSYS_SRC_PATTERN_ANGLE_CONE_EMPTY</string>
+					<string>PSYS_SRC_PATTERN_ANGLE_CONE</string>
+					<string>PSYS_SRC_PATTERN_ANGLE</string>
 					<string>PSYS_SRC_PATTERN_DROP</string>
 					<string>PSYS_SRC_PATTERN_EXPLODE</string>
+					<string>PSYS_SRC_PATTERN</string>
 					<string>PSYS_SRC_TARGET_KEY</string>
 					<string>PSYS_SRC_TEXTURE</string>
-					<string>PUBLIC_CHANNEL</string>
-					<string>PURSUIT_FUZZ_FACTOR</string>
-					<string>PURSUIT_GOAL_TOLERANCE</string>
-					<string>PURSUIT_INTERCEPT</string>
-					<string>PURSUIT_OFFSET</string>
 					<string>PU_EVADE_HIDDEN</string>
 					<string>PU_EVADE_SPOTTED</string>
 					<string>PU_FAILURE_DYNAMIC_PATHFINDING_DISABLED</string>
@@ -2055,9 +2320,11 @@
 					<string>PU_FAILURE_UNREACHABLE</string>
 					<string>PU_GOAL_REACHED</string>
 					<string>PU_SLOWDOWN_DISTANCE_REACHED</string>
-					<string>RCERR_CAST_TIME_EXCEEDED</string>
-					<string>RCERR_SIM_PERF_LOW</string>
-					<string>RCERR_UNKNOWN</string>
+					<string>PUBLIC_CHANNEL</string>
+					<string>PURSUIT_FUZZ_FACTOR</string>
+					<string>PURSUIT_GOAL_TOLERANCE</string>
+					<string>PURSUIT_INTERCEPT</string>
+					<string>PURSUIT_OFFSET</string>
 					<string>RC_DATA_FLAGS</string>
 					<string>RC_DETECT_PHANTOM</string>
 					<string>RC_GET_LINK_NUM</string>
@@ -2069,9 +2336,13 @@
 					<string>RC_REJECT_NONPHYSICAL</string>
 					<string>RC_REJECT_PHYSICAL</string>
 					<string>RC_REJECT_TYPES</string>
+					<string>RCERR_CAST_TIME_EXCEEDED</string>
+					<string>RCERR_SIM_PERF_LOW</string>
+					<string>RCERR_UNKNOWN</string>
 					<string>REGION_FLAG_ALLOW_DAMAGE</string>
 					<string>REGION_FLAG_ALLOW_DIRECT_TELEPORT</string>
 					<string>REGION_FLAG_BLOCK_FLY</string>
+					<string>REGION_FLAG_BLOCK_FLYOVER</string>
 					<string>REGION_FLAG_BLOCK_TERRAFORM</string>
 					<string>REGION_FLAG_DISABLE_COLLISIONS</string>
 					<string>REGION_FLAG_DISABLE_PHYSICS</string>
@@ -2088,9 +2359,36 @@
 					<string>SCALE</string>
 					<string>SCRIPTED</string>
 					<string>SIM_STAT_PCT_CHARS_STEPPED</string>
+					<string>SIT_INVALID_AGENT</string>
+					<string>SIT_INVALID_LINK</string>
+					<string>SIT_INVALID_OBJECT</string>
+					<string>SIT_NO_ACCESS</string>
+					<string>SIT_NO_EXPERIENCE_PERMISSION</string>
+					<string>SIT_NO_SIT_TARGET</string>
+					<string>SIT_NOT_EXPERIENCE</string>
+					<string>SKY_ABSORPTION_CONFIG</string>
+					<string>SKY_AMBIENT</string>
+					<string>SKY_CLOUD_TEXTURE</string>
+					<string>SKY_CLOUDS</string>
+					<string>SKY_DENSITY_PROFILE_COUNTS</string>
+					<string>SKY_DOME</string>
+					<string>SKY_GAMMA</string>
+					<string>SKY_GLOW</string>
+					<string>SKY_LIGHT</string>
+					<string>SKY_MIE_CONFIG</string>
+					<string>SKY_MOON_TEXTURE</string>
+					<string>SKY_MOON</string>
+					<string>SKY_PLANET</string>
+					<string>SKY_RAYLEIGH_CONFIG</string>
+					<string>SKY_REFRACTION</string>
+					<string>SKY_STAR_BRIGHTNESS</string>
+					<string>SKY_SUN_TEXTURE</string>
+					<string>SKY_SUN</string>
+					<string>SKY_TEXTURE_DEFAULTS</string>
+					<string>SKY_TRACKS</string>
 					<string>SMOOTH</string>
-					<string>STATUS_BLOCK_GRAB</string>
 					<string>STATUS_BLOCK_GRAB_OBJECT</string>
+					<string>STATUS_BLOCK_GRAB</string>
 					<string>STATUS_BOUNDS_ERROR</string>
 					<string>STATUS_CAST_SHADOWS</string>
 					<string>STATUS_DIE_AT_EDGE</string>
@@ -2108,14 +2406,17 @@
 					<string>STATUS_SANDBOX</string>
 					<string>STATUS_TYPE_MISMATCH</string>
 					<string>STATUS_WHITELIST_FAILED</string>
-					<string>STRING_TRIM</string>
 					<string>STRING_TRIM_HEAD</string>
 					<string>STRING_TRIM_TAIL</string>
+					<string>STRING_TRIM</string>
 					<string>TOUCH_INVALID_FACE</string>
-					<string>TRAVERSAL_TYPE</string>
+					<string>TRAVERSAL_TYPE_FAST</string>
 					<string>TRAVERSAL_TYPE_FAST</string>
 					<string>TRAVERSAL_TYPE_NONE</string>
+					<string>TRAVERSAL_TYPE_NONE</string>
 					<string>TRAVERSAL_TYPE_SLOW</string>
+					<string>TRAVERSAL_TYPE_SLOW</string>
+					<string>TRAVERSAL_TYPE</string>
 					<string>TRUE</string>
 					<string>TYPE_FLOAT</string>
 					<string>TYPE_INTEGER</string>
@@ -2141,9 +2442,16 @@
 					<string>VEHICLE_FLAG_HOVER_WATER_ONLY</string>
 					<string>VEHICLE_FLAG_LIMIT_MOTOR_UP</string>
 					<string>VEHICLE_FLAG_LIMIT_ROLL_ONLY</string>
+					<string>VEHICLE_FLAG_LOCK_HOVER_HEIGHT</string>
+					<string>VEHICLE_FLAG_LOCK_ROTATION</string>
 					<string>VEHICLE_FLAG_MOUSELOOK_BANK</string>
 					<string>VEHICLE_FLAG_MOUSELOOK_STEER</string>
 					<string>VEHICLE_FLAG_NO_DEFLECTION_UP</string>
+					<string>VEHICLE_FLAG_NO_DEFLECTION</string>
+					<string>VEHICLE_FLAG_NO_FLY_UP</string>
+					<string>VEHICLE_FLAG_NO_X</string>
+					<string>VEHICLE_FLAG_NO_Y</string>
+					<string>VEHICLE_FLAG_NO_Z</string>
 					<string>VEHICLE_HOVER_EFFICIENCY</string>
 					<string>VEHICLE_HOVER_HEIGHT</string>
 					<string>VEHICLE_HOVER_TIMESCALE</string>
@@ -2154,7 +2462,9 @@
 					<string>VEHICLE_LINEAR_MOTOR_DIRECTION</string>
 					<string>VEHICLE_LINEAR_MOTOR_OFFSET</string>
 					<string>VEHICLE_LINEAR_MOTOR_TIMESCALE</string>
+					<string>VEHICLE_RANGE_BLOCK</string>
 					<string>VEHICLE_REFERENCE_FRAME</string>
+					<string>VEHICLE_ROLL_FRAME</string>
 					<string>VEHICLE_TYPE_AIRPLANE</string>
 					<string>VEHICLE_TYPE_BALLOON</string>
 					<string>VEHICLE_TYPE_BOAT</string>
@@ -2165,11 +2475,67 @@
 					<string>VEHICLE_VERTICAL_ATTRACTION_TIMESCALE</string>
 					<string>VERTICAL</string>
 					<string>WANDER_PAUSE_AT_WAYPOINTS</string>
+					<string>WATER_BLUR_MULTIPLIER</string>
+					<string>WATER_FOG</string>
+					<string>WATER_FRESNEL</string>
+					<string>WATER_NORMAL_SCALE</string>
+					<string>WATER_NORMAL_TEXTURE</string>
+					<string>WATER_REFRACTION</string>
+					<string>WATER_TEXTURE_DEFAULTS</string>
+					<string>WATER_WAVE_DIRECTION</string>
+					<string>XP_ERROR_EXPERIENCE_DISABLED</string>
+					<string>XP_ERROR_EXPERIENCE_SUSPENDED</string>
+					<string>XP_ERROR_EXPERIENCES_DISABLED</string>
+					<string>XP_ERROR_INVALID_EXPERIENCE</string>
+					<string>XP_ERROR_INVALID_PARAMETERS</string>
+					<string>XP_ERROR_KEY_NOT_FOUND</string>
+					<string>XP_ERROR_MATURITY_EXCEEDED</string>
+					<string>XP_ERROR_NO_EXPERIENCE</string>
+					<string>XP_ERROR_NONE</string>
+					<string>XP_ERROR_NOT_FOUND</string>
+					<string>XP_ERROR_NOT_PERMITTED_LAND</string>
+					<string>XP_ERROR_NOT_PERMITTED</string>
+					<string>XP_ERROR_QUOTA_EXCEEDED</string>
+					<string>XP_ERROR_REQUEST_PERM_TIMEOUT</string>
+					<string>XP_ERROR_RETRY_UPDATE</string>
+					<string>XP_ERROR_STORAGE_EXCEPTION</string>
+					<string>XP_ERROR_STORE_DISABLED</string>
+					<string>XP_ERROR_THROTTLED</string>
+					<string>XP_ERROR_UNKNOWN_ERROR</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.constant.string.aa">
+				<strings>
+					<string>ENABLE_GRAVITY</string>
+					<string>GRAVITY_FORCE_X</string>
+					<string>GRAVITY_FORCE_Y</string>
+					<string>GRAVITY_FORCE_Z</string>
+					<string>ADD_GRAVITY_POINT</string>
+					<string>ADD_GRAVITY_FORCE</string>
+					<string>START_TIME_REVERSAL_SAVING</string>
+					<string>STOP_TIME_REVERSAL_SAVING</string>
+					<string>START_TIME_REVERSAL</string>
+					<string>STOP_TIME_REVERSAL</string>
+					<string>BOT_TAG_FIND_ALL</string>
+				</strings>
+			</scope>
+			<scope name="lsl.identifier.constant.integer.aa">
+				<strings>
+					<string>BOT_FOLLOW_FLAG_FORCEDIRECTPATH</string>
+					<string>BOT_FOLLOW_FLAG_INDEFINITELY</string>
+					<string>BOT_FOLLOW_FLAG_NONE</string>
+					<string>BOT_FOLLOW_FLY</string>
+					<string>BOT_FOLLOW_RUN</string>
+					<string>BOT_FOLLOW_TELEPORT</string>
+					<string>BOT_FOLLOW_TRIGGER_HERE_EVENT</string>
+					<string>BOT_FOLLOW_WAIT</string>
+					<string>BOT_FOLLOW_WALK</string>
 				</strings>
 			</scope>
 			<scope name="lsl.identifier.constant.string">
 				<strings>
 					<string>EOF</string>
+					<string>JSON_APPEND</string>
 					<string>JSON_ARRAY</string>
 					<string>JSON_DELETE</string>
 					<string>JSON_FALSE</string>
@@ -2203,8 +2569,13 @@
 				<strings>
 					<string>TOUCH_INVALID_TEXCOORD</string>
 					<string>TOUCH_INVALID_VECTOR</string>
-					<string>ZERO_ROTATION</string>
 					<string>ZERO_VECTOR</string>
+				</strings>
+			</scope>
+			<!--Rotation Constants-->
+			<scope name="lsl.identifier.constant.rotation">
+				<strings prefix="(?&lt;!\.)">
+					<string>ZERO_ROTATION</string>
 				</strings>
 			</scope>
 			<scope name="lsl.identifier.constant.integer.ossl">
@@ -2300,16 +2671,25 @@
 					<string>WL_CLOUD_COLOR</string>
 					<string>WL_CLOUD_COVERAGE</string>
 					<string>WL_CLOUD_DETAIL_XY_DENSITY</string>
+					<string>WL_CLOUD_POS_DENSITY1</string>
+					<string>WL_CLOUD_POS_DENSITY2</string>
 					<string>WL_CLOUD_SCALE</string>
-					<string>WL_CLOUD_SCROLL_X</string>
 					<string>WL_CLOUD_SCROLL_X_LOCK</string>
-					<string>WL_CLOUD_SCROLL_Y</string>
+					<string>WL_CLOUD_SCROLL_X</string>
 					<string>WL_CLOUD_SCROLL_Y_LOCK</string>
+					<string>WL_CLOUD_SCROLL_Y</string>
+					<string>WL_CLOUD_SHADOW</string>
 					<string>WL_CLOUD_XY_DENSITY</string>
 					<string>WL_DENSITY_MULTIPLIER</string>
 					<string>WL_DISTANCE_MULTIPLIER</string>
 					<string>WL_DRAW_CLASSIC_CLOUDS</string>
 					<string>WL_EAST_ANGLE</string>
+					<string>WL_ERROR_BAD_SETTING</string>
+					<string>WL_ERROR_NO_PRESET_FOUND</string>
+					<string>WL_ERROR_NO_SCENE_SET</string>
+					<string>WL_ERROR_SCENE_MUST_BE_STATIC</string>
+					<string>WL_ERROR_SCENE_MUST_NOT_BE_STATIC</string>
+					<string>WL_ERROR</string>
 					<string>WL_FRESNEL_OFFSET</string>
 					<string>WL_FRESNEL_SCALE</string>
 					<string>WL_HAZE_DENSITY</string>
@@ -2318,18 +2698,43 @@
 					<string>WL_LITTLE_WAVE_DIRECTION</string>
 					<string>WL_MAX_ALTITUDE</string>
 					<string>WL_NORMAL_MAP_TEXTURE</string>
+					<string>WL_OK</string>
 					<string>WL_REFLECTION_WAVELET_SCALE</string>
 					<string>WL_REFRACT_SCALE_ABOVE</string>
 					<string>WL_REFRACT_SCALE_BELOW</string>
 					<string>WL_SCENE_GAMMA</string>
+					<string>WL_SKY_BLUE_DENSITY</string>
+					<string>WL_SKY_BLUR_HORIZON</string>
+					<string>WL_SKY_DENSITY_MULTIPLIER</string>
+					<string>WL_SKY_DISTANCE_MULTIPLIER</string>
+					<string>WL_SKY_GAMMA</string>
+					<string>WL_SKY_GLOW</string>
+					<string>WL_SKY_HAZE_DENSITY</string>
+					<string>WL_SKY_HAZE_HORIZON</string>
+					<string>WL_SKY_LIGHT_NORMALS</string>
+					<string>WL_SKY_MAX_ALTITUDE</string>
+					<string>WL_SKY_STAR_BRIGHTNESS</string>
+					<string>WL_SKY_SUNLIGHT_COLOR</string>
 					<string>WL_STAR_BRIGHTNESS</string>
 					<string>WL_SUN_GLOW_FOCUS</string>
 					<string>WL_SUN_GLOW_SIZE</string>
 					<string>WL_SUN_MOON_COLOR</string>
 					<string>WL_SUN_MOON_POSITION</string>
 					<string>WL_UNDERWATER_FOG_MODIFIER</string>
+					<string>WL_WATER_BIG_WAVE_DIRECTION</string>
+					<string>WL_WATER_BLUR_MULTIPLIER</string>
 					<string>WL_WATER_COLOR</string>
+					<string>WL_WATER_FOG_COLOR</string>
 					<string>WL_WATER_FOG_DENSITY_EXPONENT</string>
+					<string>WL_WATER_FOG_DENSITY</string>
+					<string>WL_WATER_FRESNEL_OFFSET</string>
+					<string>WL_WATER_FRESNEL_SCALE</string>
+					<string>WL_WATER_LITTLE_WAVE_DIRECTION</string>
+					<string>WL_WATER_NORMAL_MAP</string>
+					<string>WL_WATER_NORMAL_SCALE</string>
+					<string>WL_WATER_SCALE_ABOVE</string>
+					<string>WL_WATER_SCALE_BELOW</string>
+					<string>WL_WATER_UNDERWATER_FOG_MODIFIER</string>
 				</strings>
 			</scope>
 			<scope name="lsl.identifier.constant.integer.ossl.img">
@@ -2339,6 +2744,7 @@
 					<string>IMG_USE_BAKED_AUX3</string>
 					<string>IMG_USE_BAKED_EYES</string>
 					<string>IMG_USE_BAKED_HAIR</string>
+					<string>IMG_USE_BAKED_HEAD</string>
 					<string>IMG_USE_BAKED_LEFTARM</string>
 					<string>IMG_USE_BAKED_LEFTLEG</string>
 					<string>IMG_USE_BAKED_LOWER</string>
