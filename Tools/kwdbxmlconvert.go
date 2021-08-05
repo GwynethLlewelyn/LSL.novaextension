@@ -112,9 +112,10 @@ func parseSyntaxSet(readDoc, writeDoc *etree.Element, comment, name, symbol, sub
 	var aString *etree.Element
 
 	if subtype != "" {
-		subtypePath, err := etree.CompilePath("/[type='" + subtype + "']");
+		subtypePath, err := etree.CompilePath("./" + symbol +"[@type='" + subtype + "']");
 		if (err != nil) {
-			return errors.New("parseSyntaxSet() could not process query involving subtype " + subtype);
+			return errors.New("parseSyntaxSet() could not process path query compilation involving symbol '" + symbol +
+			"' and subtype '" + subtype + "'");
 		}
 		for _, kwdbKeyword := range readDoc.FindElementsPath(subtypePath) {
 			aString = scopeStrings.CreateElement("string")
@@ -304,10 +305,27 @@ func main() {
 		if err := parseSyntaxSet(kwdbRoot, theSyntaxDoc, "Integer constants", "lsl.identifier.constant.integer", "constant", "integer"); err != nil {
 			log.Println(err)
 		}
-
-		if err := parseSyntaxSet(kwdbRoot, theSyntaxDoc, "Constants", "lsl.identifier.constant", "constant", ""); err != nil {
+		// if err := parseSyntaxSet(kwdbRoot, theSyntaxDoc, "Float Constants", "lsl.identifier.constant.float", "float", "float"); err != nil {
+		// 	log.Println(err)
+		// }
+		if err := parseSyntaxSet(kwdbRoot, theSyntaxDoc, "String Constants", "lsl.identifier.constant.string", "constant", "string"); err != nil {
 			log.Println(err)
 		}
+		// if err := parseSyntaxSet(kwdbRoot, theSyntaxDoc, "Key Constants", "lsl.identifier.constant.key", "constant", "key"); err != nil {
+		// 	log.Println(err)
+		// }
+		if err := parseSyntaxSet(kwdbRoot, theSyntaxDoc, "Vector Constants", "lsl.identifier.constant.vector", "constant", "vector"); err != nil {
+			log.Println(err)
+		}
+		if err := parseSyntaxSet(kwdbRoot, theSyntaxDoc, "Rotation Constants", "lsl.identifier.constant.rotation", "constant", "rotation"); err != nil {
+			log.Println(err)
+		}
+		// if err := parseSyntaxSet(kwdbRoot, theSyntaxDoc, "List Constants", "lsl.identifier.constant.list", "constant", "list"); err != nil {
+		// 	log.Println(err)
+		// }
+		// if err := parseSyntaxSet(kwdbRoot, theSyntaxDoc, "Boolean Constants", "lsl.identifier.constant.boolean", "bool", "rotation"); err != nil {
+		// 	log.Println(err)
+		// }
 
 		if err := parseSyntaxSet(kwdbRoot, theSyntaxDoc, "Types", "lsl.identifier.type", "type", ""); err != nil {
 			log.Println(err)
