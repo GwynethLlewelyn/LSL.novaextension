@@ -12,7 +12,7 @@
 	"keywords": ["Second Life", "SL", "OpenSimulator", "LSL", "Linden Scripting Language"],
 	"license": "bsd-3-clause",
 	"categories": ["completions", "languages", "commands"],
-	"activationEvents": ["onLanguage:LSL", "onWorkspaceContains:*.lsl"],
+	"activationEvents": ["onLanguage:LSL", "onWorkspaceContains:*.lsl", "onWorkspaceContains:*.ossl"],
 
 	"main": "main.js",
 
