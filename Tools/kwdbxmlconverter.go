@@ -57,7 +57,7 @@ func parseSet(readDoc, writeDoc *etree.Element, comment, name, symbol, element s
 			aDescription.CreateText(oneKeyword.Text())
 		}
 		// if it's a function, collect parameters, they'll be used as a behaviour:
-		if element == "function" || element == "method" {
+		if element == "function" || element == "method" || element == "event"{
 			var behaviourText = "("	// We will accumulate params here.
 			var first = true		// Used to format the first parameter differently from the others.
 
@@ -93,21 +93,45 @@ func main() {
 
 	theCompletionsDoc := completionsDoc.CreateElement("completions")
 	aProvider := theCompletionsDoc.CreateElement("provider")
-	anElement := aProvider.CreateElement("selector")
+	aProvider.CreateAttr("name", "lsl.globals")
+	anElement := aProvider.CreateElement("syntax")
 	anElement.CreateText("lsl")
+	anElement  = aProvider.CreateElement("selector")
+	anElement.CreateText("*:not(string,comment)")
 	anElement  = aProvider.CreateElement("expression")
-	anElement.CreateText("\\b[a-zA-Z0-9-_]*")
+	anElement.CreateText("\\b[a-zA-Z_][a-zA-Z0-9-_]*")
+
+	anElement  = aProvider.CreateElement("symbols")
+	anElement.CreateAttr("type", "function")
+	aBehavior := anElement.CreateElement("behavior")
+	anArg	  := aBehavior.CreateElement("arguments")
+	anArg.CreateAttr("prefix", "(")
+	anArg.CreateAttr("suffix", ")")
+	anArg.CreateAttr("separator", ", ")
+	anElement  = aProvider.CreateElement("symbols")
+	anElement.CreateAttr("type", "event")
+	aBehavior  = anElement.CreateElement("behavior")
+	anArg	   = aBehavior.CreateElement("arguments")
+	anArg.CreateAttr("prefix", "(")
+	anArg.CreateAttr("suffix", ")")
+	anArg.CreateAttr("separator", ", ")
+	anElement  = aProvider.CreateElement("symbols")
+	anElement.CreateAttr("type", "keyword")
+	anElement  = aProvider.CreateElement("symbols")
+	anElement.CreateAttr("type", "type")
+	anElement  = aProvider.CreateElement("symbols")
+	anElement.CreateAttr("type", "variable,constant,argument")
+
 	anElement  = aProvider.CreateElement("set")
-	anElement.CreateText("lsl.entities")
-
-	theCompletionsDoc.CreateComment("Entities")
-	aSet      := theCompletionsDoc.CreateElement("set")
-	aSet.CreateAttr("name", "lsl.entities")
-	anElement  = aSet.CreateElement("completion")
-	anElement.CreateAttr("string", "\"")
-
-	// there will be more and more stuff here before we
-	// actually *start* parsing the KWDB!
+	anElement.CreateText("lsl.functions")
+	anElement  = aProvider.CreateElement("set")
+	anElement.CreateText("lsl.events")
+	anElement  = aProvider.CreateElement("set")
+	anElement.CreateText("lsl.keywords")
+	anElement  = aProvider.CreateElement("set")
+	anElement.CreateText("lsl.types")
+	anElement  = aProvider.CreateElement("set")
+	anElement.CreateText("lsl.constants")
 
 	// Now prepare to read from the KWDB
 	doc := etree.NewDocument()
@@ -139,6 +163,12 @@ func main() {
 	if err := parseSet(kwdbRoot, theCompletionsDoc, "Functions", "lsl.functions", "function", "function"); err != nil {
 		log.Println(err)
 	}
+
+	// Functions
+	if err := parseSet(kwdbRoot, theCompletionsDoc, "Events", "lsl.events", "event", "event"); err != nil {
+		log.Println(err)
+	}
+
 
 	completionsDoc.Indent(2)
 	completionsDoc.WriteTo(os.Stdout)
