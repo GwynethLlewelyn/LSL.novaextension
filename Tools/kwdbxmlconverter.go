@@ -38,6 +38,13 @@ func parseSet(readDoc, writeDoc *etree.Element, comment, name, symbol, element s
 					if attr.Value == "deprecated" {
 						aCompletion.CreateAttr("deprecated", "true")
 					}
+				case "type":
+					// log.Printf("%q: We got a \"type\" For name: %q symbol: %q element %q", attr.Key, name, symbol, element)
+					if symbol == "function" {
+						aCompletion.CreateAttr("result", attr.Value)
+					}
+				case "value":	// also for constants; should be ignored for now
+					aCompletion.CreateAttr("value", attr.Value)
 				case "version":
 				case "grid":
 				// case "delay":
@@ -48,6 +55,31 @@ func parseSet(readDoc, writeDoc *etree.Element, comment, name, symbol, element s
 		if oneKeyword := kwdbKeyword.SelectElement("description"); oneKeyword != nil {
 			aDescription = aCompletion.CreateElement("description")
 			aDescription.CreateText(oneKeyword.Text())
+		}
+		// if it's a function, collect parameters, they'll be used as a behaviour:
+		if element == "function" || element == "method" {
+			var behaviourText = "("	// We will accumulate params here.
+			var first = true		// Used to format the first parameter differently from the others.
+
+			for _, param := range kwdbKeyword.SelectElements("param") {
+				for _, attr := range param.Attr {
+					//TODO(gwyneth): we assume that "type" comes always before "name"
+					// If that's not the case, we will need to add a little more code...
+					if first {
+						behaviourText += attr.Value
+						first = false
+					} else {
+						if attr.Key == "type" {
+							behaviourText += ","
+						}
+						behaviourText += " " + attr.Value
+					}
+				}
+			}
+			behaviourText += ")"
+			aBehaviour	:= aCompletion.CreateElement("behavior")
+			anAppend	:= aBehaviour.CreateElement("append")
+			anAppend.CreateText(behaviourText)
 		}
 	}
 
@@ -95,6 +127,16 @@ func main() {
 
 	// Now go for language types
 	if err := parseSet(kwdbRoot, theCompletionsDoc, "Language types", "lsl.types", "type", "type"); err != nil {
+		log.Println(err)
+	}
+
+	// Constants
+	if err := parseSet(kwdbRoot, theCompletionsDoc, "Constants", "lsl.constants", "constant", "constant"); err != nil {
+		log.Println(err)
+	}
+
+	// Functions
+	if err := parseSet(kwdbRoot, theCompletionsDoc, "Functions", "lsl.functions", "function", "function"); err != nil {
 		log.Println(err)
 	}
 
