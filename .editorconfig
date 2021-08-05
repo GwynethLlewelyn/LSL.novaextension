@@ -13,3 +13,4 @@ trim_trailing_whitespace = true
 # The property below is not yet universally supported
 [*.md]
 max_line_length = 108
+word_wrap = true

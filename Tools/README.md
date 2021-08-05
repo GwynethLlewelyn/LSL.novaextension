@@ -42,12 +42,14 @@ Here you'll find a file named `kwdb.xml`. To get the latest version of that file
 
 Then change the directory to `/Tools` (where this README is located) and just compile the converter:
 
-`go build -o kwdbxmlconverter`
+`go build -o kwdbxmlconvert`
 
 and to run it from the command line, it's as easy as typing:
 
-`./kwdbxmlconverter`
+`./kwdbxmlconvert`
 
-If all goes well, you should get a `Linden Scripting Language.xml` file. This is for the _completions_ — therefore, you need to drop it on top of the file with the same name under `/Completions`.
+If all goes well, you should get XML on the output. This is for the _completions_ — therefore, you need to pipe the output to `/Completions/Linden Scripting Language.xml`.
 
-On Nova, just uncheck and check this extension — it should reload the new completions file (which also includes descriptions/tooltips). If not, well, try to restart Nova. If not even that works, it means that my own code is unable to parse the latest version of the LSL2 Keyword Database. That's a bummer! Sorry, you'll have to deinstall this extension, and re-install it again, thus restoring the original files... and losing all your own work, unless you remembered to back it up!
+You can run `./kwdbxmlconvert --help` to see some more options. In particular, at the time of writing, `kwdbxmlconvert` can _optionally_ also generate a few XML tags for the syntax configuration file; however, you will need to manually copy & paste the output to the required section(s); the process is not fully automated yet (the syntax file is considerably more complex!).
+
+After you have copied the files to their proper places, go back to Nova and uncheck, then re-check this extension — it should reload the new completions file (which also includes descriptions/tooltips). If not, well, try to restart Nova. If not even that works, it means that my own code is unable to parse the latest version of the LSL2 Keyword Database. That's a bummer! Sorry, you'll have to deinstall this extension, and re-install it again, thus restoring the original files... and losing all your own work, unless you remembered to back it up!

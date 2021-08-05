@@ -30,3 +30,44 @@ Temporary Items
 
 # Stuff from the Nova editor
 .nova
+
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+# ---> Go
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+*.o
+*.a
+*.so
+kwdbxmlconvert
+
+# Folders
+_obj
+_test
+
+# Architecture specific extensions/prefixes
+*.[568vq]
+[568vq].out
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+*.cgo1.go
+*.cgo2.c
+_cgo_defun.c
+_cgo_gotypes.go
+_cgo_export.*
+
+_testmain.go
+
+*.exe
+# Test binary, built with `go test -c`
+*.test
+*.prof
