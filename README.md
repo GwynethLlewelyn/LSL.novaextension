@@ -5,21 +5,23 @@
 
 A Nova extension providing syntax highlighting for Linden Scripting Language (LSL), the scripting language used in the Second Life® and OpenSimulator virtual world platforms.
 
-Based on the amazing work by Sei Lisa and Mako Nozaki, who compiled the [LSL2 Keywords Database](https://github.com/Sei-Lisa/kwdb) (version 0.0.20210612000), without which I would need to do everything manually (like I did for the first release!).
+Based on the amazing work by Sei Lisa and Mako Nozaki, who compiled the [LSL2 Keywords Database](https://github.com/Sei-Lisa/kwdb) (version 0.0.20210612000), also known as KWDB, without which I would need to do everything manually (like I did for the first release!).
 
 ## Language Support
 
 ### This extension currently supports the following features of Linden Scripting Language:
 
-- Syntax Highlighting for the latest version of LSL (as of the time of releasing this extension)
-- Auto-completions for major LSL constructions and functions (as far as I could make them work)
-- OpenSimulator & Aurora Sim LSL functions/constants
+- Syntax Highlighting for the latest version of LSL (as of the current release of the KWDB)
+- Auto-completions for major LSL constructions, functions and constants (as far as I could make them work)
+- OpenSimulator & Aurora Sim LSL functions/constants (not all are correctly tagged, though)
 
 ### Not done yet:
 
-- Adding tooltips and parameter auto-completion for _all_ functions
+- Hovering tooltips. I haven't figured out how _that_ works _without_ using a Language Server Protocol application.
 - Distinguishing global from local scopes for variables. This shouldn't be too hard, since LSL is rather rigid with declarations, but I haven't done it yet.
-- Automagically updating the syntax auto-completions every time Lisa & Nozaki update their own database
+- Making the jumps to definition work consistently.
+- Getting the scope selections to work.
+- Automagically updating the syntax auto-completions every time Lisa & Nozaki update their own database (there are now a few tools to help with that).
 
 ## Disclaimers, Acknowledgements & Warnings
 
@@ -47,6 +49,6 @@ Nova® and the Nova logo are registered trademarks of Panic Inc.
 
 The KWDB (a.k.a. LSL2/OSSL/AA Keywords Database and Derived Files Generator) is copyrighted by Sei Lisa and Mako Nozaki and released under a [GNU Lesser General Public License 3](http://www.gnu.org/licenses/lgpl-3.0.html), with parts also copyrighted by Linden Lab and released under the same license.
 
-Some of the test files under the `/Tests` directory have been shamelessly copied from the LSL Portal section of the [Second Life Wiki](http://wiki.secondlife.com/wiki/LSL_Portal); their authors are credited on each of them.
+Some of the test files under the `/Tests` directory have been shamelessly copied from the LSL Portal section of the [Second Life Wiki](http://wiki.secondlife.com/wiki/Category:LSL_Library), and, for the OpenSimulator dialect of LSL, from the [OpenSimulator Wiki](http://opensimulator.org/wiki/OSSL_Script_Library); their authors are credited on each of them.
 
 Gwyneth Llewelyn is not affiliated with either of these companies or organisations, much less endorsed by any of them.
