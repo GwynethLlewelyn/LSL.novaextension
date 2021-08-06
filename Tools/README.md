@@ -18,7 +18,7 @@ You have been warned.
 
 ## Introduction
 
-Since I've 'discovered' Sei Lisa and Mako Nozaki's most excellent LSL2/OSSL/AA Keywords Database and Derived Files Generator, which is at the basis of almost all contemporary syntax highlighters because it is very comprehensive and has been continuously updated ver the years, it seemed rather stupid to manually 'duplicate' their work (they use similar resources/references), especially when I'm quite sure that I won't be able to keep up with them. As a consequence, it would be a pity if LSL support on Nova lagged behind what other editors (especially free and open-source ones!) were [already offering](https://github.com/buildersbrewery/linden-scripting-language).
+Since I've 'discovered' Sei Lisa and Mako Nozaki's most excellent LSL2/OSSL/AA Keywords Database and Derived Files Generator, which is at the basis of almost all contemporary syntax highlighters because it is very comprehensive and has been continuously updated over the years, it seemed rather stupid to manually 'duplicate' their work (they use similar resources/references), especially when I'm quite sure that I won't be able to keep up with them. As a consequence, it would be a pity if LSL support on Nova lagged behind what other editors (especially free and open-source ones!) were [already offering](https://github.com/buildersbrewery/linden-scripting-language).
 
 Therefore, after much research (well, for me, at least), I decided to at least partially automate the process of keeping things up-to-date with the least effort, and write a small tool that converts the KWDB XML into Nova's auto-completions XML.
 
