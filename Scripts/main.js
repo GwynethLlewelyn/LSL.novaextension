@@ -6,7 +6,7 @@ nova.commands.register("gwynethllewelyn.LindenScriptingLanguage.search", (editor
 		return;
 	}
 	// TODO: put this inside a Nova tab instead
-	nova.openURL("http://wiki.secondlife.com/wiki/" + encodeURIComponent(query));
+	nova.openURL("https://wiki.secondlife.com/wiki/" + encodeURIComponent(query));
 });
 
 
