@@ -52,3 +52,5 @@ The KWDB (a.k.a. LSL2/OSSL/AA Keywords Database and Derived Files Generator) is 
 Some of the test files under the `/Tests` directory have been shamelessly copied from the LSL Portal section of the [Second Life Wiki](http://wiki.secondlife.com/wiki/Category:LSL_Library), and, for the OpenSimulator dialect of LSL, from the [OpenSimulator Wiki](http://opensimulator.org/wiki/OSSL_Script_Library); their authors are credited on each of them.
 
 Gwyneth Llewelyn is not affiliated with either of these companies or organisations, much less endorsed by any of them.
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=GwynethLlewelyn_LSL.novaextension&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=GwynethLlewelyn_LSL.novaextension)
