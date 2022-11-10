@@ -3,7 +3,7 @@
 	"name": "Linden Scripting Language",
 	"organization": "Gwyneth Llewelyn",
 	"description": "A Nova extension providing syntax highlighting for Linden Scripting Language (LSL), the scripting language used in the Second Life® and OpenSimulator virtual world platforms.",
-	"version": "1.5.0",
+	"version": "1.6.0",
 	"min_runtime": "6.0",
 	"bugs": "https://github.com/GwynethLlewelyn/LSL.novaextension/issues",
 	"repository": "https://github.com/GwynethLlewelyn/LSL.novaextension",
