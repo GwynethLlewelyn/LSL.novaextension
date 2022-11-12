@@ -37,9 +37,15 @@ While this extension is _mostly_ working, and should give you adequate syntax co
 
 Warning: for tinkerers, hackers, and hard-core Nova extension programmers only!
 
+### KWDB Converter
+
 I've used the directory `/Tools` to keep around a few tools used to extract information from the *KWDB* and convert it into the XML that the Nova syntax extensions require. You're welcome to tinker with those, as well as submit push requests with your own contributions.
 
 Although it's more conventional to do those tools in either Perl or Python, which are especially well-suited to the task of parsing XML quickly, or, alternatively, do them in JavaScript, so that they could be simply integrated into Nova, I'm not proficient enough in either of those, so I simply did it in Go. The directory also includes a [README.md](Tools/README.md) with some simple tips on how to properly compile those.
+
+### LSL linter
+
+We don't have a language server for LSL (yet!) but we have something reasonably similar: the [`lslint` project](https://github.com/Makopo/lslint/)
 
 ## Legal Acknowledgements
 

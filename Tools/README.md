@@ -22,13 +22,15 @@ Since I've 'discovered' Sei Lisa and Mako Nozaki's most excellent LSL2/OSSL/AA K
 
 Therefore, after much research (well, for me, at least), I decided to at least partially automate the process of keeping things up-to-date with the least effort, and write a small tool that converts the KWDB XML into Nova's auto-completions XML.
 
-In reality, there are lots of tools doing the same for several other editors (many come from [the official KWDB repository](https://github.com/Sei-Lisa/kwdb) itself). Most are written in Python and/or Perl — two programming languages that I'm not really familiar with — so I decided to do it in [Go](https://golang.org). Allegedly, Go's performance in parsing XML is mediocre, but my other alternative — using PHP — was at least as bad, so, well, if you wish to tinker with the code, it's in Go...
+In reality, there are lots of tools doing the same for several other editors (many come from [the official KWDB repository](https://github.com/Sei-Lisa/kwdb) itself). Most are written in Python and/or Perl — two programming languages that I'm not really familiar with — so I decided to do it in [Go](https://golang.org), since it's a programming language I personall love. Allegedly, Go's performance in parsing XML is mediocre, but my other alternative — using PHP — was at least as bad, so, well, if you wish to tinker with the code, it's in Go...
 
 I'm considering a way to _automatically_ download the LSL2 Keywords Database every time it gets updated, running the conversion utility on it, and producing the set of files required by Nova to deal with auto-completion and tooltips. That would make this extension permanently in sync with Lisa & Nozaki's work. However, at this stage, my Nova extension development skills are not sufficient to write that code, so, for now, everything is still done manually.
 
+[@buildersbrewery](https://github.com/buildersbrewery/linden-scripting-language) suggested to add an automation workflow on GitHub to do exactly that, but I'm afraid I'm not knowledgeable enough to do with that automatically (especially because the last step — pushing it to Nova's repository — would always have to be made manually...)
+
 ## Installing Go
 
-All you need to do is to use [Homebrew](https://brew.sh) and type `brew install go`. It will set everything up beautifully and you'll be ready to go (pun definitely intended!).
+All you need to do is to use [Homebrew](https://brew.sh) and type `brew install go`. It will set everything up beautifully and you'll be ready to go (pun definitely intended!) with the latest version.
 
 If by some reason you hate Homebrew, you can always install it directly from Google's own Go site; just [download the latest package](https://golang.org/dl/) and install it like any other application; a pre-compiled Apple Silicon version is also available. There _might_ be some additional tinkering required to get everything working (although I think that, these days, nothing else is necessary).
 
