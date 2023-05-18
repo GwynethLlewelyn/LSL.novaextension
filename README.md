@@ -1,4 +1,3 @@
-
 ![LSL syntax highlighting for the Nova editor](https://github.com/GwynethLlewelyn/LSL.novaextension/blob/main/Images/extension/Nova-LSL-logo.png?raw=true)
 
 # Linden Scripting Language (LSL) Nova extension
@@ -11,23 +10,24 @@ Based on the amazing work by Sei Lisa and Mako Nozaki, who compiled the [LSL2 Ke
 
 ### This extension currently supports the following features of Linden Scripting Language:
 
-- Syntax Highlighting for the latest version of LSL (as of the current release of the KWDB)
-- Auto-completions for major LSL constructions, functions and constants (as far as I could make them work)
-- OpenSimulator & Aurora Sim LSL functions/constants (not all are correctly tagged, though)
+-   Syntax Highlighting for the latest version of LSL (as of the current release of the KWDB)
+-   Auto-completions for major LSL constructions, functions and constants (as far as I could make them work)
+-   OpenSimulator & Aurora Sim LSL functions/constants (not all are correctly tagged, though)
 
 ### Not done yet:
 
-- Hovering tooltips. I haven't figured out how _that_ works _without_ using a Language Server Protocol application.
-- Distinguishing global from local scopes for variables. This shouldn't be too hard, since LSL is rather rigid with declarations, but I haven't done it yet.
-- Making the jumps to definition work consistently.
-- Getting the scope selections to work.
-- Automagically updating the syntax auto-completions every time Lisa & Nozaki update their own database (there are now a few tools to help with that).
+-   Hovering tooltips. I haven't figured out how _that_ works _without_ using a Language Server Protocol application.
+-   Distinguishing global from local scopes for variables. This shouldn't be too hard, since LSL is rather rigid with declarations, but I haven't done it yet.
+-   Making the jumps to definition work consistently.
+-   Getting the scope selections to work.
+-   Automagically updating the syntax auto-completions every time Lisa & Nozaki update their own database (there are now a few tools to help with that).
+-   Using Panic's new support for Tree-sitter grammars, which is even trickier to deal with (and requires some compilation) than the current language files...
 
 ## Disclaimers, Acknowledgements & Warnings
 
 Like many other LSL syntax highlighters, this extension now uses the most excellent work done by Sei Lisa and Mako Nozaki on the LSL2/OSSL/AA Keywords Database and Derived Files Generator (also known as [KWDB](https://github.com/Sei-Lisa/kwdb)), providing a complete LSL2 Keywords Database for Second Life®, OpenSimulator, and AuroraSim.
 
-While not affiliated with Linden Lab, the developers of *KWDB* have collected information from a lot of different sources and attempt to maintain a list of keywords as current as possible. They also provide a few conversion utilities to transform the `kwdb.xml` database into several popular syntax highlighting schemes.
+While not affiliated with Linden Lab, the developers of _KWDB_ have collected information from a lot of different sources and attempt to maintain a list of keywords as current as possible. They also provide a few conversion utilities to transform the `kwdb.xml` database into several popular syntax highlighting schemes.
 
 But please note that LSL is a language in perpetual flux, with Linden Lab (and the OpenSimulator core developer team!) constantly adding new features and functionality, and sometimes making older versions obsolete, shuffling parameters around, etc. so at some point in time this extension will be inevitably out of sync, until I figure out a way to automatically parse the XML from the KWDB from within this Nova extension...
 
@@ -39,7 +39,7 @@ Warning: for tinkerers, hackers, and hard-core Nova extension programmers only!
 
 ### KWDB Converter
 
-I've used the directory `/Tools` to keep around a few tools used to extract information from the *KWDB* and convert it into the XML that the Nova syntax extensions require. You're welcome to tinker with those, as well as submit push requests with your own contributions.
+I've used the directory `/Tools` to keep around a few tools used to extract information from the _KWDB_ and convert it into the XML that the Nova syntax extensions require. You're welcome to tinker with those, as well as submit push requests with your own contributions.
 
 Although it's more conventional to do those tools in either Perl or Python, which are especially well-suited to the task of parsing XML quickly, or, alternatively, do them in JavaScript, so that they could be simply integrated into Nova, I'm not proficient enough in either of those, so I simply did it in Go. The directory also includes a [README.md](Tools/README.md) with some simple tips on how to properly compile those.
 
