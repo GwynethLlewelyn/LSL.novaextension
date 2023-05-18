@@ -5,7 +5,7 @@
 
 A Nova extension providing syntax highlighting for Linden Scripting Language (LSL), the scripting language used in the Second Life® and OpenSimulator virtual world platforms.
 
-Based on the amazing work by Sei Lisa and Mako Nozaki, who compiled the [LSL2 Keywords Database](https://github.com/Sei-Lisa/kwdb) (version 0.0.20210612000), also known as KWDB, without which I would need to do everything manually (like I did for the first release!).
+Based on the amazing work by Sei Lisa and Mako Nozaki, who compiled the [LSL2 Keywords Database](https://github.com/Sei-Lisa/kwdb) (version 0.0.20230409000), also known as KWDB, without which I would need to do everything manually (like I did for the first release!).
 
 ## Language Support
 
