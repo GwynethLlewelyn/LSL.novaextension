@@ -32,7 +32,7 @@ I'm considering a way to _automatically_ download the LSL2 Keywords Database eve
 
 All you need to do is to use [Homebrew](https://brew.sh) and type `brew install go`. It will set everything up beautifully and you'll be ready to go (pun definitely intended!) with the latest version.
 
-If by some reason you hate Homebrew, you can always install it directly from Google's own Go site; just [download the latest package](https://golang.org/dl/) and install it like any other application; a pre-compiled Apple Silicon version is also available. There _might_ be some additional tinkering required to get everything working (although I think that, these days, nothing else is necessary).
+If by some reason you hate Homebrew, you can always install it directly from Google's own Go site; just [download the latest package](https://go.dev/dl/) and install it like any other application; a pre-compiled Apple Silicon version is also available. There _might_ be some additional tinkering required to get everything working (although I think that, these days, nothing else is necessary).
 
 ## Downloading the keyword database
 
