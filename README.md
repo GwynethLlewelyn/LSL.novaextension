@@ -4,7 +4,7 @@
 
 A Nova extension providing syntax highlighting for Linden Scripting Language (LSL), the scripting language used in the Second Life® and OpenSimulator virtual world platforms.
 
-Based on the amazing work by Sei Lisa and Mako Nozaki, who compiled the [LSL2 Keywords Database](https://github.com/Sei-Lisa/kwdb) (version 0.0.20230409000), also known as KWDB, without which I would need to do everything manually (like I did for the first release!).
+Based on the amazing work by Sei Lisa and Mako Nozaki, who compiled the [LSL2 Keywords Database](https://github.com/Sei-Lisa/kwdb) (version 0.0.20230714000), also known as KWDB, without which I would need to do everything manually (like I did for the first release!).
 
 ## Language Support
 
@@ -45,7 +45,9 @@ Although it's more conventional to do those tools in either Perl or Python, whic
 
 ### LSL linter
 
-We don't have a language server for LSL (yet!) but we have something reasonably similar: the [`lslint` project](https://github.com/Makopo/lslint/)
+We don't have a language server for LSL (yet!) but we have something reasonably similar: the [`lslint` project](https://github.com/Makopo/lslint/). If you don't want to compile it on your own, it's included under the `/LSLint` directory. You have to run it passing the `builtins.txt` file that has been pre-assembled with the latest & greatest LSL definitions (also present in the very same directory).
+
+You can add it as an optional action on Nova; this extension doesn't do that automatically on your behalf (mostly because I don't know how!).
 
 ## Legal Acknowledgements
 
@@ -54,6 +56,8 @@ Second Life®, Linden Scripting Language and the inSL logo are trademarks of Lin
 Nova® and the Nova logo are registered trademarks of Panic Inc.
 
 The KWDB (a.k.a. LSL2/OSSL/AA Keywords Database and Derived Files Generator) is copyrighted by Sei Lisa and Mako Nozaki and released under a [GNU Lesser General Public License 3](http://www.gnu.org/licenses/lgpl-3.0.html), with parts also copyrighted by Linden Lab and released under the same license.
+
+LSLint is placed into the public domain.
 
 Some of the test files under the `/Tests` directory have been shamelessly copied from the LSL Portal section of the [Second Life Wiki](http://wiki.secondlife.com/wiki/Category:LSL_Library), and, for the OpenSimulator dialect of LSL, from the [OpenSimulator Wiki](http://opensimulator.org/wiki/OSSL_Script_Library); their authors are credited on each of them.
 
