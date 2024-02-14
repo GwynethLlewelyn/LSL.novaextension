@@ -1,6 +1,6 @@
 # BSD 3-Clause License
 
-Copyright (c) 2021, Gwyneth Llewelyn
+Copyright (c) 2021-2024, Gwyneth Llewelyn
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
