@@ -1,3 +1,5 @@
+
+
 nova.commands.register("gwynethllewelyn.LindenScriptingLanguage.search", (editor) => {
 	var query = editor.getTextInRange(editor.selectedRanges[0]).trim();
 
@@ -9,4 +11,5 @@ nova.commands.register("gwynethllewelyn.LindenScriptingLanguage.search", (editor
 	nova.openURL("https://wiki.secondlife.com/wiki/" + encodeURIComponent(query));
 });
 
-
+nova.commands.register("gwynethllewelyn.LindenScriptingLanguage.lint", (editor) => {
+});
