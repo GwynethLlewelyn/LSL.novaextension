@@ -4,7 +4,7 @@
 
 A Nova extension providing syntax highlighting for Linden Scripting Language (LSL), the scripting language used in the Second Life® and OpenSimulator virtual world platforms.
 
-Based on the amazing work by Sei Lisa and Mako Nozaki, who compiled the [LSL2 Keywords Database](https://github.com/Sei-Lisa/kwdb) (version 0.0.20230714000), also known as KWDB, without which I would need to do everything manually (like I did for the first release!).
+Based on the amazing work by Sei Lisa and Mako Nozaki, who compiled the [LSL2 Keywords Database](https://github.com/Sei-Lisa/kwdb) (version 0.0.20231219001), also known as KWDB, without which I would need to do everything manually (like I did for the first release!).
 
 ## Language Support
 
@@ -13,6 +13,8 @@ Based on the amazing work by Sei Lisa and Mako Nozaki, who compiled the [LSL2 Ke
 -   Syntax Highlighting for the latest version of LSL (as of the current release of the KWDB)
 -   Auto-completions for major LSL constructions, functions and constants (as far as I could make them work)
 -   OpenSimulator & Aurora Sim LSL functions/constants (not all are correctly tagged, though)
+- Opening the LSL Portal on the Second Life Wiki for the object currently selected
+- Experimental: LSlint (LSL linter) support
 
 ### Not done yet:
 
@@ -22,6 +24,7 @@ Based on the amazing work by Sei Lisa and Mako Nozaki, who compiled the [LSL2 Ke
 -   Getting the scope selections to work.
 -   Automagically updating the syntax auto-completions every time Lisa & Nozaki update their own database (there are now a few tools to help with that).
 -   Using Panic's new support for Tree-sitter grammars, which is even trickier to deal with (and requires some compilation) than the current language files...
+- Fully support the LSL linter from W-Hat.
 
 ## Disclaimers, Acknowledgements & Warnings
 
@@ -32,6 +35,8 @@ While not affiliated with Linden Lab, the developers of _KWDB_ have collected in
 But please note that LSL is a language in perpetual flux, with Linden Lab (and the OpenSimulator core developer team!) constantly adding new features and functionality, and sometimes making older versions obsolete, shuffling parameters around, etc. so at some point in time this extension will be inevitably out of sync, until I figure out a way to automatically parse the XML from the KWDB from within this Nova extension...
 
 While this extension is _mostly_ working, and should give you adequate syntax colouring (and even reasonable scoping) don't expect the results to be _exactly_ the same as inside the viewer's editor. In particular, the colours will match your Nova theme, not the conventions set by Linden Lab. It's theoretically possible to create a new, specific theme to deal with the LL colour conventions, but I haven't done that yet (I'm not expecting many people to use _this_ extension!).
+
+Also thanks to other Nova extension developers (including, but not limited to, Genealabs) for writing good, clean, understandable code that I shamelessly copied and reused.
 
 ## Extra goodies!
 
@@ -47,7 +52,7 @@ Although it's more conventional to do those tools in either Perl or Python, whic
 
 We don't have a language server for LSL (yet!) but we have something reasonably similar: the [`lslint` project](https://github.com/Makopo/lslint/). If you don't want to compile it on your own, it's included under the `/LSLint` directory. You have to run it passing the `builtins.txt` file that has been pre-assembled with the latest & greatest LSL definitions (also present in the very same directory).
 
-You can add it as an optional action on Nova; this extension doesn't do that automatically on your behalf (mostly because I don't know how!).
+You can add it as an optional action on Nova; this extension doesn't do that automatically on your behalf yet.
 
 ## Legal Acknowledgements
 
