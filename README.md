@@ -13,8 +13,8 @@ Based on the amazing work by Sei Lisa and Mako Nozaki, who compiled the [LSL2 Ke
 -   Syntax Highlighting for the latest version of LSL (as of the current release of the KWDB)
 -   Auto-completions for major LSL constructions, functions and constants (as far as I could make them work)
 -   OpenSimulator & Aurora Sim LSL functions/constants (not all are correctly tagged, though)
-- Opening the LSL Portal on the Second Life Wiki for the object currently selected
-- Experimental: LSlint (LSL linter) support
+-   Opening the LSL Portal on the Second Life Wiki for the object currently selected
+-   Experimental: LSlint (LSL linter) support
 
 ### Not done yet:
 
@@ -24,7 +24,7 @@ Based on the amazing work by Sei Lisa and Mako Nozaki, who compiled the [LSL2 Ke
 -   Getting the scope selections to work.
 -   Automagically updating the syntax auto-completions every time Lisa & Nozaki update their own database (there are now a few tools to help with that).
 -   Using Panic's new support for Tree-sitter grammars, which is even trickier to deal with (and requires some compilation) than the current language files...
-- Fully support the LSL linter from W-Hat.
+-   Fully support the LSL linter from W-Hat.
 
 ## Disclaimers, Acknowledgements & Warnings
 
