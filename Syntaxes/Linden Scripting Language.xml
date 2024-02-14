@@ -977,6 +977,7 @@
 					<string>llGetObjectAnimationNames</string>
 					<string>llGetObjectDesc</string>
 					<string>llGetObjectDetails</string>
+					<string>llGetObjectLinkKey</string>
 					<string>llGetObjectMass</string>
 					<string>llGetObjectName</string>
 					<string>llGetObjectPermMask</string>
@@ -1009,6 +1010,7 @@
 					<string>llGetRegionSunRotation</string>
 					<string>llGetRegionTimeDilation</string>
 					<string>llGetRegionTimeOfDay</string>
+					<string>llGetRenderMaterial</string>
 					<string>llGetRootPosition</string>
 					<string>llGetRootRotation</string>
 					<string>llGetRot</string>
@@ -1036,6 +1038,7 @@
 					<string>llGetUsedMemory</string>
 					<string>llGetUsername</string>
 					<string>llGetVel</string>
+					<string>llGetVisualParams</string>
 					<string>llGetWallclock</string>
 					<string>llGiveInventory</string>
 					<string>llGiveInventoryList</string>
@@ -1047,6 +1050,7 @@
 					<string>llGroundRepel</string>
 					<string>llGroundSlope</string>
 					<string>llHash</string>
+					<string>llHMAC</string>
 					<string>llHTTPRequest</string>
 					<string>llHTTPResponse</string>
 					<string>llInsertString</string>
@@ -1060,16 +1064,35 @@
 					<string>llKeyCountKeyValue</string>
 					<string>llKeysKeyValue</string>
 					<string>llLinear2sRGB</string>
+					<string>llLinkAdjustSoundVolume</string>
 					<string>llLinkLookAt</string>
 					<string>llLinkParticleSystem</string>
+					<string>llLinkPlaySound</string>
 					<string>llLinkRotLookAt</string>
+					<string>llLinksetDataAvailable</string>
+					<string>llLinksetDataCountFound</string>
+					<string>llLinksetDataCountKeys</string>
+					<string>llLinksetDataDelete</string>
+					<string>llLinksetDataDeleteFound</string>
+					<string>llLinksetDataDeleteProtected</string>
+					<string>llLinksetDataFindKeys</string>
+					<string>llLinksetDataListKeys</string>
+					<string>llLinksetDataRead</string>
+					<string>llLinksetDataReadProtected</string>
+					<string>llLinksetDataReset</string>
+					<string>llLinksetDataWrite</string>
+					<string>llLinksetDataWriteProtected</string>
+					<string>llLinkSetSoundQueueing</string>
+					<string>llLinkSetSoundRadius</string>
 					<string>llLinkSitTarget</string>
+					<string>llLinkStopSound</string>
 					<string>llList2CSV</string>
 					<string>llList2Float</string>
 					<string>llList2Integer</string>
 					<string>llList2Json</string>
 					<string>llList2Key</string>
 					<string>llList2List</string>
+					<string>llList2ListSlice</string>
 					<string>llList2ListStrided</string>
 					<string>llList2Rot</string>
 					<string>llList2String</string>
@@ -1078,10 +1101,12 @@
 					<string>llListenControl</string>
 					<string>llListenRemove</string>
 					<string>llListFindList</string>
+					<string>llListFindStrided</string>
 					<string>llListInsertList</string>
 					<string>llListRandomize</string>
 					<string>llListReplaceList</string>
 					<string>llListSort</string>
+					<string>llListSortStrided</string>
 					<string>llListStatistics</string>
 					<string>llLoadURL</string>
 					<string>llLog</string>
@@ -1141,6 +1166,8 @@
 					<string>llRemoveInventory</string>
 					<string>llRemoveVehicleFlags</string>
 					<string>llReplaceAgentEnvironment</string>
+					<string>llReplaceEnvironment</string>
+					<string>llReplaceSubString</string>
 					<string>llRequestAgentData</string>
 					<string>llRequestDisplayName</string>
 					<string>llRequestExperiencePermissions</string>
@@ -1195,6 +1222,7 @@
 					<string>llSetColor</string>
 					<string>llSetContentType</string>
 					<string>llSetDamage</string>
+					<string>llSetEnvironment</string>
 					<string>llSetForce</string>
 					<string>llSetForceAndTorque</string>
 					<string>llSetHoverHeight</string>
@@ -1206,6 +1234,7 @@
 					<string>llSetLinkMedia</string>
 					<string>llSetLinkPrimitiveParams</string>
 					<string>llSetLinkPrimitiveParamsFast</string>
+					<string>llSetLinkRenderMaterial</string>
 					<string>llSetLinkTexture</string>
 					<string>llSetLinkTextureAnim</string>
 					<string>llSetLocalRot</string>
@@ -1222,6 +1251,7 @@
 					<string>llSetPrimURL</string>
 					<string>llSetRegionPos</string>
 					<string>llSetRemoteScriptAccessPin</string>
+					<string>llSetRenderMaterial</string>
 					<string>llSetRot</string>
 					<string>llSetScale</string>
 					<string>llSetScriptState</string>
@@ -1242,7 +1272,9 @@
 					<string>llSetVehicleVectorParam</string>
 					<string>llSetVelocity</string>
 					<string>llSHA1String</string>
+					<string>llSHA256String</string>
 					<string>llShout</string>
+					<string>llSignRSA</string>
 					<string>llSin</string>
 					<string>llSitOnLink</string>
 					<string>llSitTarget</string>
@@ -1287,6 +1319,7 @@
 					<string>llVecDist</string>
 					<string>llVecMag</string>
 					<string>llVecNorm</string>
+					<string>llVerifyRSA</string>
 					<string>llVolumeDetect</string>
 					<string>llWanderWithin</string>
 					<string>llWanderWithin</string>
@@ -1559,9 +1592,12 @@
 					<string>osRegexIsMatch</string>
 					<string>osReplaceString</string>
 					<string>osStringSubString</string>
+					<string>osStringSubString</string>
 					<string>osStringStartsWith</string>
 					<string>osStringEndsWith</string>
 					<string>osStringIndexOf</string>
+					<string>osStringIndexOf</string>
+					<string>osStringLastIndexOf</string>
 					<string>osStringLastIndexOf</string>
 					<string>osStringRemove</string>
 					<string>osStringReplace</string>
@@ -1623,7 +1659,6 @@
 					<string>aaGetHealth</string>
 					<string>aaGetIsInfiniteRegion</string>
 					<string>aaGetLastOwner</string>
-					<string>aaGetLastOwner</string>
 					<string>aaGetTeam</string>
 					<string>aaGetTeamMembers</string>
 					<string>aaGetText</string>
@@ -1648,11 +1683,9 @@
 					<string>aaWindlightAddDayCycleFrame</string>
 					<string>aaWindlightGetDayCycle</string>
 					<string>aaWindlightGetScene</string>
-					<string>aaWindlightGetScene</string>
 					<string>aaWindlightGetSceneDayCycleKeyFrameCount</string>
 					<string>aaWindlightGetSceneIsStatic</string>
 					<string>aaWindlightRemoveDayCycleFrame</string>
-					<string>aaWindlightSetScene</string>
 					<string>aaWindlightSetScene</string>
 				</strings>
 			</scope>
@@ -1696,635 +1729,41 @@
 			</scope>
 			<scope name="lsl.identifier.constant.integer">
 				<strings>
-					<string>ACTIVE</string>
-					<string>AGENT_ALWAYS_RUN</string>
-					<string>AGENT_ATTACHMENTS</string>
-					<string>AGENT_AUTOPILOT</string>
-					<string>AGENT_AWAY</string>
-					<string>AGENT_BUSY</string>
-					<string>AGENT_BY_LEGACY_NAME</string>
-					<string>AGENT_BY_USERNAME</string>
-					<string>AGENT_CROUCHING</string>
-					<string>AGENT_FLYING</string>
-					<string>AGENT_IN_AIR</string>
-					<string>AGENT_LIST_PARCEL_OWNER</string>
-					<string>AGENT_LIST_PARCEL</string>
-					<string>AGENT_LIST_REGION</string>
-					<string>AGENT_MALE</string>
-					<string>AGENT_MOUSELOOK</string>
-					<string>AGENT_ON_OBJECT</string>
-					<string>AGENT_SCRIPTED</string>
-					<string>AGENT_SITTING</string>
-					<string>AGENT_TYPING</string>
-					<string>AGENT_WALKING</string>
-					<string>AGENT</string>
-					<string>ALL_SIDES</string>
-					<string>ANIM_ON</string>
-					<string>ATTACH_AVATAR_CENTER</string>
-					<string>ATTACH_BACK</string>
-					<string>ATTACH_BELLY</string>
-					<string>ATTACH_CHEST</string>
-					<string>ATTACH_CHIN</string>
-					<string>ATTACH_FACE_JAW</string>
-					<string>ATTACH_FACE_LEAR</string>
-					<string>ATTACH_FACE_LEYE</string>
-					<string>ATTACH_FACE_REAR</string>
-					<string>ATTACH_FACE_REYE</string>
-					<string>ATTACH_FACE_TONGUE</string>
-					<string>ATTACH_GROIN</string>
-					<string>ATTACH_HEAD</string>
-					<string>ATTACH_HIND_LFOOT</string>
-					<string>ATTACH_HIND_RFOOT</string>
-					<string>ATTACH_HUD_BOTTOM_LEFT</string>
-					<string>ATTACH_HUD_BOTTOM_RIGHT</string>
-					<string>ATTACH_HUD_BOTTOM</string>
-					<string>ATTACH_HUD_CENTER_1</string>
-					<string>ATTACH_HUD_CENTER_2</string>
-					<string>ATTACH_HUD_TOP_CENTER</string>
-					<string>ATTACH_HUD_TOP_LEFT</string>
-					<string>ATTACH_HUD_TOP_RIGHT</string>
-					<string>ATTACH_LEAR</string>
-					<string>ATTACH_LEFT_PEC</string>
-					<string>ATTACH_LEYE</string>
-					<string>ATTACH_LFOOT</string>
-					<string>ATTACH_LHAND_RING1</string>
-					<string>ATTACH_LHAND</string>
-					<string>ATTACH_LHIP</string>
-					<string>ATTACH_LLARM</string>
-					<string>ATTACH_LLLEG</string>
 					<string>ATTACH_LPEC</string>
-					<string>ATTACH_LPEC</string>
-					<string>ATTACH_LSHOULDER</string>
-					<string>ATTACH_LUARM</string>
-					<string>ATTACH_LULEG</string>
-					<string>ATTACH_LWING</string>
-					<string>ATTACH_MOUTH</string>
-					<string>ATTACH_NECK</string>
-					<string>ATTACH_NOSE</string>
-					<string>ATTACH_PELVIS</string>
-					<string>ATTACH_REAR</string>
-					<string>ATTACH_REYE</string>
-					<string>ATTACH_RFOOT</string>
-					<string>ATTACH_RHAND_RING1</string>
-					<string>ATTACH_RHAND</string>
-					<string>ATTACH_RHIP</string>
-					<string>ATTACH_RIGHT_PEC</string>
-					<string>ATTACH_RLARM</string>
-					<string>ATTACH_RLLEG</string>
 					<string>ATTACH_RPEC</string>
-					<string>ATTACH_RPEC</string>
-					<string>ATTACH_RSHOULDER</string>
-					<string>ATTACH_RUARM</string>
-					<string>ATTACH_RULEG</string>
-					<string>ATTACH_RWING</string>
-					<string>ATTACH_TAIL_BASE</string>
-					<string>ATTACH_TAIL_TIP</string>
-					<string>AVOID_CHARACTERS</string>
-					<string>AVOID_DYNAMIC_OBSTACLES</string>
-					<string>AVOID_NONE</string>
-					<string>CAMERA_ACTIVE</string>
-					<string>CAMERA_BEHINDNESS_ANGLE</string>
-					<string>CAMERA_BEHINDNESS_LAG</string>
-					<string>CAMERA_DISTANCE</string>
-					<string>CAMERA_FOCUS_LAG</string>
-					<string>CAMERA_FOCUS_LOCKED</string>
-					<string>CAMERA_FOCUS_OFFSET_X</string>
-					<string>CAMERA_FOCUS_OFFSET_Y</string>
-					<string>CAMERA_FOCUS_OFFSET_Z</string>
-					<string>CAMERA_FOCUS_OFFSET</string>
-					<string>CAMERA_FOCUS_THRESHOLD</string>
-					<string>CAMERA_FOCUS_X</string>
-					<string>CAMERA_FOCUS_Y</string>
-					<string>CAMERA_FOCUS_Z</string>
-					<string>CAMERA_FOCUS</string>
-					<string>CAMERA_PITCH</string>
-					<string>CAMERA_POSITION_LAG</string>
-					<string>CAMERA_POSITION_LOCKED</string>
-					<string>CAMERA_POSITION_THRESHOLD</string>
-					<string>CAMERA_POSITION_X</string>
-					<string>CAMERA_POSITION_Y</string>
-					<string>CAMERA_POSITION_Z</string>
-					<string>CAMERA_POSITION</string>
-					<string>CHANGED_ALLOWED_DROP</string>
-					<string>CHANGED_ANIMATION</string>
-					<string>CHANGED_COLOR</string>
-					<string>CHANGED_INVENTORY</string>
-					<string>CHANGED_LINK</string>
-					<string>CHANGED_MEDIA</string>
-					<string>CHANGED_OWNER</string>
-					<string>CHANGED_POSITION</string>
-					<string>CHANGED_REGION_RESTART</string>
-					<string>CHANGED_REGION_START</string>
-					<string>CHANGED_REGION</string>
-					<string>CHANGED_SCALE</string>
-					<string>CHANGED_SHAPE</string>
-					<string>CHANGED_STATE</string>
-					<string>CHANGED_TELEPORT</string>
-					<string>CHANGED_TEXTURE</string>
-					<string>CHARACTER_ACCOUNT_FOR_SKIPPED_FRAMES</string>
 					<string>CHARACTER_AVOIDANCE_MODE</string>
-					<string>CHARACTER_AVOIDANCE_MODE</string>
-					<string>CHARACTER_CMD_JUMP</string>
-					<string>CHARACTER_CMD_SMOOTH_STOP</string>
-					<string>CHARACTER_CMD_STOP</string>
-					<string>CHARACTER_DESIRED_SPEED</string>
-					<string>CHARACTER_DESIRED_TURN_SPEED</string>
-					<string>CHARACTER_LENGTH</string>
 					<string>CHARACTER_MAX_ACCEL</string>
-					<string>CHARACTER_MAX_ACCEL</string>
-					<string>CHARACTER_MAX_ANGULAR_ACCEL</string>
-					<string>CHARACTER_MAX_ANGULAR_SPEED</string>
 					<string>CHARACTER_MAX_DECEL</string>
-					<string>CHARACTER_MAX_DECEL</string>
-					<string>CHARACTER_MAX_SPEED</string>
-					<string>CHARACTER_MAX_TURN_RADIUS</string>
-					<string>CHARACTER_ORIENTATION</string>
-					<string>CHARACTER_RADIUS</string>
-					<string>CHARACTER_STAY_WITHIN_PARCEL</string>
-					<string>CHARACTER_TURN_SPEED_MULTIPLIER</string>
-					<string>CHARACTER_TYPE_A</string>
 					<string>CHARACTER_TYPE_A</string>
 					<string>CHARACTER_TYPE_B</string>
-					<string>CHARACTER_TYPE_B</string>
-					<string>CHARACTER_TYPE_C</string>
 					<string>CHARACTER_TYPE_C</string>
 					<string>CHARACTER_TYPE_D</string>
-					<string>CHARACTER_TYPE_D</string>
-					<string>CHARACTER_TYPE_NONE</string>
 					<string>CHARACTER_TYPE_NONE</string>
 					<string>CHARACTER_TYPE</string>
-					<string>CHARACTER_TYPE</string>
-					<string>CLICK_ACTION_BUY</string>
-					<string>CLICK_ACTION_NONE</string>
-					<string>CLICK_ACTION_OPEN_MEDIA</string>
-					<string>CLICK_ACTION_OPEN</string>
-					<string>CLICK_ACTION_PAY</string>
-					<string>CLICK_ACTION_PLAY</string>
-					<string>CLICK_ACTION_SIT</string>
-					<string>CLICK_ACTION_TOUCH</string>
-					<string>CLICK_ACTION_ZOOM</string>
-					<string>CONTENT_TYPE_ATOM</string>
-					<string>CONTENT_TYPE_FORM</string>
-					<string>CONTENT_TYPE_HTML</string>
-					<string>CONTENT_TYPE_JSON</string>
-					<string>CONTENT_TYPE_LLSD</string>
-					<string>CONTENT_TYPE_RSS</string>
-					<string>CONTENT_TYPE_TEXT</string>
-					<string>CONTENT_TYPE_XHTML</string>
-					<string>CONTENT_TYPE_XML</string>
-					<string>CONTROL_BACK</string>
-					<string>CONTROL_DOWN</string>
-					<string>CONTROL_FWD</string>
-					<string>CONTROL_LBUTTON</string>
-					<string>CONTROL_LEFT</string>
-					<string>CONTROL_ML_LBUTTON</string>
-					<string>CONTROL_RIGHT</string>
-					<string>CONTROL_ROT_LEFT</string>
-					<string>CONTROL_ROT_RIGHT</string>
-					<string>CONTROL_UP</string>
-					<string>DATA_BORN</string>
-					<string>DATA_NAME</string>
-					<string>DATA_ONLINE</string>
-					<string>DATA_PAYINFO</string>
-					<string>DATA_RATING</string>
-					<string>DATA_SIM_POS</string>
-					<string>DATA_SIM_RATING</string>
-					<string>DATA_SIM_RELEASE</string>
-					<string>DATA_SIM_STATUS</string>
-					<string>DEBUG_CHANNEL</string>
 					<string>DENSITY</string>
-					<string>ENV_INVALID_AGENT</string>
-					<string>ENV_INVALID_RULE</string>
-					<string>ENV_NO_ENVIRONMENT</string>
-					<string>ENV_NO_EXPERIENCE_LAND</string>
-					<string>ENV_NO_EXPERIENCE_PERMISSION</string>
-					<string>ENV_NOT_EXPERIENCE</string>
-					<string>ENV_THROTTLE</string>
-					<string>ENV_VALIDATION_FAIL</string>
-					<string>ENVIRONMENT_DAYINFO</string>
-					<string>ERR_GENERIC</string>
-					<string>ERR_MALFORMED_PARAMS</string>
-					<string>ERR_PARCEL_PERMISSIONS</string>
-					<string>ERR_RUNTIME_PERMISSIONS</string>
-					<string>ERR_THROTTLED</string>
 					<string>ESTATE_ACCESS_ALLOWED_AGENT_ADD</string>
 					<string>ESTATE_ACCESS_ALLOWED_AGENT_REMOVE</string>
 					<string>ESTATE_ACCESS_ALLOWED_GROUP_ADD</string>
 					<string>ESTATE_ACCESS_ALLOWED_GROUP_REMOVE</string>
 					<string>ESTATE_ACCESS_BANNED_AGENT_ADD</string>
 					<string>ESTATE_ACCESS_BANNED_AGENT_REMOVE</string>
-					<string>FALSE</string>
-					<string>FORCE_DIRECT_PATH</string>
 					<string>FRICTION</string>
-					<string>FRICTION</string>
-					<string>GCNP_RADIUS</string>
-					<string>GCNP_STATIC</string>
 					<string>GRAVITY_MULTIPLIER</string>
 					<string>HORIZONTAL</string>
-					<string>HTTP_ACCEPT</string>
-					<string>HTTP_BODY_MAXLENGTH</string>
-					<string>HTTP_BODY_TRUNCATED</string>
-					<string>HTTP_CUSTOM_HEADER</string>
-					<string>HTTP_METHOD</string>
-					<string>HTTP_MIMETYPE</string>
-					<string>HTTP_PRAGMA_NO_CACHE</string>
-					<string>HTTP_USER_AGENT</string>
-					<string>HTTP_VERBOSE_THROTTLE</string>
-					<string>HTTP_VERIFY_CERT</string>
-					<string>INVENTORY_ALL</string>
-					<string>INVENTORY_ANIMATION</string>
-					<string>INVENTORY_BODYPART</string>
-					<string>INVENTORY_CLOTHING</string>
-					<string>INVENTORY_GESTURE</string>
-					<string>INVENTORY_LANDMARK</string>
-					<string>INVENTORY_NONE</string>
-					<string>INVENTORY_NOTECARD</string>
-					<string>INVENTORY_OBJECT</string>
-					<string>INVENTORY_SCRIPT</string>
-					<string>INVENTORY_SETTING</string>
-					<string>INVENTORY_SOUND</string>
-					<string>INVENTORY_TEXTURE</string>
-					<string>JSON_APPEND</string>
-					<string>KFM_CMD_PAUSE</string>
 					<string>KFM_CMD_PAUSE</string>
 					<string>KFM_CMD_PLAY</string>
-					<string>KFM_CMD_PLAY</string>
-					<string>KFM_CMD_STOP</string>
 					<string>KFM_CMD_STOP</string>
 					<string>KFM_COMMAND</string>
-					<string>KFM_COMMAND</string>
-					<string>KFM_DATA</string>
 					<string>KFM_DATA</string>
 					<string>KFM_FORWARD</string>
-					<string>KFM_FORWARD</string>
-					<string>KFM_LOOP</string>
 					<string>KFM_LOOP</string>
 					<string>KFM_MODE</string>
-					<string>KFM_MODE</string>
-					<string>KFM_PING_PONG</string>
 					<string>KFM_PING_PONG</string>
 					<string>KFM_REVERSE</string>
-					<string>KFM_REVERSE</string>
-					<string>KFM_ROTATION</string>
 					<string>KFM_ROTATION</string>
 					<string>KFM_TRANSLATION</string>
-					<string>KFM_TRANSLATION</string>
-					<string>LAND_LARGE_BRUSH</string>
-					<string>LAND_LEVEL</string>
-					<string>LAND_LOWER</string>
-					<string>LAND_MEDIUM_BRUSH</string>
-					<string>LAND_NOISE</string>
-					<string>LAND_RAISE</string>
-					<string>LAND_REVERT</string>
-					<string>LAND_SMALL_BRUSH</string>
-					<string>LAND_SMOOTH</string>
-					<string>LINK_ALL_CHILDREN</string>
-					<string>LINK_ALL_OTHERS</string>
-					<string>LINK_ROOT</string>
-					<string>LINK_SET</string>
-					<string>LINK_THIS</string>
-					<string>LIST_STAT_GEOMETRIC_MEAN</string>
-					<string>LIST_STAT_HARMONIC_MEAN</string>
-					<string>LIST_STAT_MAX</string>
-					<string>LIST_STAT_MEAN</string>
-					<string>LIST_STAT_MEDIAN</string>
-					<string>LIST_STAT_MIN</string>
-					<string>LIST_STAT_NUM_COUNT</string>
-					<string>LIST_STAT_RANGE</string>
-					<string>LIST_STAT_STD_DEV</string>
-					<string>LIST_STAT_SUM_SQUARES</string>
-					<string>LIST_STAT_SUM</string>
-					<string>LOOP</string>
-					<string>LSL_STATUS_BOUNDS_ERROR</string>
-					<string>LSL_STATUS_INTERNAL_ERROR</string>
-					<string>LSL_STATUS_MALFORMED_PARAMS</string>
-					<string>LSL_STATUS_NOT_FOUND</string>
-					<string>LSL_STATUS_NOT_SUPPORTED</string>
-					<string>LSL_STATUS_OK</string>
-					<string>LSL_STATUS_TYPE_MISMATCH</string>
-					<string>LSL_STATUS_WHITELIST_FAILED</string>
-					<string>MASK_BASE</string>
-					<string>MASK_EVERYONE</string>
-					<string>MASK_GROUP</string>
-					<string>MASK_NEXT</string>
-					<string>MASK_OWNER</string>
-					<string>NPC</string>
-					<string>OBJECT_ATTACHED_POINT</string>
-					<string>OBJECT_ATTACHED_SLOTS_AVAILABLE</string>
-					<string>OBJECT_BODY_SHAPE_TYPE</string>
-					<string>OBJECT_CHARACTER_TIME</string>
-					<string>OBJECT_CLICK_ACTION</string>
-					<string>OBJECT_CREATION_TIME</string>
-					<string>OBJECT_CREATOR</string>
-					<string>OBJECT_DESC</string>
-					<string>OBJECT_GROUP_TAG</string>
-					<string>OBJECT_GROUP</string>
-					<string>OBJECT_HOVER_HEIGHT</string>
-					<string>OBJECT_LAST_OWNER_ID</string>
-					<string>OBJECT_NAME</string>
-					<string>OBJECT_OMEGA</string>
-					<string>OBJECT_OWNER</string>
-					<string>OBJECT_PATHFINDING_TYPE</string>
-					<string>OBJECT_PHANTOM</string>
-					<string>OBJECT_PHYSICS_COST</string>
-					<string>OBJECT_PHYSICS</string>
-					<string>OBJECT_POS</string>
-					<string>OBJECT_PRIM_COUNT</string>
-					<string>OBJECT_PRIM_EQUIVALENCE</string>
-					<string>OBJECT_RENDER_WEIGHT</string>
-					<string>OBJECT_RETURN_PARCEL_OWNER</string>
-					<string>OBJECT_RETURN_PARCEL</string>
-					<string>OBJECT_RETURN_REGION</string>
-					<string>OBJECT_REZZER_KEY</string>
-					<string>OBJECT_ROOT</string>
-					<string>OBJECT_ROT</string>
-					<string>OBJECT_RUNNING_SCRIPT_COUNT</string>
-					<string>OBJECT_SCRIPT_MEMORY</string>
-					<string>OBJECT_SCRIPT_TIME</string>
-					<string>OBJECT_SELECT_COUNT</string>
-					<string>OBJECT_SERVER_COST</string>
-					<string>OBJECT_SIT_COUNT</string>
-					<string>OBJECT_STREAMING_COST</string>
-					<string>OBJECT_TEMP_ATTACHED</string>
-					<string>OBJECT_TEMP_ON_REZ</string>
-					<string>OBJECT_TOTAL_INVENTORY_COUNT</string>
-					<string>OBJECT_TOTAL_SCRIPT_COUNT</string>
-					<string>OBJECT_UNKNOWN_DETAIL</string>
-					<string>OBJECT_VELOCITY</string>
-					<string>OPT_AVATAR</string>
-					<string>OPT_CHARACTER</string>
-					<string>OPT_EXCLUSION_VOLUME</string>
-					<string>OPT_LEGACY_LINKSET</string>
-					<string>OPT_MATERIAL_VOLUME</string>
-					<string>OPT_OTHER</string>
-					<string>OPT_STATIC_OBSTACLE</string>
-					<string>OPT_WALKABLE</string>
-					<string>PARCEL_COUNT_GROUP</string>
-					<string>PARCEL_COUNT_OTHER</string>
-					<string>PARCEL_COUNT_OWNER</string>
-					<string>PARCEL_COUNT_SELECTED</string>
-					<string>PARCEL_COUNT_TEMP</string>
-					<string>PARCEL_COUNT_TOTAL</string>
-					<string>PARCEL_DETAILS_AREA</string>
-					<string>PARCEL_DETAILS_CLAIMDATE</string>
-					<string>PARCEL_DETAILS_DESC</string>
-					<string>PARCEL_DETAILS_GROUP</string>
-					<string>PARCEL_DETAILS_ID</string>
-					<string>PARCEL_DETAILS_NAME</string>
-					<string>PARCEL_DETAILS_OWNER</string>
-					<string>PARCEL_DETAILS_PRIVACY</string>
-					<string>PARCEL_DETAILS_SEE_AVATARS</string>
-					<string>PARCEL_FLAG_ALLOW_ALL_OBJECT_ENTRY</string>
-					<string>PARCEL_FLAG_ALLOW_CREATE_GROUP_OBJECTS</string>
-					<string>PARCEL_FLAG_ALLOW_CREATE_OBJECTS</string>
-					<string>PARCEL_FLAG_ALLOW_DAMAGE</string>
-					<string>PARCEL_FLAG_ALLOW_FLY</string>
-					<string>PARCEL_FLAG_ALLOW_GROUP_OBJECT_ENTRY</string>
-					<string>PARCEL_FLAG_ALLOW_GROUP_SCRIPTS</string>
-					<string>PARCEL_FLAG_ALLOW_LANDMARK</string>
-					<string>PARCEL_FLAG_ALLOW_SCRIPTS</string>
-					<string>PARCEL_FLAG_ALLOW_TERRAFORM</string>
-					<string>PARCEL_FLAG_LOCAL_SOUND_ONLY</string>
-					<string>PARCEL_FLAG_RESTRICT_PUSHOBJECT</string>
-					<string>PARCEL_FLAG_USE_ACCESS_GROUP</string>
-					<string>PARCEL_FLAG_USE_ACCESS_LIST</string>
-					<string>PARCEL_FLAG_USE_BAN_LIST</string>
-					<string>PARCEL_FLAG_USE_LAND_PASS_LIST</string>
-					<string>PARCEL_MEDIA_COMMAND_AGENT</string>
-					<string>PARCEL_MEDIA_COMMAND_AUTO_ALIGN</string>
-					<string>PARCEL_MEDIA_COMMAND_DESC</string>
-					<string>PARCEL_MEDIA_COMMAND_LOOP_SET</string>
-					<string>PARCEL_MEDIA_COMMAND_LOOP</string>
-					<string>PARCEL_MEDIA_COMMAND_PAUSE</string>
-					<string>PARCEL_MEDIA_COMMAND_PLAY</string>
-					<string>PARCEL_MEDIA_COMMAND_SIZE</string>
-					<string>PARCEL_MEDIA_COMMAND_STOP</string>
-					<string>PARCEL_MEDIA_COMMAND_TEXTURE</string>
-					<string>PARCEL_MEDIA_COMMAND_TIME</string>
-					<string>PARCEL_MEDIA_COMMAND_TYPE</string>
-					<string>PARCEL_MEDIA_COMMAND_UNLOAD</string>
-					<string>PARCEL_MEDIA_COMMAND_URL</string>
-					<string>PASS_ALWAYS</string>
-					<string>PASS_IF_NOT_HANDLED</string>
-					<string>PASS_NEVER</string>
-					<string>PASSIVE</string>
-					<string>PATROL_PAUSE_AT_WAYPOINTS</string>
-					<string>PAY_DEFAULT</string>
-					<string>PAY_HIDE</string>
-					<string>PAYMENT_INFO_ON_FILE</string>
-					<string>PAYMENT_INFO_USED</string>
-					<string>PERM_ALL</string>
-					<string>PERM_COPY</string>
-					<string>PERM_MODIFY</string>
-					<string>PERM_MOVE</string>
-					<string>PERM_TRANSFER</string>
-					<string>PERMISSION_ATTACH</string>
-					<string>PERMISSION_CHANGE_JOINTS</string>
-					<string>PERMISSION_CHANGE_LINKS</string>
-					<string>PERMISSION_CHANGE_PERMISSIONS</string>
-					<string>PERMISSION_COMBAT</string>
-					<string>PERMISSION_CONTROL_CAMERA</string>
-					<string>PERMISSION_DEBIT</string>
-					<string>PERMISSION_OVERRIDE_ANIMATIONS</string>
-					<string>PERMISSION_RELEASE_OWNERSHIP</string>
-					<string>PERMISSION_REMAP_CONTROLS</string>
-					<string>PERMISSION_RETURN_OBJECTS</string>
-					<string>PERMISSION_SILENT_ESTATE_MANAGEMENT</string>
-					<string>PERMISSION_TAKE_CONTROLS</string>
-					<string>PERMISSION_TELEPORT</string>
-					<string>PERMISSION_TRACK_CAMERA</string>
-					<string>PERMISSION_TRIGGER_ANIMATION</string>
-					<string>PING_PONG</string>
-					<string>PRIM_ALLOW_UNSIT</string>
-					<string>PRIM_ALPHA_MODE_BLEND</string>
-					<string>PRIM_ALPHA_MODE_EMISSIVE</string>
-					<string>PRIM_ALPHA_MODE_MASK</string>
-					<string>PRIM_ALPHA_MODE_NONE</string>
-					<string>PRIM_ALPHA_MODE</string>
-					<string>PRIM_BUMP_BARK</string>
-					<string>PRIM_BUMP_BLOBS</string>
-					<string>PRIM_BUMP_BRICKS</string>
-					<string>PRIM_BUMP_BRIGHT</string>
-					<string>PRIM_BUMP_CHECKER</string>
-					<string>PRIM_BUMP_CONCRETE</string>
-					<string>PRIM_BUMP_DARK</string>
-					<string>PRIM_BUMP_DISKS</string>
-					<string>PRIM_BUMP_GRAVEL</string>
-					<string>PRIM_BUMP_LARGETILE</string>
-					<string>PRIM_BUMP_NONE</string>
-					<string>PRIM_BUMP_SHINY</string>
-					<string>PRIM_BUMP_SIDING</string>
-					<string>PRIM_BUMP_STONE</string>
-					<string>PRIM_BUMP_STUCCO</string>
-					<string>PRIM_BUMP_SUCTION</string>
-					<string>PRIM_BUMP_TILE</string>
-					<string>PRIM_BUMP_WEAVE</string>
-					<string>PRIM_BUMP_WOOD</string>
-					<string>PRIM_CAST_SHADOWS</string>
-					<string>PRIM_COLOR</string>
-					<string>PRIM_DESC</string>
-					<string>PRIM_FLEXIBLE</string>
-					<string>PRIM_FULLBRIGHT</string>
-					<string>PRIM_GLOW</string>
-					<string>PRIM_HOLE_CIRCLE</string>
-					<string>PRIM_HOLE_DEFAULT</string>
-					<string>PRIM_HOLE_SQUARE</string>
-					<string>PRIM_HOLE_TRIANGLE</string>
-					<string>PRIM_LINK_TARGET</string>
-					<string>PRIM_MATERIAL_FLESH</string>
-					<string>PRIM_MATERIAL_GLASS</string>
-					<string>PRIM_MATERIAL_LIGHT</string>
-					<string>PRIM_MATERIAL_METAL</string>
-					<string>PRIM_MATERIAL_PLASTIC</string>
-					<string>PRIM_MATERIAL_RUBBER</string>
-					<string>PRIM_MATERIAL_STONE</string>
-					<string>PRIM_MATERIAL_WOOD</string>
-					<string>PRIM_MATERIAL</string>
-					<string>PRIM_MEDIA_ALT_IMAGE_ENABLE</string>
-					<string>PRIM_MEDIA_AUTO_LOOP</string>
-					<string>PRIM_MEDIA_AUTO_PLAY</string>
-					<string>PRIM_MEDIA_AUTO_SCALE</string>
-					<string>PRIM_MEDIA_AUTO_ZOOM</string>
-					<string>PRIM_MEDIA_CONTROLS_MINI</string>
-					<string>PRIM_MEDIA_CONTROLS_STANDARD</string>
-					<string>PRIM_MEDIA_CONTROLS</string>
-					<string>PRIM_MEDIA_CURRENT_URL</string>
-					<string>PRIM_MEDIA_FIRST_CLICK_INTERACT</string>
-					<string>PRIM_MEDIA_HEIGHT_PIXELS</string>
-					<string>PRIM_MEDIA_HOME_URL</string>
-					<string>PRIM_MEDIA_MAX_HEIGHT_PIXELS</string>
-					<string>PRIM_MEDIA_MAX_URL_LENGTH</string>
-					<string>PRIM_MEDIA_MAX_WHITELIST_COUNT</string>
-					<string>PRIM_MEDIA_MAX_WHITELIST_SIZE</string>
-					<string>PRIM_MEDIA_MAX_WIDTH_PIXELS</string>
-					<string>PRIM_MEDIA_PARAM_MAX</string>
-					<string>PRIM_MEDIA_PERM_ANYONE</string>
-					<string>PRIM_MEDIA_PERM_GROUP</string>
-					<string>PRIM_MEDIA_PERM_NONE</string>
-					<string>PRIM_MEDIA_PERM_OWNER</string>
-					<string>PRIM_MEDIA_PERMS_CONTROL</string>
-					<string>PRIM_MEDIA_PERMS_INTERACT</string>
-					<string>PRIM_MEDIA_WHITELIST_ENABLE</string>
-					<string>PRIM_MEDIA_WHITELIST</string>
-					<string>PRIM_MEDIA_WIDTH_PIXELS</string>
-					<string>PRIM_NAME</string>
-					<string>PRIM_NORMAL</string>
-					<string>PRIM_OMEGA</string>
-					<string>PRIM_PHANTOM</string>
-					<string>PRIM_PHYSICS_MATERIAL</string>
-					<string>PRIM_PHYSICS_SHAPE_CONVEX</string>
-					<string>PRIM_PHYSICS_SHAPE_NONE</string>
-					<string>PRIM_PHYSICS_SHAPE_PRIM</string>
 					<string>PRIM_PHYSICS_SHAPE_TYPE</string>
-					<string>PRIM_PHYSICS</string>
-					<string>PRIM_POINT_LIGHT</string>
-					<string>PRIM_POS_LOCAL</string>
-					<string>PRIM_POSITION</string>
-					<string>PRIM_ROT_LOCAL</string>
-					<string>PRIM_ROTATION</string>
-					<string>PRIM_SCRIPTED_SIT_ONLY</string>
-					<string>PRIM_SCULPT_FLAG_INVERT</string>
-					<string>PRIM_SCULPT_FLAG_MIRROR</string>
-					<string>PRIM_SCULPT_TYPE_CYLINDER</string>
-					<string>PRIM_SCULPT_TYPE_MASK</string>
-					<string>PRIM_SCULPT_TYPE_MESH</string>
-					<string>PRIM_SCULPT_TYPE_PLANE</string>
-					<string>PRIM_SCULPT_TYPE_SPHERE</string>
-					<string>PRIM_SCULPT_TYPE_TORUS</string>
-					<string>PRIM_SHINY_HIGH</string>
-					<string>PRIM_SHINY_LOW</string>
-					<string>PRIM_SHINY_MEDIUM</string>
-					<string>PRIM_SHINY_NONE</string>
-					<string>PRIM_SIT_TARGET</string>
-					<string>PRIM_SIZE</string>
-					<string>PRIM_SLICE</string>
-					<string>PRIM_SPECULAR</string>
-					<string>PRIM_TEMP_ON_REZ</string>
-					<string>PRIM_TEXGEN_DEFAULT</string>
-					<string>PRIM_TEXGEN_PLANAR</string>
-					<string>PRIM_TEXGEN</string>
-					<string>PRIM_TEXT</string>
-					<string>PRIM_TEXTURE</string>
-					<string>PRIM_TYPE_BOX</string>
-					<string>PRIM_TYPE_CYLINDER</string>
-					<string>PRIM_TYPE_PRISM</string>
-					<string>PRIM_TYPE_RING</string>
-					<string>PRIM_TYPE_SCULPT</string>
-					<string>PRIM_TYPE_SPHERE</string>
-					<string>PRIM_TYPE_TORUS</string>
-					<string>PRIM_TYPE_TUBE</string>
-					<string>PRIM_TYPE</string>
-					<string>PROFILE_NONE</string>
-					<string>PROFILE_SCRIPT_MEMORY</string>
-					<string>PSYS_PART_BF_DEST_COLOR</string>
-					<string>PSYS_PART_BF_ONE_MINUS_DEST_COLOR</string>
-					<string>PSYS_PART_BF_ONE_MINUS_SOURCE_ALPHA</string>
-					<string>PSYS_PART_BF_ONE_MINUS_SOURCE_COLOR</string>
-					<string>PSYS_PART_BF_ONE</string>
-					<string>PSYS_PART_BF_SOURCE_ALPHA</string>
-					<string>PSYS_PART_BF_SOURCE_COLOR</string>
-					<string>PSYS_PART_BF_ZERO</string>
-					<string>PSYS_PART_BLEND_FUNC_DEST</string>
-					<string>PSYS_PART_BLEND_FUNC_SOURCE</string>
-					<string>PSYS_PART_BOUNCE_MASK</string>
-					<string>PSYS_PART_EMISSIVE_MASK</string>
-					<string>PSYS_PART_END_ALPHA</string>
-					<string>PSYS_PART_END_COLOR</string>
-					<string>PSYS_PART_END_GLOW</string>
-					<string>PSYS_PART_END_SCALE</string>
-					<string>PSYS_PART_FLAGS</string>
-					<string>PSYS_PART_FOLLOW_SRC_MASK</string>
-					<string>PSYS_PART_FOLLOW_VELOCITY_MASK</string>
-					<string>PSYS_PART_INTERP_COLOR_MASK</string>
-					<string>PSYS_PART_INTERP_SCALE_MASK</string>
-					<string>PSYS_PART_MAX_AGE</string>
-					<string>PSYS_PART_RIBBON_MASK</string>
-					<string>PSYS_PART_START_ALPHA</string>
-					<string>PSYS_PART_START_COLOR</string>
-					<string>PSYS_PART_START_GLOW</string>
-					<string>PSYS_PART_START_SCALE</string>
-					<string>PSYS_PART_TARGET_LINEAR_MASK</string>
-					<string>PSYS_PART_TARGET_POS_MASK</string>
-					<string>PSYS_PART_WIND_MASK</string>
-					<string>PSYS_SRC_ACCEL</string>
-					<string>PSYS_SRC_ANGLE_BEGIN</string>
-					<string>PSYS_SRC_ANGLE_END</string>
-					<string>PSYS_SRC_BURST_PART_COUNT</string>
-					<string>PSYS_SRC_BURST_RADIUS</string>
-					<string>PSYS_SRC_BURST_RATE</string>
-					<string>PSYS_SRC_BURST_SPEED_MAX</string>
-					<string>PSYS_SRC_BURST_SPEED_MIN</string>
-					<string>PSYS_SRC_INNERANGLE</string>
-					<string>PSYS_SRC_MAX_AGE</string>
-					<string>PSYS_SRC_OBJ_REL_MASK</string>
-					<string>PSYS_SRC_OMEGA</string>
-					<string>PSYS_SRC_OUTERANGLE</string>
-					<string>PSYS_SRC_PATTERN_ANGLE_CONE_EMPTY</string>
-					<string>PSYS_SRC_PATTERN_ANGLE_CONE</string>
-					<string>PSYS_SRC_PATTERN_ANGLE</string>
-					<string>PSYS_SRC_PATTERN_DROP</string>
-					<string>PSYS_SRC_PATTERN_EXPLODE</string>
-					<string>PSYS_SRC_PATTERN</string>
-					<string>PSYS_SRC_TARGET_KEY</string>
-					<string>PSYS_SRC_TEXTURE</string>
-					<string>PU_EVADE_HIDDEN</string>
-					<string>PU_EVADE_SPOTTED</string>
-					<string>PU_FAILURE_DYNAMIC_PATHFINDING_DISABLED</string>
-					<string>PU_FAILURE_INVALID_GOAL</string>
-					<string>PU_FAILURE_INVALID_START</string>
-					<string>PU_FAILURE_NO_NAVMESH</string>
-					<string>PU_FAILURE_NO_VALID_DESTINATION</string>
-					<string>PU_FAILURE_OTHER</string>
-					<string>PU_FAILURE_PARCEL_UNREACHABLE</string>
-					<string>PU_FAILURE_TARGET_GONE</string>
-					<string>PU_FAILURE_UNREACHABLE</string>
-					<string>PU_GOAL_REACHED</string>
-					<string>PU_SLOWDOWN_DISTANCE_REACHED</string>
-					<string>PUBLIC_CHANNEL</string>
 					<string>PURSUIT_FUZZ_FACTOR</string>
-					<string>PURSUIT_GOAL_TOLERANCE</string>
-					<string>PURSUIT_INTERCEPT</string>
-					<string>PURSUIT_OFFSET</string>
 					<string>RC_DATA_FLAGS</string>
 					<string>RC_DETECT_PHANTOM</string>
 					<string>RC_GET_LINK_NUM</string>
@@ -2337,186 +1776,11 @@
 					<string>RC_REJECT_PHYSICAL</string>
 					<string>RC_REJECT_TYPES</string>
 					<string>RCERR_CAST_TIME_EXCEEDED</string>
-					<string>RCERR_SIM_PERF_LOW</string>
-					<string>RCERR_UNKNOWN</string>
-					<string>REGION_FLAG_ALLOW_DAMAGE</string>
-					<string>REGION_FLAG_ALLOW_DIRECT_TELEPORT</string>
-					<string>REGION_FLAG_BLOCK_FLY</string>
-					<string>REGION_FLAG_BLOCK_FLYOVER</string>
-					<string>REGION_FLAG_BLOCK_TERRAFORM</string>
-					<string>REGION_FLAG_DISABLE_COLLISIONS</string>
-					<string>REGION_FLAG_DISABLE_PHYSICS</string>
-					<string>REGION_FLAG_FIXED_SUN</string>
-					<string>REGION_FLAG_RESTRICT_PUSHOBJECT</string>
-					<string>REGION_FLAG_SANDBOX</string>
-					<string>REMOTE_DATA_CHANNEL</string>
-					<string>REMOTE_DATA_REPLY</string>
-					<string>REMOTE_DATA_REQUEST</string>
-					<string>REQUIRE_LINE_OF_SIGHT</string>
 					<string>RESTITUTION</string>
-					<string>REVERSE</string>
-					<string>ROTATE</string>
-					<string>SCALE</string>
-					<string>SCRIPTED</string>
-					<string>SIM_STAT_PCT_CHARS_STEPPED</string>
-					<string>SIT_INVALID_AGENT</string>
-					<string>SIT_INVALID_LINK</string>
-					<string>SIT_INVALID_OBJECT</string>
-					<string>SIT_NO_ACCESS</string>
-					<string>SIT_NO_EXPERIENCE_PERMISSION</string>
-					<string>SIT_NO_SIT_TARGET</string>
-					<string>SIT_NOT_EXPERIENCE</string>
-					<string>SKY_ABSORPTION_CONFIG</string>
-					<string>SKY_AMBIENT</string>
-					<string>SKY_CLOUD_TEXTURE</string>
-					<string>SKY_CLOUDS</string>
-					<string>SKY_DENSITY_PROFILE_COUNTS</string>
-					<string>SKY_DOME</string>
-					<string>SKY_GAMMA</string>
-					<string>SKY_GLOW</string>
-					<string>SKY_LIGHT</string>
-					<string>SKY_MIE_CONFIG</string>
-					<string>SKY_MOON_TEXTURE</string>
-					<string>SKY_MOON</string>
-					<string>SKY_PLANET</string>
-					<string>SKY_RAYLEIGH_CONFIG</string>
-					<string>SKY_REFRACTION</string>
-					<string>SKY_STAR_BRIGHTNESS</string>
-					<string>SKY_SUN_TEXTURE</string>
-					<string>SKY_SUN</string>
-					<string>SKY_TEXTURE_DEFAULTS</string>
-					<string>SKY_TRACKS</string>
-					<string>SMOOTH</string>
-					<string>STATUS_BLOCK_GRAB_OBJECT</string>
-					<string>STATUS_BLOCK_GRAB</string>
-					<string>STATUS_BOUNDS_ERROR</string>
-					<string>STATUS_CAST_SHADOWS</string>
-					<string>STATUS_DIE_AT_EDGE</string>
-					<string>STATUS_INTERNAL_ERROR</string>
-					<string>STATUS_MALFORMED_PARAMS</string>
-					<string>STATUS_NOT_FOUND</string>
-					<string>STATUS_NOT_SUPPORTED</string>
-					<string>STATUS_OK</string>
-					<string>STATUS_PHANTOM</string>
-					<string>STATUS_PHYSICS</string>
-					<string>STATUS_RETURN_AT_EDGE</string>
-					<string>STATUS_ROTATE_X</string>
-					<string>STATUS_ROTATE_Y</string>
-					<string>STATUS_ROTATE_Z</string>
-					<string>STATUS_SANDBOX</string>
-					<string>STATUS_TYPE_MISMATCH</string>
-					<string>STATUS_WHITELIST_FAILED</string>
-					<string>STRING_TRIM_HEAD</string>
-					<string>STRING_TRIM_TAIL</string>
-					<string>STRING_TRIM</string>
-					<string>TOUCH_INVALID_FACE</string>
-					<string>TRAVERSAL_TYPE_FAST</string>
 					<string>TRAVERSAL_TYPE_FAST</string>
 					<string>TRAVERSAL_TYPE_NONE</string>
-					<string>TRAVERSAL_TYPE_NONE</string>
 					<string>TRAVERSAL_TYPE_SLOW</string>
-					<string>TRAVERSAL_TYPE_SLOW</string>
-					<string>TRAVERSAL_TYPE</string>
-					<string>TRUE</string>
-					<string>TYPE_FLOAT</string>
-					<string>TYPE_INTEGER</string>
-					<string>TYPE_INVALID</string>
-					<string>TYPE_KEY</string>
-					<string>TYPE_ROTATION</string>
-					<string>TYPE_STRING</string>
-					<string>TYPE_VECTOR</string>
-					<string>VEHICLE_ANGULAR_DEFLECTION_EFFICIENCY</string>
-					<string>VEHICLE_ANGULAR_DEFLECTION_TIMESCALE</string>
-					<string>VEHICLE_ANGULAR_FRICTION_TIMESCALE</string>
-					<string>VEHICLE_ANGULAR_MOTOR_DECAY_TIMESCALE</string>
-					<string>VEHICLE_ANGULAR_MOTOR_DIRECTION</string>
-					<string>VEHICLE_ANGULAR_MOTOR_TIMESCALE</string>
-					<string>VEHICLE_BANKING_EFFICIENCY</string>
-					<string>VEHICLE_BANKING_MIX</string>
-					<string>VEHICLE_BANKING_TIMESCALE</string>
-					<string>VEHICLE_BUOYANCY</string>
-					<string>VEHICLE_FLAG_CAMERA_DECOUPLED</string>
-					<string>VEHICLE_FLAG_HOVER_GLOBAL_HEIGHT</string>
-					<string>VEHICLE_FLAG_HOVER_TERRAIN_ONLY</string>
-					<string>VEHICLE_FLAG_HOVER_UP_ONLY</string>
-					<string>VEHICLE_FLAG_HOVER_WATER_ONLY</string>
-					<string>VEHICLE_FLAG_LIMIT_MOTOR_UP</string>
-					<string>VEHICLE_FLAG_LIMIT_ROLL_ONLY</string>
-					<string>VEHICLE_FLAG_LOCK_HOVER_HEIGHT</string>
-					<string>VEHICLE_FLAG_LOCK_ROTATION</string>
-					<string>VEHICLE_FLAG_MOUSELOOK_BANK</string>
-					<string>VEHICLE_FLAG_MOUSELOOK_STEER</string>
-					<string>VEHICLE_FLAG_NO_DEFLECTION_UP</string>
-					<string>VEHICLE_FLAG_NO_DEFLECTION</string>
-					<string>VEHICLE_FLAG_NO_FLY_UP</string>
-					<string>VEHICLE_FLAG_NO_X</string>
-					<string>VEHICLE_FLAG_NO_Y</string>
-					<string>VEHICLE_FLAG_NO_Z</string>
-					<string>VEHICLE_HOVER_EFFICIENCY</string>
-					<string>VEHICLE_HOVER_HEIGHT</string>
-					<string>VEHICLE_HOVER_TIMESCALE</string>
-					<string>VEHICLE_LINEAR_DEFLECTION_EFFICIENCY</string>
-					<string>VEHICLE_LINEAR_DEFLECTION_TIMESCALE</string>
-					<string>VEHICLE_LINEAR_FRICTION_TIMESCALE</string>
-					<string>VEHICLE_LINEAR_MOTOR_DECAY_TIMESCALE</string>
-					<string>VEHICLE_LINEAR_MOTOR_DIRECTION</string>
-					<string>VEHICLE_LINEAR_MOTOR_OFFSET</string>
-					<string>VEHICLE_LINEAR_MOTOR_TIMESCALE</string>
-					<string>VEHICLE_RANGE_BLOCK</string>
-					<string>VEHICLE_REFERENCE_FRAME</string>
-					<string>VEHICLE_ROLL_FRAME</string>
-					<string>VEHICLE_TYPE_AIRPLANE</string>
-					<string>VEHICLE_TYPE_BALLOON</string>
-					<string>VEHICLE_TYPE_BOAT</string>
-					<string>VEHICLE_TYPE_CAR</string>
-					<string>VEHICLE_TYPE_NONE</string>
-					<string>VEHICLE_TYPE_SLED</string>
-					<string>VEHICLE_VERTICAL_ATTRACTION_EFFICIENCY</string>
-					<string>VEHICLE_VERTICAL_ATTRACTION_TIMESCALE</string>
 					<string>VERTICAL</string>
-					<string>WANDER_PAUSE_AT_WAYPOINTS</string>
-					<string>WATER_BLUR_MULTIPLIER</string>
-					<string>WATER_FOG</string>
-					<string>WATER_FRESNEL</string>
-					<string>WATER_NORMAL_SCALE</string>
-					<string>WATER_NORMAL_TEXTURE</string>
-					<string>WATER_REFRACTION</string>
-					<string>WATER_TEXTURE_DEFAULTS</string>
-					<string>WATER_WAVE_DIRECTION</string>
-					<string>XP_ERROR_EXPERIENCE_DISABLED</string>
-					<string>XP_ERROR_EXPERIENCE_SUSPENDED</string>
-					<string>XP_ERROR_EXPERIENCES_DISABLED</string>
-					<string>XP_ERROR_INVALID_EXPERIENCE</string>
-					<string>XP_ERROR_INVALID_PARAMETERS</string>
-					<string>XP_ERROR_KEY_NOT_FOUND</string>
-					<string>XP_ERROR_MATURITY_EXCEEDED</string>
-					<string>XP_ERROR_NO_EXPERIENCE</string>
-					<string>XP_ERROR_NONE</string>
-					<string>XP_ERROR_NOT_FOUND</string>
-					<string>XP_ERROR_NOT_PERMITTED_LAND</string>
-					<string>XP_ERROR_NOT_PERMITTED</string>
-					<string>XP_ERROR_QUOTA_EXCEEDED</string>
-					<string>XP_ERROR_REQUEST_PERM_TIMEOUT</string>
-					<string>XP_ERROR_RETRY_UPDATE</string>
-					<string>XP_ERROR_STORAGE_EXCEPTION</string>
-					<string>XP_ERROR_STORE_DISABLED</string>
-					<string>XP_ERROR_THROTTLED</string>
-					<string>XP_ERROR_UNKNOWN_ERROR</string>
-				</strings>
-			</scope>
-			<scope name="lsl.identifier.constant.string.aa">
-				<strings>
-					<string>ENABLE_GRAVITY</string>
-					<string>GRAVITY_FORCE_X</string>
-					<string>GRAVITY_FORCE_Y</string>
-					<string>GRAVITY_FORCE_Z</string>
-					<string>ADD_GRAVITY_POINT</string>
-					<string>ADD_GRAVITY_FORCE</string>
-					<string>START_TIME_REVERSAL_SAVING</string>
-					<string>STOP_TIME_REVERSAL_SAVING</string>
-					<string>START_TIME_REVERSAL</string>
-					<string>STOP_TIME_REVERSAL</string>
-					<string>BOT_TAG_FIND_ALL</string>
 				</strings>
 			</scope>
 			<scope name="lsl.identifier.constant.integer.aa">
@@ -2534,18 +1798,50 @@
 			</scope>
 			<scope name="lsl.identifier.constant.string">
 				<strings>
+					<string>ADD_GRAVITY_FORCE</string>
+					<string>ADD_GRAVITY_POINT</string>
+					<string>BOT_TAG_FIND_ALL</string>
+					<string>ENABLE_GRAVITY</string>
 					<string>EOF</string>
+					<string>GRAVITY_FORCE_X</string>
+					<string>GRAVITY_FORCE_Y</string>
+					<string>GRAVITY_FORCE_Z</string>
+					<string>IMG_USE_BAKED_AUX1</string>
+					<string>IMG_USE_BAKED_AUX2</string>
+					<string>IMG_USE_BAKED_AUX3</string>
+					<string>IMG_USE_BAKED_EYES</string>
+					<string>IMG_USE_BAKED_HAIR</string>
+					<string>IMG_USE_BAKED_HEAD</string>
+					<string>IMG_USE_BAKED_LEFTARM</string>
+					<string>IMG_USE_BAKED_LEFTLEG</string>
+					<string>IMG_USE_BAKED_LOWER</string>
+					<string>IMG_USE_BAKED_SKIRT</string>
+					<string>IMG_USE_BAKED_UPPER</string>
+					<string>JSON_APPEND</string>
 					<string>JSON_APPEND</string>
 					<string>JSON_ARRAY</string>
+					<string>JSON_ARRAY</string>
+					<string>JSON_DELETE</string>
 					<string>JSON_DELETE</string>
 					<string>JSON_FALSE</string>
+					<string>JSON_FALSE</string>
+					<string>JSON_INVALID</string>
 					<string>JSON_INVALID</string>
 					<string>JSON_NULL</string>
+					<string>JSON_NULL</string>
+					<string>JSON_NUMBER</string>
 					<string>JSON_NUMBER</string>
 					<string>JSON_OBJECT</string>
+					<string>JSON_OBJECT</string>
+					<string>JSON_STRING</string>
 					<string>JSON_STRING</string>
 					<string>JSON_TRUE</string>
+					<string>JSON_TRUE</string>
 					<string>NULL_KEY</string>
+					<string>START_TIME_REVERSAL_SAVING</string>
+					<string>START_TIME_REVERSAL</string>
+					<string>STOP_TIME_REVERSAL_SAVING</string>
+					<string>STOP_TIME_REVERSAL</string>
 					<string>TEXTURE_BLANK</string>
 					<string>TEXTURE_DEFAULT</string>
 					<string>TEXTURE_MEDIA</string>
@@ -2634,7 +1930,6 @@
 					<string>STATS_ACTIVE_PRIMS</string>
 					<string>STATS_ACTIVE_SCRIPTS</string>
 					<string>STATS_AGENT_MS</string>
-					<string>STATS_AGENT_UPDATES</string>
 					<string>STATS_CHILD_AGENTS</string>
 					<string>STATS_FRAME_MS</string>
 					<string>STATS_IMAGE_MS</string>
@@ -2644,12 +1939,10 @@
 					<string>STATS_OUT_PACKETS_PER_SECOND</string>
 					<string>STATS_PENDING_DOWNLOADS</string>
 					<string>STATS_PENDING_UPLOADS</string>
-					<string>STATS_PHYSICS_FPS</string>
 					<string>STATS_PHYSICS_MS</string>
 					<string>STATS_ROOT_AGENTS</string>
+					<string>STATS_SCRIPT_EPS</string>
 					<string>STATS_SCRIPT_LPS</string>
-					<string>STATS_SIM_FPS</string>
-					<string>STATS_TIME_DILATION</string>
 					<string>STATS_TOTAL_PRIMS</string>
 					<string>STATS_UNACKED_BYTES</string>
 					<string>VEHICLE_FLAG_LOCK_HOVER_HEIGHT</string>
