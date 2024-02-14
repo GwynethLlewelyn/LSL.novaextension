@@ -13,12 +13,38 @@
 	"license": "bsd-3-clause",
 	"categories": ["completions", "languages", "commands"],
 	"activationEvents": ["onLanguage:LSL", "onWorkspaceContains:*.lsl", "onWorkspaceContains:*.ossl"],
-
 	"main": "main.js",
 
 	"entitlements": {
-
+		"filesystem": "readwrite",
+		"process": true
 	},
+
+	"config": [
+		{
+			"key": "gwynethllewelyn.LindenScriptingLanguage.builtins",
+			"title": "Path to builtins.txt",
+			"description": "List of LSL built-in functions and parameters. See LSLint/README.md for more information on how to build your own file.",
+			"type": "string",
+			"placeholder": "LSLint/builtins.txt",
+			"default": "LSLint/builtins.txt"
+		},
+		{
+			"key": "gwynethllewelyn.LindenScriptingLanguage.executablePath",
+			"title": "Executable Path",
+			"description": "Optionally provide the project-relative or absolute path to the LSLint executable. This field is normally not required, as this extension already comes bundled with LSLint. For absolute paths, prefix the path with '/', and for project-relative paths simply omit that prefix.",
+			"type": "string",
+			"placeholder": "LSLint/lslint",
+			"default": "LSLint/lslint"
+		},
+		{
+			"key": "gwynethllewelyn.LindenScriptingLanguage.debugging",
+			"title": "Debugging",
+			"description": "Show debug logs in Extension Console.",
+			"type": "boolean",
+			"default": false
+		}
+	],
 
 	"commands": {
 		"editor": [
@@ -29,6 +55,14 @@
 				"shortcut": "cmd-@",
 				"filters": {
 					"syntaxes": ["lsl"]
+				}
+			},
+			{
+				"title": "Lint",
+				"command": "gwynethllewelyn.LindenScriptingLanguage.lint",
+				"when": "editorHasFocus",
+				"filters": {
+					"syntaxes": ["lsl", "ossl"]
 				}
 			}
 		]
