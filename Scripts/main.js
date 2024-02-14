@@ -111,26 +111,29 @@ class LSLinter {
 			lintFile.close();
 
 			try {
-				let linter = new Process(self.getExecutablePath(), {
-					args: [
-						'-l',
-						'-d',
-						self.getBuiltins()
-					],
-					shell: true,
-				});
+				let linter = new Process(
+					self.getExecutablePath(),
+					{
+						args: [
+							'-l',
+							'-d',
+							self.getBuiltins()
+						],
+						shell: false,
+					}
+				);
 
 				// Capture LSLint output, line by line
 				linter.onStdout(function(line) {
 					if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
-						console.log("Linter output:", line);
+						console.log("LSLint output:", line);
 					}
 
 					output += line;
 				});
 
 				linter.onStderr(function(line) {
-					console.error(line);
+					console.error('LSLint error: ' + line);
 				});
 
 				linter.onDidExit(function() {
@@ -178,18 +181,75 @@ class LSLinter {
 	/*
 		LSLint output is something like this:
 
-		 WARN:: (  8,  9): variable `LineTotal' declared but never used.
-		 WARN:: ( 16,  8): variable `data' declared but never used.
-		 WARN:: ( 43,  7): Empty if statement.
-		 WARN:: (109, 22): Declaration of `data' in this scope shadows previous declaration at (16, 8)
-		 WARN:: (204, 36): Declaration of `data' in this scope shadows previous declaration at (16, 8)
+		 WARN:: (  8,  9)-(  8, 18): variable `LineTotal' declared but never used.
+		 WARN:: ( 16,  8)-( 16, 12): variable `data' declared but never used.
+		 WARN:: ( 43,  7)-( 43, 93): Empty if statement.
+		 WARN:: (109, 22)-(109, 26): Declaration of `data' in this scope shadows previous declaration at (16, 8)
+		 WARN:: (204, 36)-(204, 40): Declaration of `data' in this scope shadows previous declaration at (16, 8)
 		TOTAL:: Errors: 0  Warnings: 5
 	*/
 
 	parseLinterOutput(output) {
-		let self = this;
-		let lints = JSON.parse(output);
-		let issues = lints.files
+		let issues = [];
+		// Do it the basic way, since I'm no JavaScript expert.
+		// Split by newlines first:
+		var lints = output.split(/\r\n|\n/);
+		for (var lint = 0; lint < lints.length - 1; lint++) {
+			let matches = lint.match(/^\W*(\w+)::\s*\(\s*(\d*),\s*(\d*)\)-\(\s*(\d*),\s*(\d*)\):\s*(.*)$/gmi);
+
+			if (
+				matches === null ||
+				matches.length <= 1
+			) {
+				continue;
+			}
+
+			let issue = new Issue();
+
+			issue.source = "lslint";
+
+			switch (matches[1]) {
+				case "INFO":
+					issue.severity = IssueSeverity.Info;
+					break;
+				case "DEBUG":
+					issue.severity = IssueSeverity.Hint;
+					break;
+				case "WARN":
+					issue.severity = IssueSeverity.Warning;
+					break;
+				case "ERROR":
+					issue.severity = IssueSeverity.Error;
+					break;
+				case "OTHER":
+				default:
+					issue.severity = IssueSeverity.Info;
+					break;
+			}
+
+			issue.line		= matches[2];
+			issue.column	= matches[3];
+			issue.endLine	= matches[4];
+			issue.endColumn	= matches[5];
+			issue.message	= matches[6];
+
+			console.log(lint + ' --> ' + issue);
+			if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
+				console.log("Found lslint:");
+				console.log("===========");
+				console.log("Line: " + issue.line);
+				console.log("Severity: " + issue.severity);
+				console.log("Message: " + issue.message);
+				console.log("===========");
+			}
+			issues.push(issue);
+		}
+
+		return issues;
+	}
+
+/*
+		issues = lints.files
 			.flatMap(function(lint) {
 				return lint.violations;
 			})
@@ -204,7 +264,7 @@ class LSLinter {
 				}
 
 				issue.line = lint.beginLine;
-				issue.code = lint.rule + "| " + lint.ruleSet + " | phpmd";
+				issue.code = lint.rule + "| " + lint.ruleSet + " | lslint";
 				issue.endLine = issue.line + 1;
 
 				if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
@@ -263,7 +323,7 @@ class LSLinter {
 
 		return issues
 			.concat(errors);
-	}
+	}*/
 };
 
 nova.assistants.registerIssueAssistant(["lsl", "ossl"], new LSLinter());
