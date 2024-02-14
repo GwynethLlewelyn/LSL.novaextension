@@ -7,6 +7,7 @@ integer aaGetFlyDisabled( string userID )
 float aaGetHealth( key id )
 integer aaGetIsInfiniteRegion(  )
 string aaGetLastOwner(  )
+string aaGetLastOwner( string PrimID )
 string aaGetTeam( key id )
 list aaGetTeamMembers( string team )
 key aaGetText(  )
@@ -24,17 +25,19 @@ key aaSerializeXML( list keynames, list values )
 void aaSetCloudDensity( float density )
 void aaSetConeOfSilence( float radius )
 void aaSetEnv( string name, list value )
-void aaSetFlyDisabled( string userID, integer Value )
-void aaSetWalkDisabled( string userID, integer Value )
+void aaSetFlyDisabled( string userID, bool Value )
+void aaSetWalkDisabled( string userID, bool Value )
 void aaThawAvatar( string ID )
 void aaUpdateDatabase( string keyname, string value, string token )
 integer aaWindlightAddDayCycleFrame( float dayCyclePosition, integer dayCycleFrameToCopy )
 list aaWindlightGetDayCycle(  )
 list aaWindlightGetScene( list rules )
+list aaWindlightGetScene( integer dayCycleKeyFrame, list rules )
 integer aaWindlightGetSceneDayCycleKeyFrameCount(  )
 integer aaWindlightGetSceneIsStatic(  )
 integer aaWindlightRemoveDayCycleFrame( integer dayCycleFrame )
 integer aaWindlightSetScene( list list )
+integer aaWindlightSetScene( integer dayCycleIndex, list list )
 void botAddTag( string bot, string tag )
 string botCreateBot( string FirstName, string LastName, string appearanceToClone, vector startPos )
 void botFollowAvatar( string bot, string avatarName, float startFollowDistance, float endFollowDistance )
@@ -67,6 +70,7 @@ float llAtan2( float y, float x )
 void llAttachToAvatar( integer attach_point )
 void llAttachToAvatarTemp( integer attach_point )
 key llAvatarOnLinkSitTarget( integer link )
+key llAvatarOnLinkSitTarget(  )
 key llAvatarOnSitTarget(  )
 rotation llAxes2Rot( vector fwd, vector left, vector up )
 rotation llAxisAngle2Rot( vector axis, float angle )
@@ -140,7 +144,7 @@ string llGetAnimation( key id )
 list llGetAnimationList( key id )
 string llGetAnimationOverride( string anim_state )
 integer llGetAttached(  )
-list llGetAttachedList( key agent )
+list llGetAttachedList( key avatar )
 list llGetBoundingBox( key object )
 vector llGetCameraPos(  )
 rotation llGetCameraRot(  )
@@ -198,7 +202,7 @@ integer llGetNumberOfSides(  )
 list llGetObjectAnimationNames(  )
 string llGetObjectDesc(  )
 list llGetObjectDetails( key id, list params )
-key llGetObjectLinkKey( key id, integer link )
+key llGetObjectLinkKey( key object_id, integer link )
 float llGetObjectMass( key id )
 string llGetObjectName(  )
 integer llGetObjectPermMask( integer mask )
@@ -231,6 +235,7 @@ vector llGetRegionSunDirection(  )
 rotation llGetRegionSunRotation(  )
 float llGetRegionTimeDilation(  )
 float llGetRegionTimeOfDay(  )
+string llGetRenderMaterial( integer face )
 vector llGetRootPosition(  )
 rotation llGetRootRotation(  )
 rotation llGetRot(  )
@@ -258,7 +263,7 @@ integer llGetUnixTime(  )
 integer llGetUsedMemory(  )
 string llGetUsername( key id )
 vector llGetVel(  )
-list llGetVisualParams( key id, list params )
+list llGetVisualParams( key agentid, list params )
 float llGetWallclock(  )
 void llGiveInventory( key destination, string inventory )
 void llGiveInventoryList( key target, string folder, list inventory )
@@ -269,6 +274,7 @@ vector llGroundContour( vector offset )
 vector llGroundNormal( vector offset )
 void llGroundRepel( float height, integer water, float tau )
 vector llGroundSlope( vector offset )
+string llHMAC( string authkey, string message, string hashalg )
 key llHTTPRequest( string url, list parameters, string body )
 void llHTTPResponse( key request_id, integer status, string body )
 integer llHash( string val )
@@ -293,31 +299,36 @@ void llLinkSetSoundRadius( integer link, float radius )
 void llLinkSitTarget( integer link, vector offset, rotation rot )
 void llLinkStopSound( integer link )
 integer llLinksetDataAvailable(  )
+integer llLinksetDataCountFound( string pattern )
 integer llLinksetDataCountKeys(  )
-integer llLinksetDataDelete( string keyname )
-integer llLinksetDataDeleteProtected( string keyname, string password )
+integer llLinksetDataDelete( string name )
+list llLinksetDataDeleteFound( string pattern, string pass )
+integer llLinksetDataDeleteProtected( string name, string password )
 list llLinksetDataFindKeys( string pattern, integer start, integer count )
 list llLinksetDataListKeys( integer start, integer count )
-string llLinksetDataRead( string keyname )
-string llLinksetDataReadProtected( string keyname, string password )
+string llLinksetDataRead( string name )
+string llLinksetDataReadProtected( string name, string password )
 void llLinksetDataReset(  )
-integer llLinksetDataWrite( string keyname, string value )
-integer llLinksetDataWriteProtected( string keyname, string value, string password )
+integer llLinksetDataWrite( string name, string value )
+integer llLinksetDataWriteProtected( string name, string value, string password )
 string llList2CSV( list src )
 float llList2Float( list src, integer index )
 integer llList2Integer( list src, integer index )
 string llList2Json( string type, list values )
 key llList2Key( list src, integer index )
 list llList2List( list src, integer start, integer end )
+list llList2ListSlice( list src, integer start, integer end, integer stride, integer slice_index )
 list llList2ListStrided( list src, integer start, integer end, integer stride )
 rotation llList2Rot( list src, integer index )
 string llList2String( list src, integer index )
 vector llList2Vector( list src, integer index )
 integer llListFindList( list src, list test )
+integer llListFindStrided( list src, list test, integer start, integer end, integer stride )
 list llListInsertList( list dest, list src, integer start )
 list llListRandomize( list src, integer stride )
 list llListReplaceList( list dest, list src, integer start, integer end )
 list llListSort( list src, integer stride, integer ascending )
+list llListSortStrided( list src, integer stride, integer stride_index, integer ascending )
 float llListStatistics( integer operation, list src )
 integer llListen( integer channel, string name, key id, string msg )
 void llListenControl( integer number, integer active )
@@ -344,7 +355,7 @@ void llMoveToTarget( vector target, float tau )
 key llName2Key( string name )
 void llNavigateTo( vector point, list options )
 void llOffsetTexture( float u, float v, integer face )
-integer llOpenFloater( string title, string url, list params )
+integer llOpenFloater( string floater_name, string url, list params )
 void llOpenRemoteDataChannel(  )
 integer llOrd( string val, integer index )
 integer llOverMyLand( key id )
@@ -381,6 +392,7 @@ void llRemoveInventory( string item )
 void llRemoveVehicleFlags( integer flags )
 integer llReplaceAgentEnvironment( key agent_id, float transition, string environment )
 integer llReplaceEnvironment( vector position, string environment, integer track_no, integer day_length, integer day_offset )
+string llReplaceSubString( string src, string pattern, string replacement_pattern, integer count )
 key llRequestAgentData( key id, integer data )
 key llRequestDisplayName( key id )
 void llRequestExperiencePermissions( key agent, string name )
@@ -389,7 +401,7 @@ void llRequestPermissions( key agent, integer perm )
 key llRequestSecureURL(  )
 key llRequestSimulatorData( string simulator, integer data )
 key llRequestURL(  )
-key llRequestUserKey( string name )
+key llRequestUserKey( string username )
 key llRequestUsername( key id )
 void llResetAnimationOverride( string anim_state )
 void llResetLandBanList(  )
@@ -449,6 +461,7 @@ void llSetLinkColor( integer linknumber, vector color, integer face )
 integer llSetLinkMedia( integer link, integer face, list params )
 void llSetLinkPrimitiveParams( integer linknumber, list rules )
 void llSetLinkPrimitiveParamsFast( integer linknumber, list rules )
+void llSetLinkRenderMaterial( integer link, string material, integer face )
 void llSetLinkTexture( integer linknumber, string texture, integer face )
 void llSetLinkTextureAnim( integer link, integer mode, integer face, integer sizex, integer sizey, float start, float length, float rate )
 void llSetLocalRot( rotation rot )
@@ -465,6 +478,7 @@ void llSetPrimURL( string url )
 void llSetPrimitiveParams( list rules )
 integer llSetRegionPos( vector pos )
 void llSetRemoteScriptAccessPin( integer pin )
+void llSetRenderMaterial( string material, integer face )
 void llSetRot( rotation rot )
 void llSetScale( vector scale )
 void llSetScriptState( string name, integer run )
@@ -485,6 +499,7 @@ void llSetVehicleType( integer type )
 void llSetVehicleVectorParam( integer param, vector vec )
 void llSetVelocity( vector velocity, integer local )
 void llShout( integer channel, string msg )
+string llSignRSA( string private_key, string msg, string algorithm )
 float llSin( float theta )
 integer llSitOnLink( key agent_id, integer link )
 void llSitTarget( vector offset, rotation rot )
@@ -511,7 +526,7 @@ float llTan( float theta )
 integer llTarget( vector position, float range )
 void llTargetOmega( vector axis, float spinrate, float gain )
 void llTargetRemove( integer number )
-void llTargetedEmail( integer target, string header, string body )
+void llTargetedEmail( integer target, string subject, string message )
 void llTeleportAgent( key avatar, string landmark, vector position, vector look_at )
 void llTeleportAgentGlobalCoords( key agent, vector global_coordinates, vector region_coordinates, vector look_at )
 void llTeleportAgentHome( key id )
@@ -528,8 +543,10 @@ key llUpdateKeyValue( string k, string v, integer checked, string original_value
 float llVecDist( vector v1, vector v2 )
 float llVecMag( vector v )
 vector llVecNorm( vector v )
+integer llVerifyRSA( string public_key, string msg, string signature, string algorithm )
 void llVolumeDetect( integer detect )
 void llWanderWithin( vector center, vector radius, list options )
+void llWanderWithin( vector center, float radius, list options )
 float llWater( vector offset )
 void llWhisper( integer channel, string msg )
 vector llWind( vector offset )
@@ -542,24 +559,46 @@ list lsGetWindlightScene( list rules )
 integer lsSetWindlightScene( list rules )
 integer lsSetWindlightSceneTargeted( list rules, key target )
 integer osAddAgentToGroup( key AgentID, string GroupName, string RequestedRole )
+void osAdjustSoundVolume( integer linknum, float volume )
 key osAgentSaveAppearance( key agentId, string notecard )
+key osAgentSaveAppearance( key agentId, string notecard, integer includeHuds )
+float osAngleBetween( vector a, vector b )
+integer osApproxEquals( float a, float b )
+integer osApproxEquals( float a, float b, float margin )
+integer osApproxEquals( vector va, vector vb )
+integer osApproxEquals( vector va, vector vb, float margin )
+integer osApproxEquals( rotation ra, rotation rb )
+integer osApproxEquals( rotation ra, rotation rb, float margin )
 string osAvatarName2Key( string firstname, string lastname )
-void osAvatarPlayAnimation( string avatar, string animation )
-void osAvatarStopAnimation( string avatar, string animation )
-void osCauseDamage( string avatar, float damage )
-void osCauseHealing( string avatar, float healing )
+void osAvatarPlayAnimation( key avatar, string animation )
+void osAvatarStopAnimation( key avatar, string animation )
+integer osAvatarType( key avkey )
+integer osAvatarType( string sFirstName, string sLastName )
+void osCauseDamage( key avatar, float damage )
+void osCauseDamage( string avatar, float damage, string regionName, vector position, vector lookat )
+void osCauseHealing( key agentId, float healing )
 integer osCheckODE(  )
+void osClearInertia(  )
+integer osClearObjectAnimations(  )
 void osCollisionSound( string impact_sound, float impact_volume )
 integer osConsoleCommand( string Command )
+bool osConsoleCommand( string Command )
+string osDetectedCountry( integer number )
 void osDie( key uuid )
 string osDrawEllipse( string drawList, integer width, integer height )
+string osDrawFilledEllipse( string drawList, integer width, integer height )
 string osDrawFilledPolygon( string drawList, list x, list y )
 string osDrawFilledRectangle( string drawList, integer width, integer height )
 string osDrawImage( string drawList, integer width, integer height, string imageUrl )
 string osDrawLine( string drawList, integer startX, integer startY, integer endX, integer endY )
+string osDrawLine( string drawList, integer endX, integer endY )
 string osDrawPolygon( string drawList, list x, list y )
 string osDrawRectangle( string drawList, integer width, integer height )
+string osDrawResetTransform( string drawList )
+string osDrawRotationTransform( string drawList, float x )
+string osDrawScaleTransform( string drawList, float x, float y )
 string osDrawText( string drawList, string text )
+string osDrawTranslationTransform( string drawList, float x, float y )
 void osDropAttachment(  )
 void osDropAttachmentAt( vector pos, rotation rot )
 integer osEjectFromGroup( key agentId )
@@ -574,8 +613,13 @@ void osForceDropAttachment(  )
 void osForceDropAttachmentAt( vector pos, rotation rot )
 void osForceOtherSit( string avatar, string target )
 string osFormatString( string str, list strings )
+string osGetAgentCountry( key agentId )
 string osGetAgentIP( string agent )
 list osGetAgents(  )
+float osGetApparentRegionTime(  )
+string osGetApparentRegionTimeString( integer format24 )
+float osGetApparentTime(  )
+string osGetApparentTimeString( integer format24 )
 string osGetAvatarHomeURI( string uuid )
 list osGetAvatarList(  )
 float osGetCurrentSunHour(  )
@@ -587,39 +631,63 @@ string osGetGridHomeURI(  )
 string osGetGridLoginURI(  )
 string osGetGridName(  )
 string osGetGridNick(  )
-float osGetHealRate( string avatar )
-float osGetHealth( string avatar )
+float osGetHealRate( key agentId )
+float osGetHealth( key agentId )
+list osGetInertiaData(  )
 string osGetInventoryDesc( string item )
+string osGetInventoryDesc( string itemNameOrId )
+key osGetInventoryItemKey( string name )
+key osGetInventoryLastOwner( string itemNameOrId )
+string osGetInventoryName( key itemId )
+key osGetLastChangedEventKey(  )
+integer osGetLinkNumber( string name )
 list osGetLinkPrimitiveParams( integer linknumber, list rules )
+float osGetLinkSitActiveRange( integer linkNumber )
+vector osGetLinkStandTarget( integer linkNumber )
 key osGetMapTexture(  )
+list osGetNPCList(  )
 string osGetNotecard( string name )
 string osGetNotecardLine( string name, integer line )
 list osGetNumberOfAttachments( key avatar, list attachmentPoints )
 integer osGetNumberOfNotecardLines( string name )
+float osGetPSTWallclock(  )
+integer osGetParcelDwell( vector pos )
 string osGetPhysicsEngineName(  )
 string osGetPhysicsEngineType(  )
 list osGetPrimitiveParams( key prim, list rules )
-key osGetRegionMapTexture( string regionName )
+key osGetRegionMapTexture( string regionNameOrID )
 vector osGetRegionSize(  )
 list osGetRegionStats(  )
 key osGetRezzingObject(  )
 string osGetScriptEngineName(  )
 integer osGetSimulatorMemory(  )
+integer osGetSimulatorMemoryKB(  )
 string osGetSimulatorVersion(  )
+float osGetSitActiveRange(  )
+vector osGetStandTarget(  )
 float osGetSunParam( string param )
 float osGetTerrainHeight( integer x, integer y )
 string osGetThreatLevel( string id )
 float osGetWindParam( string plugin, string param )
 integer osInviteToGroup( key agentId )
+integer osIsNotValidNumber( float v )
 integer osIsNpc( key npc )
 integer osIsUUID( string thing )
 string osKey2Name( string id )
 void osKickAvatar( string FirstName, string SurName, string alert )
+void osKickAvatar( key agentId, string alert )
+void osLinkParticleSystem( integer linknumber, list rules )
 float osList2Double( list src, integer index )
+void osListSortInPlace( list src, integer stride, integer ascending )
 integer osListenRegex( integer channelID, string name, string ID, string msg, integer regexBitfield )
 string osLoadedCreationDate(  )
 string osLoadedCreationID(  )
 string osLoadedCreationTime(  )
+void osLocalTeleportAgent( key agent, vector position, vector velocity, vector lookat, integer flags )
+void osLoopSound( integer linknum, string sound, float volume )
+void osLoopSoundMaster( integer linknum, string sound, float volume )
+void osLoopSoundSlave( integer linknum, string sound, float volume )
+void osMakeNotecard( string notecardName, string contents )
 void osMakeNotecard( string notecardName, list contents )
 list osMatchString( string src, string pattern, integer start )
 float osMax( float a, float b )
@@ -628,16 +696,21 @@ void osMessageObject( key objectUUID, string message )
 float osMin( float a, float b )
 string osMovePen( string drawList, integer x, integer y )
 key osNpcCreate( string user, string name, vector position, string notecard )
+key osNpcCreate( string user, string name, vector position, string notecard, integer options )
 key osNpcGetOwner( key npc )
 vector osNpcGetPos( key npc )
 rotation osNpcGetRot( key npc )
 void osNpcLoadAppearance( key npc, string notecard )
+integer osNpcLookAt( key npckey, integer type, key objkey, vector offset )
 void osNpcMoveTo( key npc, vector position )
 void osNpcMoveToTarget( key npc, vector target, integer options )
 void osNpcPlayAnimation( key npc, string animation )
 void osNpcRemove( key npc )
 key osNpcSaveAppearance( key npc, string notecard )
+key osNpcSaveAppearance( key npc, string notecard, integer includeHuds )
 void osNpcSay( key npc, string message )
+void osNpcSay( key npc, integer channel, string message )
+void osNpcSayTo( key npc, key target, integer channel, string message )
 void osNpcSetProfileAbout( key npc, string about )
 void osNpcSetProfileImage( key npc, string image )
 void osNpcSetRot( key npc, rotation rot )
@@ -649,32 +722,57 @@ void osNpcStopMoveToTarget( key npc )
 void osNpcTouch( key npcLSL_Key, key object_key, integer link_num )
 void osNpcWhisper( key npc, integer channel, string message )
 key osOwnerSaveAppearance( string notecard )
+key osOwnerSaveAppearance( string notecard, integer includeHuds )
 void osParcelJoin( vector pos1, vector pos2 )
 void osParcelSetDetails( vector pos, list rules )
 void osParcelSubdivide( vector pos1, vector pos2 )
+void osParticleSystem( list rules )
+void osPlaySound( integer linknum, string sound, float volume )
+void osPlaySoundSlave( integer linknum, string sound, float volume )
+void osPreloadSound( integer linknum, string sound )
 integer osRegexIsMatch( string input, string pattern )
 void osRegionNotice( string msg )
+void osRegionNotice( key agent_id, string msg )
 integer osRegionRestart( float seconds )
+integer osReplaceAgentEnvironment( key agentkey, integer transition, string daycycle )
+integer osReplaceParcelEnvironment( integer transition, string daycycle )
+integer osReplaceRegionEnvironment( integer transition, string daycycle, float daylen, float dayoffset, float altitude1, float altitude2, float altitude3 )
 string osReplaceString( string src, string pattern, string replace, integer count, integer start )
-void osRequestSecureURL( list options )
-void osRequestURL( list options )
+key osRequestSecureURL( list options )
+key osRequestURL( list options )
+void osResetAllScripts( integer AllLinkset )
+integer osResetEnvironment( integer parcelOrRegion, integer transition )
 void osReturnObject( key userID )
 void osReturnObjects( float Parameter )
 void osRezObject( string inventory, vector pos, vector vel, rotation rot, integer param, integer isRezAtRoot, integer doRecoil, integer SetDieAtEdge, integer CheckPos )
+float osRound( float value, integer digits )
+string osSHA256( string input )
 void osSetContentType( key id, string type )
 string osSetDynamicTextureData( string dynamicID, string contentType, string data, string extraParams, integer timer )
 string osSetDynamicTextureDataBlend( string dynamicID, string contentType, string data, string extraParams, integer timer, integer alpha )
 string osSetDynamicTextureDataBlendFace( string dynamicID, string contentType, string data, string extraParams, integer blend, integer disp, integer timer, integer alpha, integer face )
+string osSetDynamicTextureDataBlendFace( string dynamicID, string contentType, string data, string extraParams, bool blend, integer disp, integer timer, integer alpha, integer face )
+string osSetDynamicTextureDataFace( string dynamicID, string contentType, string data, string extraParams, integer timer, integer face )
 string osSetDynamicTextureURL( string dynamicID, string contentType, string url, string extraParams, integer timer )
 string osSetDynamicTextureURLBlend( string dynamicID, string contentType, string url, string extraParams, integer timer, integer alpha )
 string osSetDynamicTextureURLBlendFace( string dynamicID, string contentType, string url, string extraParams, integer blend, integer disp, integer timer, integer alpha, integer face )
+string osSetDynamicTextureURLBlendFace( string dynamicID, string contentType, string url, string extraParams, bool blend, integer disp, integer timer, integer alpha, integer face )
 void osSetEstateSunSettings( integer sunFixed, float sunHour )
+void osSetEstateSunSettings( bool sunFixed, float sunHour )
 string osSetFontName( string drawList, string fontName )
 string osSetFontSize( string drawList, integer fontSize )
-void osSetHealRate( string avatar, float healrate )
-void osSetHealth( string avatar, float health )
+void osSetHealRate( key agentId, float healrate )
+void osSetHealth( key agentId, float health )
+void osSetInertia( float mass, vector centerOfMass, vector principalInertiaScaled, rotation rot )
+void osSetInertiaAsBox( float mass, vector boxSize, vector centerOfMass, rotation rot )
+void osSetInertiaAsCylinder( float mass, float radius, float length, vector centerOfMass, rotation lslrot )
+void osSetInertiaAsSphere( float mass, float radius, vector centerOfMass )
+void osSetLinkSitActiveRange( integer linkNumber, float v )
+void osSetLinkStandTarget( integer linkNumber, vector v )
+void osSetOwnerSpeed( float SpeedModifier )
 void osSetParcelDetails( vector pos, list rules )
 void osSetParcelMediaURL( string url )
+void osSetParcelMusicURL( string url )
 void osSetParcelSIPAddress( string SIPAddress )
 string osSetPenCap( string drawList, string direction, string type )
 string osSetPenColor( string drawList, string color )
@@ -683,24 +781,53 @@ string osSetPenSize( string drawList, integer penSize )
 void osSetPrimFloatOnWater( integer floatYN )
 void osSetPrimitiveParams( key prim, list rules )
 void osSetProjectionParams( integer projection, key texture, float fov, float focus, float amb )
+void osSetProjectionParams( bool projection, key texture, float fov, float focus, float amb )
+void osSetProjectionParams( key prim, integer projection, key texture, float fov, float focus, float amb )
+void osSetProjectionParams( key prim, bool projection, key texture, float fov, float focus, float amb )
+void osSetProjectionParams( integer linknumber, integer projection, key texture, float fov, float focus, float amb )
 void osSetRegionSunSettings( integer useEstateSun, integer sunFixed, float sunHour )
+void osSetRegionSunSettings( bool useEstateSun, bool sunFixed, float sunHour )
 void osSetRegionWaterHeight( float height )
+void osSetSitActiveRange( float v )
+void osSetSoundRadius( integer linknum, float radius )
 void osSetSpeed( key UUID, float SpeedModifier )
-void osSetStateEvents( integer events )
+void osSetStandTarget( vector v )
 void osSetSunParam( string param, float value )
 integer osSetTerrainHeight( integer x, integer y, float val )
 void osSetTerrainTexture( integer level, key texture )
 void osSetTerrainTextureHeight( integer corner, float low, float high )
 void osSetWindParam( string plugin, string param, float value )
 void osShutDown(  )
+rotation osSlerp( rotation a, rotation b, float amount )
+vector osSlerp( vector a, vector b, float amount )
+void osStopSound( integer linknum )
+integer osStringEndsWith( string src, string value, integer ignorecase )
+integer osStringIndexOf( string src, string value, integer ignorecase )
+integer osStringIndexOf( string src, string value, integer start, integer count, integer ignorecase )
+integer osStringLastIndexOf( string src, string value, integer ignorecase )
+integer osStringLastIndexOf( string src, string value, integer start, integer count, integer ignorecase )
+string osStringRemove( string src, integer start, integer count )
+string osStringReplace( string src, string oldvalue, string newvalue )
+integer osStringStartsWith( string src, string value, integer ignorecase )
+string osStringSubString( string src, integer start )
+string osStringSubString( string src, integer start, integer length )
 float osSunGetParam( string param )
 void osSunSetParam( string param, float value )
 void osTeleportAgent( string agent, string regionName, vector position, vector lookat )
+void osTeleportAgent( string agent, integer regionX, integer regionY, vector position, vector lookat )
+void osTeleportAgent( string agent, vector position, vector lookat )
+integer osTeleportObject( key objectUUID, vector targetPos, rotation targetrotation, integer flags )
 void osTeleportOwner( string regionName, vector position, vector lookat )
+void osTeleportOwner( integer regionX, integer regionY, vector position, vector lookat )
+void osTeleportOwner( vector position, vector lookat )
 void osTerrainFlush(  )
 float osTerrainGetHeight( integer x, integer y )
 integer osTerrainSetHeight( integer x, integer y, float val )
+void osTriggerSound( integer linknum, string sound, float volume )
+void osTriggerSoundLimited( integer linknum, string sound, float volume, vector top_north_east, vector bottom_south_west )
 string osUnixTimeToTimestamp( integer time )
+float osVecDistSquare( vector a, vector b )
+float osVecMagSquare( vector a )
 void osVolumeDetect( integer detect )
 string osWindActiveModelPluginName(  )
 const integer ACTIVE = 0x2
@@ -709,6 +836,7 @@ const string ADD_GRAVITY_POINT = "add_gravity_point"
 const integer AGENT = 0x1
 const integer AGENT_ALWAYS_RUN = 0x1000
 const integer AGENT_ATTACHMENTS = 0x2
+const integer AGENT_AUTOMATED = 0x4000
 const integer AGENT_AUTOPILOT = 0x2000
 const integer AGENT_AWAY = 0x40
 const integer AGENT_BUSY = 0x800
@@ -717,10 +845,11 @@ const integer AGENT_BY_USERNAME = 0x10
 const integer AGENT_CROUCHING = 0x400
 const integer AGENT_FLYING = 0x1
 const integer AGENT_IN_AIR = 0x100
+const integer AGENT_LIST_EXCLUDENPC = 0x4000000
 const integer AGENT_LIST_PARCEL = 1
 const integer AGENT_LIST_PARCEL_OWNER = 2
 const integer AGENT_LIST_REGION = 4
-const integer AGENT_MALE = 0x2000
+const integer AGENT_MALE = 0x40000000
 const integer AGENT_MOUSELOOK = 0x8
 const integer AGENT_ON_OBJECT = 0x20
 const integer AGENT_SCRIPTED = 0x4
@@ -762,6 +891,7 @@ const integer ATTACH_LHIP = 25
 const integer ATTACH_LLARM = 21
 const integer ATTACH_LLLEG = 27
 const integer ATTACH_LPEC = 29
+const integer ATTACH_LPEC = 30
 const integer ATTACH_LSHOULDER = 3
 const integer ATTACH_LUARM = 20
 const integer ATTACH_LULEG = 26
@@ -780,6 +910,7 @@ const integer ATTACH_RIGHT_PEC = 30
 const integer ATTACH_RLARM = 19
 const integer ATTACH_RLLEG = 24
 const integer ATTACH_RPEC = 29
+const integer ATTACH_RPEC = 30
 const integer ATTACH_RSHOULDER = 4
 const integer ATTACH_RUARM = 18
 const integer ATTACH_RULEG = 23
@@ -833,6 +964,7 @@ const integer CHANGED_POSITION = 0x8000
 const integer CHANGED_REGION = 0x100
 const integer CHANGED_REGION_RESTART = 0x400
 const integer CHANGED_REGION_START = 0x400
+const integer CHANGED_RENDER_MATERIAL = 0x1000
 const integer CHANGED_SCALE = 0x8
 const integer CHANGED_SHAPE = 0x4
 const integer CHANGED_STATE = 0x8000
@@ -840,6 +972,7 @@ const integer CHANGED_TELEPORT = 0x200
 const integer CHANGED_TEXTURE = 0x10
 const integer CHARACTER_ACCOUNT_FOR_SKIPPED_FRAMES = 14
 const integer CHARACTER_AVOIDANCE_MODE = 5
+const integer CHARACTER_AVOIDANCE_MODE = 9
 const integer CHARACTER_CMD_JUMP = 1
 const integer CHARACTER_CMD_SMOOTH_STOP = 2
 const integer CHARACTER_CMD_STOP = 0
@@ -847,9 +980,11 @@ const integer CHARACTER_DESIRED_SPEED = 1
 const integer CHARACTER_DESIRED_TURN_SPEED = 12
 const integer CHARACTER_LENGTH = 3
 const integer CHARACTER_MAX_ACCEL = 8
+const integer CHARACTER_MAX_ACCEL = 10
 const integer CHARACTER_MAX_ANGULAR_ACCEL = 13
 const integer CHARACTER_MAX_ANGULAR_SPEED = 13
 const integer CHARACTER_MAX_DECEL = 9
+const integer CHARACTER_MAX_DECEL = 11
 const integer CHARACTER_MAX_SPEED = 13
 const integer CHARACTER_MAX_TURN_RADIUS = 10
 const integer CHARACTER_ORIENTATION = 4
@@ -857,13 +992,20 @@ const integer CHARACTER_RADIUS = 2
 const integer CHARACTER_STAY_WITHIN_PARCEL = 15
 const integer CHARACTER_TURN_SPEED_MULTIPLIER = 14
 const integer CHARACTER_TYPE = 6
+const integer CHARACTER_TYPE = 8
 const integer CHARACTER_TYPE_A = 0
+const integer CHARACTER_TYPE_A = 1
 const integer CHARACTER_TYPE_B = 1
+const integer CHARACTER_TYPE_B = 2
 const integer CHARACTER_TYPE_C = 2
+const integer CHARACTER_TYPE_C = 3
 const integer CHARACTER_TYPE_D = 3
+const integer CHARACTER_TYPE_D = 4
 const integer CHARACTER_TYPE_NONE = 4
+const integer CHARACTER_TYPE_NONE = 0
 const integer CLICK_ACTION_BUY = 2
 const integer CLICK_ACTION_DISABLED = 8
+const integer CLICK_ACTION_IGNORE = 9
 const integer CLICK_ACTION_NONE = 0
 const integer CLICK_ACTION_OPEN = 4
 const integer CLICK_ACTION_OPEN_MEDIA = 6
@@ -902,7 +1044,9 @@ const integer DATA_SIM_RELEASE = 128
 const integer DATA_SIM_STATUS = 6
 const integer DEBUG_CHANNEL = 0x7FFFFFFF
 const float DEG_TO_RAD = 0.017453293
+const float DEG_TO_RAD = 0.01745329238f
 const integer DENSITY = 0x1
+const integer DENSITY = 0
 const string ENABLE_GRAVITY = "enable_gravity"
 const integer ENVIRONMENT_DAYINFO = 200
 const integer ENV_INVALID_AGENT = -4
@@ -921,21 +1065,30 @@ const integer ERR_PARCEL_PERMISSIONS = -2
 const integer ERR_RUNTIME_PERMISSIONS = -4
 const integer ERR_THROTTLED = -5
 const integer ESTATE_ACCESS_ALLOWED_AGENT_ADD = 0x4
+const integer ESTATE_ACCESS_ALLOWED_AGENT_ADD = 0
 const integer ESTATE_ACCESS_ALLOWED_AGENT_REMOVE = 0x8
+const integer ESTATE_ACCESS_ALLOWED_AGENT_REMOVE = 1
 const integer ESTATE_ACCESS_ALLOWED_GROUP_ADD = 0x10
+const integer ESTATE_ACCESS_ALLOWED_GROUP_ADD = 2
 const integer ESTATE_ACCESS_ALLOWED_GROUP_REMOVE = 0x20
+const integer ESTATE_ACCESS_ALLOWED_GROUP_REMOVE = 3
 const integer ESTATE_ACCESS_BANNED_AGENT_ADD = 0x40
+const integer ESTATE_ACCESS_BANNED_AGENT_ADD = 4
 const integer ESTATE_ACCESS_BANNED_AGENT_REMOVE = 0x80
+const integer ESTATE_ACCESS_BANNED_AGENT_REMOVE = 5
 const integer FALSE = 0
 const integer FORCE_DIRECT_PATH = 1
 const integer FRICTION = 0x2
+const integer FRICTION = 1
 const integer GCNP_RADIUS = 0
 const integer GCNP_STATIC = 1
 const string GRAVITY_FORCE_X = "gravity_force_x"
 const string GRAVITY_FORCE_Y = "gravity_force_y"
 const string GRAVITY_FORCE_Z = "gravity_force_z"
 const integer GRAVITY_MULTIPLIER = 0x8
+const integer GRAVITY_MULTIPLIER = 3
 const integer HORIZONTAL = 1
+const integer HORIZONTAL = 0
 const integer HTTP_ACCEPT = 8
 const integer HTTP_BODY_MAXLENGTH = 2
 const integer HTTP_BODY_TRUNCATED = 0
@@ -964,6 +1117,7 @@ const integer INVENTORY_BODYPART = 13
 const integer INVENTORY_CLOTHING = 5
 const integer INVENTORY_GESTURE = 21
 const integer INVENTORY_LANDMARK = 3
+const integer INVENTORY_MATERIAL = 57
 const integer INVENTORY_NONE = -1
 const integer INVENTORY_NOTECARD = 7
 const integer INVENTORY_OBJECT = 6
@@ -972,6 +1126,7 @@ const integer INVENTORY_SETTING = 56
 const integer INVENTORY_SOUND = 1
 const integer INVENTORY_TEXTURE = 0
 const integer JSON_APPEND = -1
+const string JSON_APPEND = "-1"
 const string JSON_ARRAY = "﷒"
 const string JSON_DELETE = "﷘"
 const string JSON_FALSE = "﷗"
@@ -982,17 +1137,29 @@ const string JSON_OBJECT = "﷑"
 const string JSON_STRING = "﷔"
 const string JSON_TRUE = "﷖"
 const integer KFM_CMD_PAUSE = 2
+const integer KFM_CMD_PAUSE = 0x800
 const integer KFM_CMD_PLAY = 0
+const integer KFM_CMD_PLAY = 0x400
 const integer KFM_CMD_STOP = 1
+const integer KFM_CMD_STOP = 0x200
 const integer KFM_COMMAND = 0
+const integer KFM_COMMAND = 0x100
 const integer KFM_DATA = 2
+const integer KFM_DATA = 0x1000
 const integer KFM_FORWARD = 0
+const integer KFM_FORWARD = 0x10
 const integer KFM_LOOP = 1
+const integer KFM_LOOP = 0x4
 const integer KFM_MODE = 1
+const integer KFM_MODE = 0x2
 const integer KFM_PING_PONG = 2
+const integer KFM_PING_PONG = 0x20
 const integer KFM_REVERSE = 3
+const integer KFM_REVERSE = 0x8
 const integer KFM_ROTATION = 1
+const integer KFM_ROTATION = 0x80
 const integer KFM_TRANSLATION = 2
+const integer KFM_TRANSLATION = 0x40
 const integer LAND_LARGE_BRUSH = 3
 const integer LAND_LEVEL = 0
 const integer LAND_LOWER = 2
@@ -1006,6 +1173,7 @@ const integer LINKSETDATA_DELETE = 2
 const integer LINKSETDATA_EMEMORY = 1
 const integer LINKSETDATA_ENOKEY = 2
 const integer LINKSETDATA_EPROTECTED = 3
+const integer LINKSETDATA_MULTIDELETE = 3
 const integer LINKSETDATA_NOTFOUND = 4
 const integer LINKSETDATA_NOUPDATE = 5
 const integer LINKSETDATA_OK = 0
@@ -1042,6 +1210,17 @@ const integer MASK_GROUP = 2
 const integer MASK_NEXT = 4
 const integer MASK_OWNER = 1
 const integer NPC = 0x20
+const integer NPCLOOKAT_CLEAR = 10
+const integer NPCLOOKAT_CONVERSATION = 6
+const integer NPCLOOKAT_FOCUS = 8
+const integer NPCLOOKAT_FREELOOK = 3
+const integer NPCLOOKAT_HOVER = 5
+const integer NPCLOOKAT_IDLE = 1
+const integer NPCLOOKAT_LISTEN = 2
+const integer NPCLOOKAT_MOUSELOOK = 9
+const integer NPCLOOKAT_NONE = 0
+const integer NPCLOOKAT_RESPOND = 4
+const integer NPCLOOKAT_SELECT = 7
 const string NULL_KEY = "00000000-0000-0000-0000-000000000000"
 const integer OBJECT_ACCOUNT_LEVEL = 41
 const integer OBJECT_ANIMATED_COUNT = 39
@@ -1104,12 +1283,23 @@ const integer OPT_MATERIAL_VOLUME = 5
 const integer OPT_OTHER = -1
 const integer OPT_STATIC_OBSTACLE = 4
 const integer OPT_WALKABLE = 3
+const integer OSTPOBJ_NONE = 0x0
+const integer OSTPOBJ_SETROT = 0x4
+const integer OSTPOBJ_STOPATTARGET = 0x1
+const integer OSTPOBJ_STOPONFAIL = 0x2
+const integer OS_APIVERSION = 20
 const integer OS_ATTACH_MSG_ALL = -65535
 const integer OS_ATTACH_MSG_INVERT_POINTS = 1
 const integer OS_ATTACH_MSG_OBJECT_CREATOR = 2
 const integer OS_ATTACH_MSG_SCRIPT_CREATOR = 4
 const integer OS_LISTEN_REGEX_MESSAGE = 0x2
 const integer OS_LISTEN_REGEX_NAME = 0x1
+const integer OS_LTPAG_ALGNLV = 0x4
+const integer OS_LTPAG_FORCEFLY = 0x8
+const integer OS_LTPAG_FORCENOFLY = 0x16
+const integer OS_LTPAG_NONE = 0x0
+const integer OS_LTPAG_USELOOKAT = 0x2
+const integer OS_LTPAG_USEVEL = 0x1
 const integer OS_NPC_CREATOR_OWNED = 0x1
 const integer OS_NPC_FLY = 0
 const integer OS_NPC_LAND_AT_TARGET = 2
@@ -1125,11 +1315,14 @@ const integer PARCEL_COUNT_OWNER = 1
 const integer PARCEL_COUNT_SELECTED = 4
 const integer PARCEL_COUNT_TEMP = 5
 const integer PARCEL_COUNT_TOTAL = 0
+const integer PARCEL_DETAILS_ANY_AVATAR_SOUNDS = 7
 const integer PARCEL_DETAILS_AREA = 4
 const integer PARCEL_DETAILS_CLAIMDATE = 10
 const integer PARCEL_DETAILS_DESC = 1
+const integer PARCEL_DETAILS_DWELL = 64
 const integer PARCEL_DETAILS_FLAGS = 12
 const integer PARCEL_DETAILS_GROUP = 3
+const integer PARCEL_DETAILS_GROUP_SOUNDS = 8
 const integer PARCEL_DETAILS_ID = 5
 const integer PARCEL_DETAILS_LANDING_LOOKAT = 10
 const integer PARCEL_DETAILS_LANDING_POINT = 9
@@ -1173,7 +1366,10 @@ const integer PARCEL_MEDIA_COMMAND_UNLOAD = 8
 const integer PARCEL_MEDIA_COMMAND_URL = 5
 const integer PASSIVE = 0x4
 const integer PASS_ALWAYS = 1
+const integer PASS_ALWAYS = 1
 const integer PASS_IF_NOT_HANDLED = 0
+const integer PASS_IF_NOT_HANDLED = 0
+const integer PASS_NEVER = 2
 const integer PASS_NEVER = 2
 const integer PATROL_PAUSE_AT_WAYPOINTS = 0
 const integer PAYMENT_INFO_ON_FILE = 0x1
@@ -1202,8 +1398,10 @@ const integer PERM_MODIFY = 0x00004000
 const integer PERM_MOVE = 0x00080000
 const integer PERM_TRANSFER = 0x00002000
 const float PI = 3.14159265
+const float PI = 3.14159274f
 const integer PING_PONG = 0x8
 const float PI_BY_TWO = 1.57079633
+const float PI_BY_TWO = 1.57079637f
 const integer PRIM_ALLOW_UNSIT = 39
 const integer PRIM_ALPHA_MODE = 38
 const integer PRIM_ALPHA_MODE_BLEND = 1
@@ -1230,11 +1428,19 @@ const integer PRIM_BUMP_TILE = 8
 const integer PRIM_BUMP_WEAVE = 17
 const integer PRIM_BUMP_WOOD = 3
 const integer PRIM_CAST_SHADOWS = 24
+const integer PRIM_CLICK_ACTION = 43
 const integer PRIM_COLOR = 18
 const integer PRIM_DESC = 28
 const integer PRIM_FLEXIBLE = 21
 const integer PRIM_FULLBRIGHT = 20
 const integer PRIM_GLOW = 25
+const integer PRIM_GLTF_ALPHA_MODE_BLEND = 1
+const integer PRIM_GLTF_ALPHA_MODE_MASK = 2
+const integer PRIM_GLTF_ALPHA_MODE_OPAQUE = 0
+const integer PRIM_GLTF_BASE_COLOR = 48
+const integer PRIM_GLTF_EMISSIVE = 46
+const integer PRIM_GLTF_METALLIC_ROUGHNESS = 47
+const integer PRIM_GLTF_NORMAL = 45
 const integer PRIM_HOLE_CIRCLE = 0x10
 const integer PRIM_HOLE_DEFAULT = 0x0
 const integer PRIM_HOLE_SQUARE = 0x20
@@ -1286,13 +1492,19 @@ const integer PRIM_PHYSICS_SHAPE_CONVEX = 2
 const integer PRIM_PHYSICS_SHAPE_NONE = 1
 const integer PRIM_PHYSICS_SHAPE_PRIM = 0
 const integer PRIM_PHYSICS_SHAPE_TYPE = 30
+const integer PRIM_PHYSICS_SHAPE_TYPE = 35
 const integer PRIM_POINT_LIGHT = 23
 const integer PRIM_POSITION = 6
 const integer PRIM_POS_LOCAL = 33
 const integer PRIM_PROJECTOR = 42
+const integer PRIM_REFLECTION_PROBE = 44
+const integer PRIM_REFLECTION_PROBE_BOX = 1
+const integer PRIM_REFLECTION_PROBE_DYNAMIC = 2
+const integer PRIM_RENDER_MATERIAL = 49
 const integer PRIM_ROTATION = 8
 const integer PRIM_ROT_LOCAL = 29
 const integer PRIM_SCRIPTED_SIT_ONLY = 40
+const integer PRIM_SCULPT_FLAG_ANIMESH = 0x20
 const integer PRIM_SCULPT_FLAG_INVERT = 0x40
 const integer PRIM_SCULPT_FLAG_MIRROR = 0x80
 const integer PRIM_SCULPT_TYPE_CYLINDER = 4
@@ -1379,6 +1591,7 @@ const integer PSYS_SRC_TARGET_KEY = 20
 const integer PSYS_SRC_TEXTURE = 12
 const integer PUBLIC_CHANNEL = 0
 const integer PURSUIT_FUZZ_FACTOR = 3
+const integer PURSUIT_FUZZ_FACTOR = 8
 const integer PURSUIT_GOAL_TOLERANCE = 5
 const integer PURSUIT_INTERCEPT = 4
 const integer PURSUIT_OFFSET = 1
@@ -1396,20 +1609,35 @@ const integer PU_FAILURE_UNREACHABLE = 4
 const integer PU_GOAL_REACHED = 1
 const integer PU_SLOWDOWN_DISTANCE_REACHED = 0
 const float RAD_TO_DEG = 57.2957795
+const float RAD_TO_DEG = 57.29578f
 const integer RCERR_CAST_TIME_EXCEEDED = -3
+const integer RCERR_CAST_TIME_EXCEEDED = 1
 const integer RCERR_SIM_PERF_LOW = -2
 const integer RCERR_UNKNOWN = -1
 const integer RC_DATA_FLAGS = 2
+const integer RC_DATA_FLAGS = 4
 const integer RC_DETECT_PHANTOM = 1
+const integer RC_DETECT_PHANTOM = 16
 const integer RC_GET_LINK_NUM = 0x4
+const integer RC_GET_LINK_NUM = 0x8
 const integer RC_GET_NORMAL = 0x1
+const integer RC_GET_NORMAL = 0x2
 const integer RC_GET_ROOT_KEY = 0x2
+const integer RC_GET_ROOT_KEY = 0x4
 const integer RC_MAX_HITS = 3
+const integer RC_MAX_HITS = 8
 const integer RC_REJECT_AGENTS = 0x1
+const integer RC_REJECT_AGENTS = 0x2
+const integer RC_REJECT_HOST = 0x20000000
+const integer RC_REJECT_HOSTGROUP = 0x40000000
 const integer RC_REJECT_LAND = 0x8
+const integer RC_REJECT_LAND = 0x10
 const integer RC_REJECT_NONPHYSICAL = 0x4
+const integer RC_REJECT_NONPHYSICAL = 0x8
 const integer RC_REJECT_PHYSICAL = 0x2
+const integer RC_REJECT_PHYSICAL = 0x4
 const integer RC_REJECT_TYPES = 0
+const integer RC_REJECT_TYPES = 2
 const integer REGION_FLAG_ALLOW_DAMAGE = 0x00000001
 const integer REGION_FLAG_ALLOW_DIRECT_TELEPORT = 0x00100000
 const integer REGION_FLAG_BLOCK_FLY = 0x00080000
@@ -1425,11 +1653,38 @@ const integer REMOTE_DATA_REPLY = 3
 const integer REMOTE_DATA_REQUEST = 2
 const integer REQUIRE_LINE_OF_SIGHT = 2
 const integer RESTITUTION = 0x4
+const integer RESTITUTION = 2
 const integer REVERSE = 0x4
 const integer ROTATE = 0x20
 const integer SCALE = 0x40
 const integer SCRIPTED = 0x8
+const integer SIM_STAT_ACTIVE_SCRIPT_COUNT = 12
+const integer SIM_STAT_AGENT_COUNT = 10
+const integer SIM_STAT_AGENT_MS = 7
+const integer SIM_STAT_AGENT_UPDATES = 2
+const integer SIM_STAT_AI_MS = 26
+const integer SIM_STAT_ASSET_DOWNLOADS = 15
+const integer SIM_STAT_ASSET_UPLOADS = 16
+const integer SIM_STAT_CHILD_AGENT_COUNT = 11
+const integer SIM_STAT_FRAME_MS = 3
+const integer SIM_STAT_IMAGE_MS = 8
+const integer SIM_STAT_IO_PUMP_MS = 24
+const integer SIM_STAT_NET_MS = 4
+const integer SIM_STAT_OTHER_MS = 5
+const integer SIM_STAT_PACKETS_IN = 13
+const integer SIM_STAT_PACKETS_OUT = 14
 const integer SIM_STAT_PCT_CHARS_STEPPED = 0
+const integer SIM_STAT_PHYSICS_FPS = 1
+const integer SIM_STAT_PHYSICS_MS = 6
+const integer SIM_STAT_PHYSICS_OTHER_MS = 20
+const integer SIM_STAT_PHYSICS_SHAPE_MS = 19
+const integer SIM_STAT_PHYSICS_STEP_MS = 18
+const integer SIM_STAT_SCRIPT_EPS = 21
+const integer SIM_STAT_SCRIPT_MS = 9
+const integer SIM_STAT_SCRIPT_RUN_PCT = 25
+const integer SIM_STAT_SLEEP_MS = 23
+const integer SIM_STAT_SPARE_MS = 22
+const integer SIM_STAT_UNACKED_BYTES = 17
 const integer SIT_INVALID_AGENT = -4
 const integer SIT_INVALID_LINK = -5
 const integer SIT_INVALID_OBJECT = -7
@@ -1453,6 +1708,7 @@ const integer SKY_MOON = 9
 const integer SKY_MOON_TEXTURE = 20
 const integer SKY_PLANET = 10
 const integer SKY_RAYLEIGH_CONFIG = 18
+const integer SKY_REFLECTION_PROBE_AMBIANCE = 24
 const integer SKY_REFRACTION = 11
 const integer SKY_STAR_BRIGHTNESS = 13
 const integer SKY_SUN = 14
@@ -1465,31 +1721,54 @@ const integer SOUND_PLAY = 0x00
 const integer SOUND_SYNC = 0x04
 const integer SOUND_TRIGGER = 0x02
 const float SQRT2 = 1.41421356
+const float SQRT2 = 1.414213538f
 const string START_TIME_REVERSAL = "start_time_reversal"
 const string START_TIME_REVERSAL_SAVING = "start_time_reversal_saving"
 const integer STATS_ACTIVE_PRIMS = 7
+const integer STATS_ACTIVE_PRIMS = 12
 const integer STATS_ACTIVE_SCRIPTS = 19
+const integer STATS_ACTIVE_SCRIPTS = 15
 const integer STATS_AGENT_MS = 16
+const integer STATS_AGENT_MS = 8
 const integer STATS_AGENT_UPDATES = 3
 const integer STATS_CHILD_AGENTS = 5
+const integer STATS_CHILD_AGENTS = 14
 const integer STATS_FRAME_MS = 8
+const integer STATS_FRAME_MS = 4
 const integer STATS_IMAGE_MS = 11
+const integer STATS_IMAGE_MS = 9
 const integer STATS_IN_PACKETS_PER_SECOND = 13
+const integer STATS_IN_PACKETS_PER_SECOND = 17
 const integer STATS_NET_MS = 9
+const integer STATS_NET_MS = 5
 const integer STATS_OTHER_MS = 12
+const integer STATS_OTHER_MS = 6
 const integer STATS_OUT_PACKETS_PER_SECOND = 14
+const integer STATS_OUT_PACKETS_PER_SECOND = 18
 const integer STATS_PENDING_DOWNLOADS = 17
+const integer STATS_PENDING_DOWNLOADS = 19
 const integer STATS_PENDING_UPLOADS = 18
+const integer STATS_PENDING_UPLOADS = 20
 const integer STATS_PHYSICS_FPS = 2
 const integer STATS_PHYSICS_MS = 10
+const integer STATS_PHYSICS_MS = 7
 const integer STATS_ROOT_AGENTS = 4
+const integer STATS_ROOT_AGENTS = 13
 const integer STATS_SCRIPT_EPS = 31
-const integer STATS_SCRIPT_LPS = 20
+const integer STATS_SCRIPT_EPS = 28
+const integer STATS_SCRIPT_LPS = 38
+const integer STATS_SCRIPT_LPS = 16
+const integer STATS_SCRIPT_LPS = 38
 const integer STATS_SCRIPT_MS = 10
+const integer STATS_SCRIPT_NPCS = 47
+const integer STATS_SCRIPT_TIME = 37
 const integer STATS_SIM_FPS = 1
+const integer STATS_SIM_SLEEP = 20
 const integer STATS_TIME_DILATION = 0
 const integer STATS_TOTAL_PRIMS = 6
+const integer STATS_TOTAL_PRIMS = 11
 const integer STATS_UNACKED_BYTES = 15
+const integer STATS_UNACKED_BYTES = 24
 const integer STATUS_BLOCK_GRAB = 0x40
 const integer STATUS_BLOCK_GRAB_OBJECT = 0x400
 const integer STATUS_BOUNDS_ERROR = 1002
@@ -1530,10 +1809,14 @@ const integer TP_ROUTING_FREE = 2
 const integer TP_ROUTING_LANDINGP = 1
 const integer TRAVERSAL_TYPE = 7
 const integer TRAVERSAL_TYPE_FAST = 1
+const integer TRAVERSAL_TYPE_FAST = 2
 const integer TRAVERSAL_TYPE_NONE = 2
+const integer TRAVERSAL_TYPE_NONE = 1
 const integer TRAVERSAL_TYPE_SLOW = 0
+const integer TRAVERSAL_TYPE_SLOW = 4
 const integer TRUE = 1
 const float TWO_PI = 6.2831853
+const float TWO_PI = 6.28318548f
 const integer TYPE_FLOAT = 2
 const integer TYPE_INTEGER = 1
 const integer TYPE_INVALID = 0
@@ -1592,6 +1875,7 @@ const integer VEHICLE_TYPE_SLED = 1
 const integer VEHICLE_VERTICAL_ATTRACTION_EFFICIENCY = 36
 const integer VEHICLE_VERTICAL_ATTRACTION_TIMESCALE = 37
 const integer VERTICAL = 0
+const integer VERTICAL = 1
 const integer WANDER_PAUSE_AT_WAYPOINTS = 0
 const integer WATER_BLUR_MULTIPLIER = 100
 const integer WATER_FOG = 101
@@ -1602,19 +1886,26 @@ const integer WATER_REFRACTION = 105
 const integer WATER_TEXTURE_DEFAULTS = 103
 const integer WATER_WAVE_DIRECTION = 106
 const integer WL_AMBIENT = 20
+const integer WL_AMBIENT = 0
 const integer WL_BIG_WAVE_DIRECTION = 9
 const integer WL_BLUE_DENSITY = 14
 const integer WL_BLUR_MULTIPLIER = 8
 const integer WL_CLOUD_COLOR = 26
+const integer WL_CLOUD_COLOR = 3
 const integer WL_CLOUD_COVERAGE = 28
 const integer WL_CLOUD_DETAIL_XY_DENSITY = 30
 const integer WL_CLOUD_POS_DENSITY1 = 4
 const integer WL_CLOUD_POS_DENSITY2 = 5
 const integer WL_CLOUD_SCALE = 29
+const integer WL_CLOUD_SCALE = 6
 const integer WL_CLOUD_SCROLL_X = 31
+const integer WL_CLOUD_SCROLL_X = 7
 const integer WL_CLOUD_SCROLL_X_LOCK = 34
+const integer WL_CLOUD_SCROLL_X_LOCK = 9
 const integer WL_CLOUD_SCROLL_Y = 32
+const integer WL_CLOUD_SCROLL_Y = 8
 const integer WL_CLOUD_SCROLL_Y_LOCK = 33
+const integer WL_CLOUD_SCROLL_Y_LOCK = 10
 const integer WL_CLOUD_SHADOW = 11
 const integer WL_CLOUD_XY_DENSITY = 27
 const integer WL_DENSITY_MULTIPLIER = 16
