@@ -62,7 +62,9 @@ class LSLinter {
 			);
 		}
 
-		let execPath = bundledExecutable ?? globalExecutable;
+		let execPath = bundledExecutable;
+
+		if (!bundledExecutable) execPath = globalExecutable;
 
 		if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
 			console.info('getExecutablePath() will return path: "%s"', execPath);
@@ -83,7 +85,7 @@ class LSLinter {
 			'string'
 		);
 
-		let defaultBuiltins = nova.path.join(
+		var defaultBuiltins = nova.path.join(
 			nova.extension.path,
 			"LSLint",
 			"builtins.txt"
@@ -92,15 +94,19 @@ class LSLinter {
 		if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
 			console.info('getBuiltins() constructed defaultBuiltins = "%s"', defaultBuiltins);
 		}
-		try {
-			customBuiltins = nova.fs.stat(customBuiltins) != undefined ?
-				customBuiltins :
-				null;
-		} catch (error) {
-			console.warn("getBuiltins() could not find a valid builtins.txt path '%s' — throws: '%s'", customBuiltins, error.toString());
-		}
 
-		let selectedBuiltins = customBuiltins ?? defaultBuiltins;
+		var selectedBuiltins = defaultBuiltins;
+
+		// Do we have our own builtins.txt file, and, if so, is it valid?
+		try {
+			if (customBuiltins && customBuiltins != '') {
+				if (nova.fs.stat(customBuiltins) != undefined) {
+					selectedBuiltins = customBuiltins;
+				}
+			}
+		} catch (error) {
+			console.warn("getBuiltins() could not find a valid builtins.txt path '%s' — throws: '%s'  - going with the default builtins instead", customBuiltins, error.toString());
+		}
 
 		if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
 			console.log('getBuiltins() will return path: "%s"', selectedBuiltins);
@@ -142,7 +148,7 @@ class LSLinter {
 			/** Name of the scrap file.
 			 *	@type {string}
 			 */
-			let scrapFileName = nova.path.join(nova.extension.workspaceStoragePath, fileName);
+			var scrapFileName = nova.path.join(nova.extension.workspaceStoragePath, fileName);
 			try {
 				var lintFile = nova.fs.open(scrapFileName, "w");
 
@@ -178,7 +184,7 @@ class LSLinter {
 						args: [
 							execPath,
 							'-l',
-							'-d',
+							'-b',
 							builtinsPath,
 							scrapFileName
 						],
@@ -252,7 +258,7 @@ class LSLinter {
 			try {
 				if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
 					console.info("Started linting.");
-					console.log(`Running command: ${self.getExecutablePath()} -l -d ${self.getBuiltins()}`);
+					console.log(`Running command: ${self.getExecutablePath()} -l -b ${self.getBuiltins()} ${scrapFileName}`);
 				}
 				// Execution starts here.
 				linter.start();
@@ -262,15 +268,6 @@ class LSLinter {
 		});
 	}
 
-	// // probably not required
-	// outputIsJson(output) {
-	// 	try {
-	// 		return (JSON.parse(output) && !!output);
-	// 	} catch (error) {
-	// 		return false;
-	// 	}
-	// }
-	//
 	/*
 		LSLint output is something like this:
 
@@ -281,13 +278,22 @@ class LSLinter {
 		 WARN:: (204, 36)-(204, 40): Declaration of `data' in this scope shadows previous declaration at (16, 8)
 		TOTAL:: Errors: 0  Warnings: 5
 	*/
-
+	/**
+	 * Receives the text to be parsed/linted, and returns an array of issues found.
+	 *
+	 * @param {string} output Text to be parsed.
+	 * @returns {string[]} Array of issues found.
+	 */
 	parseLinterOutput(output) {
 		let issues = [];
 		// Do it the basic way, since I'm no JavaScript expert.
 		// Split by newlines first:
 		var lints = output.split(/\r\n|\n/);
 		for (var lint = 0; lint < lints.length - 1; lint++) {
+			/**
+			 * Array of matched issues on LSLint output.
+			 * @type {string[]}
+			 */
 			let matches = lints[lint].match(/^\W*(\w+)::\s*\(\s*(\d*),\s*(\d*)\)-\(\s*(\d*),\s*(\d*)\):\s*(.*)$/gmi);
 
 			if (
@@ -340,83 +346,6 @@ class LSLinter {
 
 		return issues;
 	}
-
-/*
-		issues = lints.files
-			.flatMap(function(lint) {
-				return lint.violations;
-			})
-			.map(function(lint) {
-				let issue = new Issue();
-
-				issue.message = lint.description;
-				issue.severity = IssueSeverity.Error;
-
-				if (lint.priority <= 2) {
-					issue.severity = IssueSeverity.Warning;
-				}
-
-				issue.line = lint.beginLine;
-				issue.code = lint.rule + "| " + lint.ruleSet + " | lslint";
-				issue.endLine = issue.line + 1;
-
-				if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
-					console.log("Found lint:");
-					console.log("===========");
-					console.log("Line: " + issue.line);
-					console.log("Message: " + issue.message);
-					console.log("Code: " + issue.code);
-					console.log("Ruleset: " + lint.ruleSet);
-					console.log("Severity: " + issue.severity);
-					console.log("===========");
-				}
-
-				return issue;
-			})
-			.filter(function(issue) {
-				return issue !== null;
-			});
-
-		let errors = (lints.errors || [])
-			.map(function(lint) {
-				let issue = new Issue();
-
-				if (
-					lint.message === null ||
-					lint.message === undefined
-				) {
-					return issue;
-				}
-
-				issue.code = "phpmd";
-				issue.message = (lint.message || "");
-				let matches = issue.message.match(/^.*? line: (.*?), col: .*$/i);
-
-				if (
-					matches === null ||
-					matches.length <= 1
-				) {
-					return issue;
-				}
-
-				issue.line = matches[1];
-				issue.endLine = issue.line + 1;
-				issue.severity = IssueSeverity.Error;
-
-				if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
-					console.log("Found error lint:");
-					console.log("===========");
-					console.log("Line: " + issue.line);
-					console.log("Message: " + lint.message);
-					console.log("===========");
-				}
-
-				return issue;
-			});
-
-		return issues
-			.concat(errors);
-	}*/
 };
 
 nova.assistants.registerIssueAssistant(["lsl", "ossl"], new LSLinter());

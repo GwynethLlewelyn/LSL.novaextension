@@ -67,7 +67,6 @@ list theCodes = [
 // List the name of each code.
 
 list theCodenames = [
-
 	"TRUE", "FALSE",
 
 	"PI",
