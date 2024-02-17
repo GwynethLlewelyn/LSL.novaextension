@@ -24,7 +24,7 @@
 		{
 			"key": "gwynethllewelyn.LindenScriptingLanguage.builtins",
 			"title": "Path to builtins.txt",
-			"description": "List of LSL built-in functions and parameters. By default, uses the builtins.txt that comes with this version (KWDB 0.0.20231219001). See LSLint/README.md for more information on how to build your own file.",
+			"description": "List of LSL built-in functions and parameters. By default, uses the builtins.txt that comes with this version (KWDB 0.0.20231219001). See LSLint/README.md for more information on how to build your own file. A LSL-only bultins-only-lsl.txt is also provided for convenience.",
 			"type": "string",
 			"placeholder": "LSLint/builtins.txt",
 			"default": ""

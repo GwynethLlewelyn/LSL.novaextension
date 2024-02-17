@@ -14,7 +14,9 @@ Based on the amazing work by Sei Lisa and Mako Nozaki, who compiled the [LSL2 Ke
 -   Auto-completions for major LSL constructions, functions and constants (as far as I could make them work)
 -   OpenSimulator & Aurora Sim LSL functions/constants (not all are correctly tagged, though)
 -   Opening the LSL Portal on the Second Life Wiki for the object currently selected
--   Experimental: LSlint (LSL linter) support
+-   Experimental (but mostly functional): LSlint (LSL linter) support, which will show syntax errors (like the built-in viewer, but better) and even some semantic analysis (redundant code, declared but unused elements, etc.) which the SL Viewer does _not_ include (!).
+-	On Preferences you can set the location of the LSL linter, as well as of its definition table (`builtins.txt`). Defaults are the included versions in the extension itself.
+-	Lots of (optional) debugging messages spamming on the console (which can be turned off).
 
 ### Not done yet:
 
@@ -24,7 +26,10 @@ Based on the amazing work by Sei Lisa and Mako Nozaki, who compiled the [LSL2 Ke
 -   Getting the scope selections to work.
 -   Automagically updating the syntax auto-completions every time Lisa & Nozaki update their own database (there are now a few tools to help with that).
 -   Using Panic's new support for Tree-sitter grammars, which is even trickier to deal with (and requires some compilation) than the current language files...
--   Fully support the LSL linter from W-Hat.
+-   Fully support the LSL linter from W-Hat, namely, by allowing more options to be checked/selected.
+-	Fix `lslint` to support OSSL overloaded functions (ha!).
+-   Investigate alternatives to `lslint` which are extensions/expansions and which also might make some things easier to catch.
+-	Create a LSL LSP. (Hah!)
 
 ## Disclaimers, Acknowledgements & Warnings
 
@@ -35,6 +40,8 @@ While not affiliated with Linden Lab, the developers of _KWDB_ have collected in
 But please note that LSL is a language in perpetual flux, with Linden Lab (and the OpenSimulator core developer team!) constantly adding new features and functionality, and sometimes making older versions obsolete, shuffling parameters around, etc. so at some point in time this extension will be inevitably out of sync, until I figure out a way to automatically parse the XML from the KWDB from within this Nova extension...
 
 While this extension is _mostly_ working, and should give you adequate syntax colouring (and even reasonable scoping) don't expect the results to be _exactly_ the same as inside the viewer's editor. In particular, the colours will match your Nova theme, not the conventions set by Linden Lab. It's theoretically possible to create a new, specific theme to deal with the LL colour conventions, but I haven't done that yet (I'm not expecting many people to use _this_ extension!).
+
+On the other hand, the inclusion of `lslint` (LSL Linter) allows Nova to go well beyond the Linden Lab's built-in code editor in the viewer.
 
 Also thanks to other Nova extension developers (including, but not limited to, Genealabs) for writing good, clean, understandable code that I shamelessly copied and reused.
 
@@ -50,9 +57,9 @@ Although it's more conventional to do those tools in either Perl or Python, whic
 
 ### LSL linter
 
-We don't have a language server for LSL (yet!) but we have something reasonably similar: the [`lslint` project](https://github.com/Makopo/lslint/). If you don't want to compile it on your own, it's included under the `/LSLint` directory. You have to run it passing the `builtins.txt` file that has been pre-assembled with the latest & greatest LSL definitions (also present in the very same directory).
+We don't have a language server for LSL (yet!) but we have something reasonably similar: the [`lslint` project](https://github.com/Makopo/lslint/). If you don't want to compile it on your own, it's included under the `/LSLint` directory. You have to run it passing the `builtins.txt` file that has been pre-assembled with the latest & greatest LSL & OSSL definitions (also present in the very same directory is `builtins-only-lsl.txt` which limits linting 'official' LSL only, and not any of its dialects).
 
-You can add it as an optional action on Nova; this extension doesn't do that automatically on your behalf yet.
+Kudos to the whole W-Hat team, which released the original lslinter code into the public domain, and special thanks to Makopo for being its current (main) maintainer, as well as Sei Lisa for the many corrections and improvements.
 
 ## Legal Acknowledgements
 
@@ -60,7 +67,7 @@ Second Life®, Linden Scripting Language and the inSL logo are trademarks of Lin
 
 Nova® and the Nova logo are registered trademarks of Panic Inc.
 
-The KWDB (a.k.a. LSL2/OSSL/AA Keywords Database and Derived Files Generator) is copyrighted by Sei Lisa and Mako Nozaki and released under a [GNU Lesser General Public License 3](http://www.gnu.org/licenses/lgpl-3.0.html), with parts also copyrighted by Linden Lab and released under the same license.
+The KWDB (a.k.a. LSL2/OSSL/AA Keywords Database and Derived Files Generator) is copyrighted by Sei Lisa and Mako Nozaki and released under a [GNU Lesser General Public License 3](https://www.gnu.org/licenses/lgpl-3.0.html), with parts also copyrighted by Linden Lab and released under the same license.
 
 LSLint is placed into the public domain.
 

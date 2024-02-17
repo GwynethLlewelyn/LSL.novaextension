@@ -1,7 +1,8 @@
 ## Version 1.6.0
 * Bumped KWDB to 0.0.20231219001 and updated required files accordingly
-* First attempt to use `lslint` to provide immediate clues to possible syntax/semantic errors
-* Added Preferences for debugging and to set `lslint` & `builins.txt` path
+* Now uses `lslint` to provide immediate clues to possible syntax/semantic errors
+* Added Preferences for debugging and to set `lslint` & `builtins.txt` path
+* External link for further reference on OSSL now attempts to retrieve information from the OpenSimulator Wiki instead.
 
 ## Version 1.5.0
 
