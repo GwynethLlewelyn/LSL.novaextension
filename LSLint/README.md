@@ -6,7 +6,7 @@ Kudos to the W-Hat team for releasing the code as free and open-source: https://
 
 The binary should be compilable under pretty much anything that is POSIX compliant, but, unfortunately, my own outdated macOS Big Sur seems to have severe issues with bison/lex and it doesn't compile. The version copied here has been retrieved directly from the latest nightly build for macOS (Intel), so it might not work under ARM-based Macs.
 
-To fully parse the latest LSL syntax, including the OpenSimulator and Aurora extensions, the linter requires a so-called `builtins.txt` file. If you grab it from GitHub, by default you just get the pre-generated version for plain vanilla LSL (i.e., no OSSL extensions). To generate your own version, you'll need to clone that repository, and then, under the `./lsl2dfg` directory, run:
+To fully parse the latest LSL syntax, including the OpenSimulator and Aurora extensions, the linter requires a so-called `builtins.txt` file. If you grab it from GitHub, by default you just get the pre-generated version for plain vanilla LSL (i.e., no OSSL extensions), which I also included [here](./builtins-only-lsl.txt). To generate your own version, you'll need to clone that repository, and then, under the `./lsl2dfg` directory, run:
 
 
 ```bash
@@ -14,7 +14,7 @@ python2.7 ./LSL2dfg.py -d ../database/kwdb.xml -f builtinstxt -y > /tmp/builtins
 ```
 (note that the tool is supposed to run under Python 3.2 as well, but, these days, we all have more current versions of Python, so it's safer to launch 2.7 instead).
 
-The `builtins.txt` file thus generated needs to get the first line (a comment) removed, or else `lslint` will choke on it. By default, it should be on the following directory: 
+<!--The `builtins.txt` file thus generated needs to get the first line (a comment) removed, or else `lslint` will choke on it.--> By default, `builtins.txt` should be on the following directory: 
 
 `~/Library/Application\ Support/Nova/Extensions/gwynethllewelyn.LindenScriptingLanguage/LSLint/`
 

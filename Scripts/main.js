@@ -11,25 +11,31 @@ exports.deactivate = function() {
 	}
 }
 
-// Register menu items.
+// Register menu item.
 nova.commands.register("gwynethllewelyn.LindenScriptingLanguage.search", (editor) => {
+	/**
+	 * What is currently being selected by the user.
+	 * @type {string}
+	 */
 	var query = editor.getTextInRange(editor.selectedRanges[0]).trim();
 
 	if (query == "" || query == null) {
 		nova.workspace.showErrorMessage("Not a valid search query.");
 		return;
 	}
-	// TODO: put this inside a Nova tab instead
+	// Check if this is clearly OSSL (will only work on functions, not most of the constants):
+	if (query.substring(0, 2).toLowerCase() == "os") {
+		nova.openURL("http://opensimulator.org/wiki/" + encodeURIComponent(query));
+		return;
+	}
+	// Everything else goes to the Second Life Wiki.
+	// TODO: put this inside a Nova tab instead (how?)
 	nova.openURL("https://wiki.secondlife.com/wiki/" + encodeURIComponent(query));
 });
 
-nova.commands.register("gwynethllewelyn.LindenScriptingLanguage.lint", (editor) => {
-	var what = editor.documentText.MD5();
-
-	console.log('Not really implemented yet, I think; MD5 is', what);
-});
-
-// Create main class and activate it
+/**
+ * Create main class and activate it.
+ */
 class LSLinter {
 	constructor() {
 		if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
@@ -115,6 +121,17 @@ class LSLinter {
 		return selectedBuiltins;
 	}
 
+	/**
+	 * Extract content from current LSL file in editor and feed it to the linter.
+	 *
+	 * Collects all text inside current LSL file being edited, write it to a
+	 * temporary file, launch LSLint in a subprocess, feed it the builtins.txt file
+	 * as well as the temporary file, and capture the resulting warnings/errors for
+	 * further processing.
+	 *
+	 * @param {TextEditor} editor - Currently open LSL file in editor.
+	 * @returns {Promise<any>} Returns promise resolved after linter is finished.
+	 */
 	provideIssues(editor) {
 		let self = this;
 
@@ -136,7 +153,11 @@ class LSLinter {
 			 * @type {string}
 			 */
 			let documentText = editor.getTextInRange(range);
-			let output = "";
+			/**
+			 * Linter output.
+			 * @type {string}
+			 */
+			var output = "";
 
 			try {
 				nova.fs.mkdir(nova.extension.workspaceStoragePath)
@@ -206,21 +227,22 @@ class LSLinter {
 				// Capture LSLint output, line by line
 				linter.onStdout(function(line) {
 					if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
-						console.log("LSLint output:", line);
+						console.log("»»", line);
 					}
-
 					output += line;
 				});
 			} catch (error) {
 				console.error("error during linter.onStdout - ", error);
 				return resolve([]);
 			}
-
-			// should not throw errors!
+			// The LSLint apparently send the LSL parsing errors to stderr instead of staout!
+			// (gwyneth 20240216)
 			try {
 				linter.onStderr(function(line) {
-					console.error('LSLint error: ' + line);
-					return resolve([]);
+					if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
+						console.log(">>", line);
+					}
+					output += line;
 				});
 			} catch (error) {
 				console.error("error during linter.onStderr - ", error);
@@ -228,11 +250,18 @@ class LSLinter {
 			}
 
 			try {
+				/**
+				 * The grunt of the linting job is done here, when the subprocess finishes.
+				 */
 				linter.onDidExit(function() {
 					output = output.trim();
 
 					if (output.length === 0) {
 						return resolve([]);
+					}
+
+					if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
+						console.info("Output received on linter process exit, %d line(s) read", output.length);
 					}
 
 					// This might be required at some point, i.e. how to deal with
@@ -247,8 +276,12 @@ class LSLinter {
 					if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
 						console.info("Finished linting.");
 					}
-
-					nova.fs.remove(scrapFileName);
+					try {
+						nova.fs.remove(scrapFileName);
+					} catch(error) {
+						// it's not fatal, just annoying
+						console.warn("Warning: could not remove %s automatically, you might wish to do so manually!", scrapFileName);
+					}
 				});
 			} catch (error) {
 				console.error("error during processing - ", error);
@@ -278,6 +311,7 @@ class LSLinter {
 		 WARN:: (204, 36)-(204, 40): Declaration of `data' in this scope shadows previous declaration at (16, 8)
 		TOTAL:: Errors: 0  Warnings: 5
 	*/
+
 	/**
 	 * Receives the text to be parsed/linted, and returns an array of issues found.
 	 *
@@ -285,24 +319,50 @@ class LSLinter {
 	 * @returns {string[]} Array of issues found.
 	 */
 	parseLinterOutput(output) {
+		/**
+		 * Collected issues to push to Nova engine.
+		 * @type {Issue[]} - Array of issues to be parsed.
+		 */
 		let issues = [];
-		// Do it the basic way, since I'm no JavaScript expert.
+		/**
+		 * Do it the basic way, since I'm no JavaScript expert.
+		 * @type {Issue[]}
+		 */
 		// Split by newlines first:
 		var lints = output.split(/\r\n|\n/);
+
+		if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
+			console.info("%d line(s) to process on this run.", lints.length);
+		}
+
 		for (var lint = 0; lint < lints.length - 1; lint++) {
+			if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
+				console.info("#%d: '%s'", lint, lints[lint]);
+			}
 			/**
 			 * Array of matched issues on LSLint output.
 			 * @type {string[]}
 			 */
-			let matches = lints[lint].match(/^\W*(\w+)::\s*\(\s*(\d*),\s*(\d*)\)-\(\s*(\d*),\s*(\d*)\):\s*(.*)$/gmi);
+			let matches = lints[lint].match(/^\W*(\w+)::\s*\(\s*(\d*),\s*(\d*)\)-\(\s*(\d*),\s*(\d*)\):\s*(.*)$/);
 
 			if (
 				matches === null ||
 				matches.length <= 1
 			) {
+				if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
+					console.info("No matches found; skipping over line:", lint);
+				}
 				continue;
 			}
 
+			if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
+				console.info(matches.length, 'match(es) found:', matches);
+			}
+
+			/**
+			 * The issue raised in this loop iteration.
+			 * @type {Issue}
+			 */
 			let issue = new Issue();
 
 			issue.source = "lslint";
