@@ -54,14 +54,6 @@
 				"when": "editorHasFocus && editorHasSelection",
 				"shortcut": "cmd-@",
 				"filters": {
-					"syntaxes": ["lsl"]
-				}
-			},
-			{
-				"title": "Lint",
-				"command": "gwynethllewelyn.LindenScriptingLanguage.lint",
-				"when": "editorHasFocus",
-				"filters": {
 					"syntaxes": ["lsl", "ossl"]
 				}
 			}
