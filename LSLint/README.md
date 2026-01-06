@@ -29,5 +29,6 @@ See also `lslint -h` for the rest of the options.
 ## To-do roadmap
 
 1. Add an extra menu option, to run the LSL linter on the current document, and display the results on a console. This is supposed to be easy enough, it's just a question of adding a few lines to `main-js`.
-2. Fully integrate `lalint` into Nova "as if" it were an LSP. This is not quite the case, but Nova can be sort of tricked in producing similar results (i.e., flagging where errors occurred and _what_ these errors were!).
+2. Fully integrate `lslint` into Nova "as if" it were an LSP. This is not quite the case, but Nova can be sort of tricked in producing similar results (i.e., flagging where errors occurred and _what_ these errors were!).
 3. Automate the whole process of re-generating the `builtins.txt` file whenever Linden Lab updates their viewer with further functions (and/or when KWDB releases a new database version).
+4. Deal with Intel and Apple Silicon (ARM) versions separately.

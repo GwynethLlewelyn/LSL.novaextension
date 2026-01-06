@@ -1,17 +1,37 @@
-// Deal with debugging flag.
-exports.activate = function() {
-	if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
+/**
+ * main.js
+ * Linden Scripting Language Nova Extension
+ *
+ * @author Gwyneth Llewelyn
+ */
+
+/**
+ * Callback to activate this extension.
+ *
+ * Also deals with the debugging flag.
+ *
+ * @returns {void}
+ */
+exports.activate = function () {
+	if (nova.config.get("gwynethllewelyn.LindenScriptingLanguage.debugging", "boolean")) {
 		console.info("LSL extension is activated.");
 	}
-}
+};
 
-exports.deactivate = function() {
-	if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
+/**
+ * Callback to deactivate this extension.
+ *
+ * @returns  {void}
+ */
+exports.deactivate = function () {
+	if (nova.config.get("gwynethllewelyn.LindenScriptingLanguage.debugging", "boolean")) {
 		console.info("LSL extension is being deactivated.");
 	}
-}
+};
 
-// Register menu item.
+/**
+ * Register menu item.
+ */
 nova.commands.register("gwynethllewelyn.LindenScriptingLanguage.search", (editor) => {
 	/**
 	 * What is currently being selected by the user.
@@ -34,49 +54,119 @@ nova.commands.register("gwynethllewelyn.LindenScriptingLanguage.search", (editor
 });
 
 /**
- * Create main class and activate it.
+ * Create main extension class and activates it.
  */
 class LSLinter {
+	/**
+	 * If debugging is turned on.
+	 * @type {boolean}
+	 * @since 1.7.0
+	 */
+	static #debug = false;
+
+	/**
+	 * Possible Apple architectures, as detected with `uname`.
+	 * @type {number}
+	 * @since 1.7.0
+	 */
+	static archtype = {
+		NONE: 0,
+		INTEL: 1,
+		ARM: 2,
+		POWERPC: 3,
+	};
+
+	/**
+	 * Detected architecture.
+	 *
+	 * Because there is no (obvious) way of figuring out from within Nova if we're
+	 * on an Intel, Rosetta, or ARM64 kernel, we do a simple test with `uname` and
+	 * store the result here
+	 *
+	 * @type {number}
+	 * @since 1.7.0
+	 */
+	static #arch = archtype.INTEL; // we assume Intel by default
+
+	static {
+		// Save the debug value locally as statis to avoid constantly calling Nova's
+		// functuions only to retreive the status2
+		this.#debug = nova.config.get("gwynethllewelyn.LindenScriptingLanguage.debugging", "boolean");
+	}
+
 	constructor() {
-		if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
+		if (this.#debug) {
 			console.info("Entering LSLint constructor...");
 		}
 	}
 
 	/**
- 	* Constructs the path to the executable, based on existing path data.
- 	*
- 	* @returns {string} Path name to the executable.
- 	*/
+	 * Constructs the path to the executable, based on existing path data.
+	 *
+	 * @returns {string} Path name to the executable.
+	 */
 	getExecutablePath() {
-		let globalExecutable = nova.config
-			.get("gwynethllewelyn.LindenScriptingLanguage.executablePath", "string")
-			.trim();
-		let bundledExecutable = nova.path.join(
-			nova.extension.path,
-			"LSLint",
-			"lslint"
-		);
+		let globalExecutable = nova.config.get("gwynethllewelyn.LindenScriptingLanguage.executablePath", "string").trim();
+		let bundledExecutable = nova.path.join(nova.extension.path, "LSLint", "lslint");
 
-		if (
-			globalExecutable.length > 0 &&
-			globalExecutable.charAt() !== "/"
-		) {
-			globalExecutable = nova.path.join(
-				nova.workspace.path,
-				globalExecutable
-			);
+		if (globalExecutable.length > 0 && globalExecutable.charAt() !== "/") {
+			globalExecutable = nova.path.join(nova.workspace.path, globalExecutable);
 		}
 
+		// Fallback to included executable
 		let execPath = bundledExecutable;
 
-		if (!bundledExecutable) execPath = globalExecutable;
+		if (globalExecutable) execPath = globalExecutable;
 
-		if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
+		if (this.#debug) {
 			console.info('getExecutablePath() will return path: "%s"', execPath);
 		}
 
 		return execPath;
+	}
+
+	/**
+	 * Calls `uname -a` to figure out the architecture (Intel or ARM).
+	 *
+	 * @since 1.7.0
+	 * @returns {number} ID number of architecture (see statics).
+	 */
+	getArchitecture() {
+		try {
+			var uname = new Process("/usr/bin/env", {
+				args: ["uname", "-a"],
+				shell: true,
+			});
+		} catch (error) {
+			console.group("Architecture Detection");
+			console.error("Could not find `uname` in path; error was: %s", error);
+			console.groupEnd();
+			return archtype.NONE;
+		}
+
+		/**
+		 * Variable to capture all output from `uname`.
+		 *
+		 * @type {string}
+		 */
+		var output = "";
+
+		try {
+			// Capture uname output, line by line
+			uname.onStdout(function (line) {
+				if (this.#debug) {
+					console.log("»»", line);
+				}
+				output += line;
+			});
+		} catch (error) {
+			console.error("error during uname.onStdout - ", error);
+			return archtype.NONE;
+		}
+
+		const srch = "arm64";
+
+		if (output) return arch;
 	}
 
 	/**
@@ -86,18 +176,11 @@ class LSLinter {
 	 * @returns {string} Path name to builtins.txt.
 	 */
 	getBuiltins() {
-		var customBuiltins = nova.config.get(
-			'gwynethllewelyn.LindenScriptingLanguage.builtins',
-			'string'
-		);
+		var customBuiltins = nova.config.get("gwynethllewelyn.LindenScriptingLanguage.builtins", "string");
 
-		var defaultBuiltins = nova.path.join(
-			nova.extension.path,
-			"LSLint",
-			"builtins.txt"
-		);
+		var defaultBuiltins = nova.path.join(nova.extension.path, "LSLint", "builtins.txt");
 
-		if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
+		if (this.#debug) {
 			console.info('getBuiltins() constructed defaultBuiltins = "%s"', defaultBuiltins);
 		}
 
@@ -105,7 +188,7 @@ class LSLinter {
 
 		// Do we have our own builtins.txt file, and, if so, is it valid?
 		try {
-			if (customBuiltins && customBuiltins != '') {
+			if (customBuiltins && customBuiltins != "") {
 				if (nova.fs.stat(customBuiltins) != undefined) {
 					selectedBuiltins = customBuiltins;
 				}
@@ -114,8 +197,24 @@ class LSLinter {
 			console.warn("getBuiltins() could not find a valid builtins.txt path '%s' — throws: '%s'  - going with the default builtins instead", customBuiltins, error.toString());
 		}
 
-		if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
+		if (this.#debug) {
 			console.log('getBuiltins() will return path: "%s"', selectedBuiltins);
+		}
+
+		try {
+			_ = new Process("/usr/bin/env", {
+				args: [execPath, "-l", "-b", builtinsPath, scrapFileName],
+				shell: true,
+			});
+		} catch (error) {
+			console.group("LSLint Process activation");
+			console.error("Error during LSLint Process() activation");
+			console.info("Exec path: '%s'", execPath);
+			console.info("Path to builtins.txt: '%s'", builtinsPath);
+			console.info("Path to temporary file: '%s'", scrapFileName);
+			console.error("Process() throws:", error);
+			console.groupEnd();
+			return resolve([]);
 		}
 
 		return selectedBuiltins;
@@ -135,16 +234,14 @@ class LSLinter {
 	provideIssues(editor) {
 		let self = this;
 
-		return new Promise(function(resolve) {
+		return new Promise(function (resolve) {
 			/**
 			 * Randomly generated filename, to be used as scrap (so we don't
 			 * break anything).
 			 *
 			 * @type {string}
 			 */
-			let fileName = Math.random().toString(36).substring(2, 15) +
-				Math.random().toString(36).substring(2, 15) +
-				".lsl";
+			let fileName = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15) + ".lsl";
 			// Get the whole document. This makes sense, because the LSLinter cannot
 			// work just on LSL fragments. (gwyneth 20240214)
 			let range = new Range(0, editor.document.length);
@@ -160,9 +257,9 @@ class LSLinter {
 			var output = "";
 
 			try {
-				nova.fs.mkdir(nova.extension.workspaceStoragePath)
+				nova.fs.mkdir(nova.extension.workspaceStoragePath);
 			} catch (error) {
-				console.error("Nova couldn't mkdir directory '%s'", nova.extension.workspaceStoragePath)
+				console.error("Nova couldn't mkdir directory '%s'", nova.extension.workspaceStoragePath);
 				return resolve([]);
 			}
 
@@ -191,7 +288,7 @@ class LSLinter {
 			 */
 			var builtinsPath = self.getBuiltins();
 
-			if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
+			if (this.#debug) {
 				console.group("Pre-Process() paths");
 				console.info("Executable path: '%s'", execPath);
 				console.info("builtins.txt path: '%s'", builtinsPath);
@@ -200,33 +297,9 @@ class LSLinter {
 			}
 
 			try {
-				// create linter with var, or else we lose scope
-				var linter = new Process('/usr/bin/env', {
-						args: [
-							execPath,
-							'-l',
-							'-b',
-							builtinsPath,
-							scrapFileName
-						],
-						shell: true,
-					}
-				);
-			} catch (error) {
-				console.group("LSLint Process activation");
-				console.error("Error during LSLint Process() activation");
-				console.info("Exec path: '%s'", execPath);
-				console.info("Path to builtins.txt: '%s'", builtinsPath);
-				console.info("Path to temporary file: '%s'", scrapFileName);
-				console.error("Process() throws:", error);
-				console.groupEnd();
-				return resolve([]);
-			}
-
-			try {
 				// Capture LSLint output, line by line
-				linter.onStdout(function(line) {
-					if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
+				linter.onStdout(function (line) {
+					if (this.#debug) {
 						console.log("»»", line);
 					}
 					output += line;
@@ -238,8 +311,8 @@ class LSLinter {
 			// The LSLint apparently send the LSL parsing errors to stderr instead of staout!
 			// (gwyneth 20240216)
 			try {
-				linter.onStderr(function(line) {
-					if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
+				linter.onStderr(function (line) {
+					if (this.#debug) {
 						console.log(">>", line);
 					}
 					output += line;
@@ -253,14 +326,14 @@ class LSLinter {
 				/**
 				 * The grunt of the linting job is done here, when the subprocess finishes.
 				 */
-				linter.onDidExit(function() {
+				linter.onDidExit(function () {
 					output = output.trim();
 
 					if (output.length === 0) {
 						return resolve([]);
 					}
 
-					if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
+					if (this.#debug) {
 						console.info("Output received on linter process exit, %d line(s) read", output.length);
 					}
 
@@ -273,12 +346,12 @@ class LSLinter {
 
 					resolve(self.parseLinterOutput(output));
 
-					if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
+					if (this.#debug) {
 						console.info("Finished linting.");
 					}
 					try {
 						nova.fs.remove(scrapFileName);
-					} catch(error) {
+					} catch (error) {
 						// it's not fatal, just annoying
 						console.warn("Warning: could not remove %s automatically, you might wish to do so manually!", scrapFileName);
 					}
@@ -289,7 +362,7 @@ class LSLinter {
 			}
 
 			try {
-				if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
+				if (this.#debug) {
 					console.info("Started linting.");
 					console.log(`Running command: ${self.getExecutablePath()} -l -b ${self.getBuiltins()} ${scrapFileName}`);
 				}
@@ -331,12 +404,12 @@ class LSLinter {
 		// Split by newlines first:
 		var lints = output.split(/\r\n|\n/);
 
-		if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
+		if (this.#debug) {
 			console.info("%d line(s) to process on this run.", lints.length);
 		}
 
 		for (var lint = 0; lint < lints.length - 1; lint++) {
-			if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
+			if (this.#debug) {
 				console.info("#%d: '%s'", lint, lints[lint]);
 			}
 			/**
@@ -345,18 +418,15 @@ class LSLinter {
 			 */
 			let matches = lints[lint].match(/^\W*(\w+)::\s*\(\s*(\d*),\s*(\d*)\)-\(\s*(\d*),\s*(\d*)\):\s*(.*)$/);
 
-			if (
-				matches === null ||
-				matches.length <= 1
-			) {
-				if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
+			if (matches === null || matches.length <= 1) {
+				if (this.#debug) {
 					console.info("No matches found; skipping over line:", lint);
 				}
 				continue;
 			}
 
-			if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
-				console.info(matches.length, 'match(es) found:', matches);
+			if (this.#debug) {
+				console.info(matches.length, "match(es) found:", matches);
 			}
 
 			/**
@@ -386,13 +456,13 @@ class LSLinter {
 					break;
 			}
 
-			issue.line		= matches[2];
-			issue.column	= matches[3];
-			issue.endLine	= matches[4];
-			issue.endColumn	= matches[5];
-			issue.message	= matches[6];
+			issue.line = matches[2];
+			issue.column = matches[3];
+			issue.endLine = matches[4];
+			issue.endColumn = matches[5];
+			issue.message = matches[6];
 
-			if (nova.config.get('gwynethllewelyn.LindenScriptingLanguage.debugging', 'boolean')) {
+			if (this.#debug) {
 				// console.log(lint + ' --> ' + issue);
 				console.log("Found lslint #%d:", lint);
 				console.log("===========");
@@ -406,6 +476,6 @@ class LSLinter {
 
 		return issues;
 	}
-};
+}
 
 nova.assistants.registerIssueAssistant(["lsl", "ossl"], new LSLinter());

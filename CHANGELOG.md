@@ -1,3 +1,7 @@
+## Version 1.6.1
+* Deal with Apple Silicon (ARM) variants of macOS
+* 
+
 ## Version 1.6.0
 * Bumped KWDB to 0.0.20231219001 and updated required files accordingly
 * Now uses `lslint` to provide immediate clues to possible syntax/semantic errors
