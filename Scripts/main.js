@@ -62,7 +62,7 @@ class LSLinter {
 	 * @type {boolean}
 	 * @since 1.7.0
 	 */
-	static debug = false;
+	debug = false;
 
 	/**
 	 * Possible Mach microkernel CPU architectures, as detected with `uname`.
@@ -73,7 +73,7 @@ class LSLinter {
 	 * @type {number}
 	 * @since 1.7.0
 	 */
-	static archtype = {
+	archtype = {
 		ANY: -1,
 		NONE: 0,
 		VAX: 1,
@@ -98,22 +98,42 @@ class LSLinter {
 	 * @type {number}
 	 * @since 1.7.0
 	 */
-	static arch = archtype.INTEL; // we assume Intel by default
+	arch = this.archtype.INTEL; // we assume Intel by default
 
-	static {
-		// Save the debug value locally as statis to avoid constantly calling Nova's
-		// functions only to retreive the status.
-		debug = nova.config.get("gwynethllewelyn.LindenScriptingLanguage.debugging", "boolean");
-		console.info("Debugging set to: ", debug);
+	/**
+	 * Path to executable; hopefully, well defined.
+	 * @type {string}
+	 */
+	execPath = "";
 
-		arch = getArchitecture();
-		console.info("Machine architecture type: ", arch);
-	}
+	/**
+	 * Path to builtins.txt.
+	 * @type {string}
+	 */
+	builtinsPath = "";
 
+	/**
+	 * Class constructor.
+	 */
 	constructor() {
-		if (debug) {
-			console.info("Entering LSLint constructor...");
+		// Save the debugging value locally to avoid constantly calling Nova's
+		// functions only to retreive the status.
+		if (nova.config.get(
+			"gwynethllewelyn.LindenScriptingLanguage.debugging",
+			"boolean"
+		)) {
+			this.debug = true;
 		}
+		console.info("Console debugging set to: ", this.debug);
+
+		this.arch = this.getArchitecture();
+		console.info("Machine architecture type: ", this.arch);
+
+		this.execPath = this.getExecutablePath();
+		console.info("Path to executable: ", this.execPath);
+
+		this.builtinsPath = this.getBuiltins();
+		console.info("Path to builtins.txt: ", this.builtinsPath);
 	}
 
 	/**
@@ -139,7 +159,7 @@ class LSLinter {
 		 * @type {string}
 		 */
 		let bundledExecutable = nova.path.join(nova.extension.path, "LSLint", "lslint");
-		if (arch == archtype.ARM) {
+		if (this.arch == this.archtype.ARM) {
 			bundledExecutable += "-arm64";
 		}
 
@@ -149,20 +169,19 @@ class LSLinter {
 		 *
 		 * @type {string}
 		 */
-		let execPath = bundledExecutable;
-
+		let executionPath = bundledExecutable;
 		if (globalExecutable) {
-			execPath = globalExecutable;
+			executionPath = globalExecutable;
 		}
 		// Extra check for relative paths:
-		if (execPath.length > 0 && execPath.charAt() !== "/") {
-			execPath = nova.path.join(nova.workspace.path, execPath);
+		if (executionPath.length > 0 && executionPath.charAt() !== "/") {
+			executionPath = nova.path.join(nova.workspace.path, executionPath);
 		}
-		if (debug) {
-			console.info('getExecutablePath() will return path: "%s"', execPath);
+		if (this.debug) {
+			console.info('getExecutablePath() will return path: "%s"', executionPath);
 		}
 
-		return execPath;
+		return executionPath;
 	}
 
 	/**
@@ -172,45 +191,69 @@ class LSLinter {
 	 * @since 1.7.0
 	 */
 	getArchitecture() {
-		try {
-			var archname = new Process("/usr/bin/arch", {
-				args: [],
-				shell: false,
-			});
-		} catch (error) {
-			console.group("Architecture Detection");
-			console.error("Could not find `/usr/bin/arch`; error was: %s", error);
-			console.groupEnd();
-			return archtype.NONE;
-		}
-
 		/**
-		 * Variable to capture all output from `uname`.
+		 * Variable to capture all output from `arch`.
 		 *
 		 * @type {string}
 		 */
 		var output = "";
 
+		if (this.debug) {
+			console.info("Entering getArchitecture()...");
+		}
+
 		try {
+			var archname = new Process("/usr/bin/env", {
+				args: ["/usr/bin/arch", "-h"],
+				shell: true,
+			});
+
+			if (this.debug) {
+				console.info("archname is: ", archname);
+			}
+		} catch (error) {
+			console.error("Could not set up `/usr/bin/arch`; error was: %s", error);
+			return this.archtype.NONE;
+		}
+
+		try {
+			if (this.debug) {
+				console.info("Configuring archname with onStdout() callback...");
+			}
 			// Capture uname output, line by line
 			archname.onStdout(function (line) {
-				if (debug) {
+				if (this.debug) {
 					console.log("»»", line);
 				}
 				output += line;
 			});
+
+			if (this.debug) {
+				console.info("After configuration of onStdout(), archname is: ", archname);
+			}
 		} catch (error) {
 			console.error("error during archname.onStdout - ", error);
-			return archtype.NONE;
+			return this.archtype.NONE;
+		}
+
+		try {
+			archname.start();
+		} catch (error) {
+			console.error("error during archname.start - ", error);
+			return this.archtype.NONE;
+		}
+
+		if (this.debug) {
+			console.info("Return value from launching `arch`: '%s'", output);
 		}
 
 		// Test
 		if (/arm/.test(output)) {
-			return archtype.ARM;
+			return this.archtype.ARM;
 		}
 
 		if (/powerpc/.test(output)) {
-			return archtype.POWERPC;
+			return this.archtype.POWERPC;
 		}
 
 		/* Note that we have no idea if macOS was ever ported to any other architecture!
@@ -225,7 +268,7 @@ class LSLinter {
 			arm64e   64-bit arm (Apple Silicon)
 		*/
 
-		return archtype.INTEL;	// most likely case.
+		return this.archtype.INTEL;	// most likely case.
 	}
 
 	/**
@@ -239,7 +282,7 @@ class LSLinter {
 
 		var defaultBuiltins = nova.path.join(nova.extension.path, "LSLint", "builtins.txt");
 
-		if (debug) {
+		if (this.debug) {
 			console.info('getBuiltins() constructed defaultBuiltins = "%s"', defaultBuiltins);
 		}
 
@@ -256,24 +299,8 @@ class LSLinter {
 			console.warn("getBuiltins() could not find a valid builtins.txt path '%s' — throws: '%s'  - going with the default builtins instead", customBuiltins, error.toString());
 		}
 
-		if (debug) {
+		if (this.debug) {
 			console.log('getBuiltins() will return path: "%s"', selectedBuiltins);
-		}
-
-		try {
-			_ = new Process("/usr/bin/env", {
-				args: [execPath, "-l", "-b", builtinsPath, scrapFileName],
-				shell: true,
-			});
-		} catch (error) {
-			console.group("LSLint Process activation");
-			console.error("Error during LSLint Process() activation");
-			console.info("Exec path: '%s'", execPath);
-			console.info("Path to builtins.txt: '%s'", builtinsPath);
-			console.info("Path to temporary file: '%s'", scrapFileName);
-			console.error("Process() throws:", error);
-			console.groupEnd();
-			return resolve([]);
 		}
 
 		return selectedBuiltins;
@@ -335,19 +362,7 @@ class LSLinter {
 				console.error("Scrap filename at '%s' could not be written!", scrapFileName);
 			}
 
-			/**
-			 * Path to executable; hopefully, well defined.
-			 * @type {string}
-			 */
-			var execPath = self.getExecutablePath();
-
-			/**
-			 * Path to builtins.txt.
-			 * @type {string}
-			 */
-			var builtinsPath = self.getBuiltins();
-
-			if (debug) {
+			if (this.debug) {
 				console.group("Pre-Process() paths");
 				console.info("Executable path: '%s'", execPath);
 				console.info("builtins.txt path: '%s'", builtinsPath);
@@ -358,7 +373,7 @@ class LSLinter {
 			try {
 				// Capture LSLint output, line by line
 				linter.onStdout(function (line) {
-					if (debug) {
+					if (this.debug) {
 						console.log("»»", line);
 					}
 					output += line;
@@ -371,7 +386,7 @@ class LSLinter {
 			// (gwyneth 20240216)
 			try {
 				linter.onStderr(function (line) {
-					if (debug) {
+					if (this.debug) {
 						console.log(">>", line);
 					}
 					output += line;
@@ -392,7 +407,7 @@ class LSLinter {
 						return resolve([]);
 					}
 
-					if (debug) {
+					if (this.debug) {
 						console.info("Output received on linter process exit, %d line(s) read", output.length);
 					}
 
@@ -405,7 +420,7 @@ class LSLinter {
 
 					resolve(self.parseLinterOutput(output));
 
-					if (debug) {
+					if (this.debug) {
 						console.info("Finished linting.");
 					}
 					try {
@@ -421,7 +436,7 @@ class LSLinter {
 			}
 
 			try {
-				if (debug) {
+				if (this.debug) {
 					console.info("Started linting.");
 					console.log(`Running command: ${self.getExecutablePath()} -l -b ${self.getBuiltins()} ${scrapFileName}`);
 				}
@@ -463,12 +478,12 @@ class LSLinter {
 		// Split by newlines first:
 		var lints = output.split(/\r\n|\n/);
 
-		if (debug) {
+		if (this.debug) {
 			console.info("%d line(s) to process on this run.", lints.length);
 		}
 
 		for (var lint = 0; lint < lints.length - 1; lint++) {
-			if (debug) {
+			if (this.debug) {
 				console.info("#%d: '%s'", lint, lints[lint]);
 			}
 			/**
@@ -478,13 +493,13 @@ class LSLinter {
 			let matches = lints[lint].match(/^\W*(\w+)::\s*\(\s*(\d*),\s*(\d*)\)-\(\s*(\d*),\s*(\d*)\):\s*(.*)$/);
 
 			if (matches === null || matches.length <= 1) {
-				if (debug) {
+				if (this.debug) {
 					console.info("No matches found; skipping over line:", lint);
 				}
 				continue;
 			}
 
-			if (debug) {
+			if (this.debug) {
 				console.info(matches.length, "match(es) found:", matches);
 			}
 
@@ -521,7 +536,7 @@ class LSLinter {
 			issue.endColumn = matches[5];
 			issue.message = matches[6];
 
-			if (debug) {
+			if (this.debug) {
 				// console.log(lint + ' --> ' + issue);
 				console.log("Found lslint #%d:", lint);
 				console.log("===========");
