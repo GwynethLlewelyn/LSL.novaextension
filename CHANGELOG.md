@@ -1,6 +1,6 @@
-## Version 1.6.1
+## Version 1.7.0
 * Deal with Apple Silicon (ARM) variants of macOS
-* 
+* Fix minor bug in the path attribution
 
 ## Version 1.6.0
 * Bumped KWDB to 0.0.20231219001 and updated required files accordingly
