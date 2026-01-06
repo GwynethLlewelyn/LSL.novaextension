@@ -47,6 +47,7 @@ Temporary Items
 *.a
 *.so
 kwdbxmlconvert
+kwdbxmlconvert-arm64
 
 # Folders
 _obj
