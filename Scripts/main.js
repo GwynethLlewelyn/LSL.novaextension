@@ -62,40 +62,56 @@ class LSLinter {
 	 * @type {boolean}
 	 * @since 1.7.0
 	 */
-	static #debug = false;
+	static debug = false;
 
 	/**
-	 * Possible Apple architectures, as detected with `uname`.
+	 * Possible Mach microkernel CPU architectures, as detected with `uname`.
+	 *
+	 * Values as defined by Apple in `mach/machine.h`,
+	 * only the base, ignoring 32/64bit versions.
+	 *
 	 * @type {number}
 	 * @since 1.7.0
 	 */
 	static archtype = {
+		ANY: -1,
 		NONE: 0,
-		INTEL: 1,
-		ARM: 2,
-		POWERPC: 3,
+		VAX: 1,
+		MC680x0: 6,
+		INTEL: 7,
+		MC98000: 10,
+		HPPA: 11,
+		ARM: 12,
+		MC88000: 13,
+		SPARC: 14,
+		I860: 15,
+		POWERPC: 18,
 	};
 
 	/**
 	 * Detected architecture.
 	 *
 	 * Because there is no (obvious) way of figuring out from within Nova if we're
-	 * on an Intel, Rosetta, or ARM64 kernel, we do a simple test with `uname` and
+	 * on an Intel, Rosetta, or ARM64 kernel, we do a simple test with `arch` and
 	 * store the result here
 	 *
 	 * @type {number}
 	 * @since 1.7.0
 	 */
-	static #arch = archtype.INTEL; // we assume Intel by default
+	static arch = archtype.INTEL; // we assume Intel by default
 
 	static {
 		// Save the debug value locally as statis to avoid constantly calling Nova's
-		// functuions only to retreive the status2
-		this.#debug = nova.config.get("gwynethllewelyn.LindenScriptingLanguage.debugging", "boolean");
+		// functions only to retreive the status.
+		debug = nova.config.get("gwynethllewelyn.LindenScriptingLanguage.debugging", "boolean");
+		console.info("Debugging set to: ", debug);
+
+		arch = getArchitecture();
+		console.info("Machine architecture type: ", arch);
 	}
 
 	constructor() {
-		if (this.#debug) {
+		if (debug) {
 			console.info("Entering LSLint constructor...");
 		}
 	}
@@ -106,19 +122,43 @@ class LSLinter {
 	 * @returns {string} Path name to the executable.
 	 */
 	getExecutablePath() {
+		/**
+		 * This is the path that the user set on Preferences for `lslint`.
+		 * It's up to them to point to the right path!
+		 *
+		 * May be empty.
+		 *
+		 * @type {string}
+		 */
 		let globalExecutable = nova.config.get("gwynethllewelyn.LindenScriptingLanguage.executablePath", "string").trim();
-		let bundledExecutable = nova.path.join(nova.extension.path, "LSLint", "lslint");
 
-		if (globalExecutable.length > 0 && globalExecutable.charAt() !== "/") {
-			globalExecutable = nova.path.join(nova.workspace.path, globalExecutable);
+		/**
+		 * Calculate full path for the bundled executable. Note that we include
+		 * *both* the Intel and the ARM64 binaries.
+		 *
+		 * @type {string}
+		 */
+		let bundledExecutable = nova.path.join(nova.extension.path, "LSLint", "lslint");
+		if (arch == archtype.ARM) {
+			bundledExecutable += "-arm64";
 		}
 
-		// Fallback to included executable
+		/**
+		 * Actual path selected. Either the user has provided somethinh, and we'll use it,
+		 * or we fall back to our own bundled default.
+		 *
+		 * @type {string}
+		 */
 		let execPath = bundledExecutable;
 
-		if (globalExecutable) execPath = globalExecutable;
-
-		if (this.#debug) {
+		if (globalExecutable) {
+			execPath = globalExecutable;
+		}
+		// Extra check for relative paths:
+		if (execPath.length > 0 && execPath.charAt() !== "/") {
+			execPath = nova.path.join(nova.workspace.path, execPath);
+		}
+		if (debug) {
 			console.info('getExecutablePath() will return path: "%s"', execPath);
 		}
 
@@ -126,20 +166,20 @@ class LSLinter {
 	}
 
 	/**
-	 * Calls `uname -a` to figure out the architecture (Intel or ARM).
+	 * Calls `arch` to figure out the architecture (Intel or ARM).
 	 *
-	 * @since 1.7.0
 	 * @returns {number} ID number of architecture (see statics).
+	 * @since 1.7.0
 	 */
 	getArchitecture() {
 		try {
-			var uname = new Process("/usr/bin/env", {
-				args: ["uname", "-a"],
-				shell: true,
+			var archname = new Process("/usr/bin/arch", {
+				args: [],
+				shell: false,
 			});
 		} catch (error) {
 			console.group("Architecture Detection");
-			console.error("Could not find `uname` in path; error was: %s", error);
+			console.error("Could not find `/usr/bin/arch`; error was: %s", error);
 			console.groupEnd();
 			return archtype.NONE;
 		}
@@ -153,20 +193,39 @@ class LSLinter {
 
 		try {
 			// Capture uname output, line by line
-			uname.onStdout(function (line) {
-				if (this.#debug) {
+			archname.onStdout(function (line) {
+				if (debug) {
 					console.log("»»", line);
 				}
 				output += line;
 			});
 		} catch (error) {
-			console.error("error during uname.onStdout - ", error);
+			console.error("error during archname.onStdout - ", error);
 			return archtype.NONE;
 		}
 
-		const srch = "arm64";
+		// Test
+		if (/arm/.test(output)) {
+			return archtype.ARM;
+		}
 
-		if (output) return arch;
+		if (/powerpc/.test(output)) {
+			return archtype.POWERPC;
+		}
+
+		/* Note that we have no idea if macOS was ever ported to any other architecture!
+
+		   `man arch` only considers the following:
+
+		   The arch_name argument must be one of the currently supported architectures:
+			i386     32-bit intel
+			x86_64   64-bit intel
+			x86_64h  64-bit intel (haswell)
+			arm64    64-bit arm
+			arm64e   64-bit arm (Apple Silicon)
+		*/
+
+		return archtype.INTEL;	// most likely case.
 	}
 
 	/**
@@ -180,7 +239,7 @@ class LSLinter {
 
 		var defaultBuiltins = nova.path.join(nova.extension.path, "LSLint", "builtins.txt");
 
-		if (this.#debug) {
+		if (debug) {
 			console.info('getBuiltins() constructed defaultBuiltins = "%s"', defaultBuiltins);
 		}
 
@@ -197,7 +256,7 @@ class LSLinter {
 			console.warn("getBuiltins() could not find a valid builtins.txt path '%s' — throws: '%s'  - going with the default builtins instead", customBuiltins, error.toString());
 		}
 
-		if (this.#debug) {
+		if (debug) {
 			console.log('getBuiltins() will return path: "%s"', selectedBuiltins);
 		}
 
@@ -288,7 +347,7 @@ class LSLinter {
 			 */
 			var builtinsPath = self.getBuiltins();
 
-			if (this.#debug) {
+			if (debug) {
 				console.group("Pre-Process() paths");
 				console.info("Executable path: '%s'", execPath);
 				console.info("builtins.txt path: '%s'", builtinsPath);
@@ -299,7 +358,7 @@ class LSLinter {
 			try {
 				// Capture LSLint output, line by line
 				linter.onStdout(function (line) {
-					if (this.#debug) {
+					if (debug) {
 						console.log("»»", line);
 					}
 					output += line;
@@ -312,7 +371,7 @@ class LSLinter {
 			// (gwyneth 20240216)
 			try {
 				linter.onStderr(function (line) {
-					if (this.#debug) {
+					if (debug) {
 						console.log(">>", line);
 					}
 					output += line;
@@ -333,7 +392,7 @@ class LSLinter {
 						return resolve([]);
 					}
 
-					if (this.#debug) {
+					if (debug) {
 						console.info("Output received on linter process exit, %d line(s) read", output.length);
 					}
 
@@ -346,7 +405,7 @@ class LSLinter {
 
 					resolve(self.parseLinterOutput(output));
 
-					if (this.#debug) {
+					if (debug) {
 						console.info("Finished linting.");
 					}
 					try {
@@ -362,7 +421,7 @@ class LSLinter {
 			}
 
 			try {
-				if (this.#debug) {
+				if (debug) {
 					console.info("Started linting.");
 					console.log(`Running command: ${self.getExecutablePath()} -l -b ${self.getBuiltins()} ${scrapFileName}`);
 				}
@@ -404,12 +463,12 @@ class LSLinter {
 		// Split by newlines first:
 		var lints = output.split(/\r\n|\n/);
 
-		if (this.#debug) {
+		if (debug) {
 			console.info("%d line(s) to process on this run.", lints.length);
 		}
 
 		for (var lint = 0; lint < lints.length - 1; lint++) {
-			if (this.#debug) {
+			if (debug) {
 				console.info("#%d: '%s'", lint, lints[lint]);
 			}
 			/**
@@ -419,13 +478,13 @@ class LSLinter {
 			let matches = lints[lint].match(/^\W*(\w+)::\s*\(\s*(\d*),\s*(\d*)\)-\(\s*(\d*),\s*(\d*)\):\s*(.*)$/);
 
 			if (matches === null || matches.length <= 1) {
-				if (this.#debug) {
+				if (debug) {
 					console.info("No matches found; skipping over line:", lint);
 				}
 				continue;
 			}
 
-			if (this.#debug) {
+			if (debug) {
 				console.info(matches.length, "match(es) found:", matches);
 			}
 
@@ -462,7 +521,7 @@ class LSLinter {
 			issue.endColumn = matches[5];
 			issue.message = matches[6];
 
-			if (this.#debug) {
+			if (debug) {
 				// console.log(lint + ' --> ' + issue);
 				console.log("Found lslint #%d:", lint);
 				console.log("===========");
