@@ -6,30 +6,6 @@
  */
 
 /**
- * Callback to activate this extension.
- *
- * Also deals with the debugging flag.
- *
- * @returns {void}
- */
-exports.activate = function () {
-	if (nova.config.get("gwynethllewelyn.LindenScriptingLanguage.debugging", "boolean")) {
-		console.info("LSL extension is activated.");
-	}
-};
-
-/**
- * Callback to deactivate this extension.
- *
- * @returns  {void}
- */
-exports.deactivate = function () {
-	if (nova.config.get("gwynethllewelyn.LindenScriptingLanguage.debugging", "boolean")) {
-		console.info("LSL extension is being deactivated.");
-	}
-};
-
-/**
  * Register menu item.
  */
 nova.commands.register("gwynethllewelyn.LindenScriptingLanguage.search", (editor) => {
@@ -54,52 +30,168 @@ nova.commands.register("gwynethllewelyn.LindenScriptingLanguage.search", (editor
 });
 
 /**
+ * Possible Mach microkernel CPU architectures, as detected with `uname`.
+ *
+ * Values as defined by Apple in `mach/machine.h`,
+ * only the base, ignoring 32/64bit versions.
+ *
+ * @type {number}
+ * @since 1.7.0
+ */
+const archtype = {
+	ANY: -1,
+	NONE: 0,
+	VAX: 1,
+	MC680x0: 6,
+	INTEL: 7,
+	MC98000: 10,
+	HPPA: 11,
+	ARM: 12,
+	MC88000: 13,
+	SPARC: 14,
+	I860: 15,
+	POWERPC: 18,
+};
+
+
+/**
+ * Detected architecture.
+ *
+ * Because there is no (obvious) way of figuring out from within Nova if we're
+ * on an Intel, Rosetta, or ARM64 kernel, we do a simple test with `arch` and
+ * store the result here
+ *
+ * @type {number}
+ * @since 1.7.0
+ */
+var arch = archtype.INTEL; // we assume Intel by default
+
+/**
+ * If debugging is turned on.
+ * @type {boolean}
+ * @since 1.7.0
+ */
+var debug = nova.config.get("gwynethllewelyn.LindenScriptingLanguage.debugging");
+
+async function activate() {
+	if (debug) {
+		console.info("LSL extension is activated.");
+	}
+	try {
+		console.info("Attempting to get machine architecture...");
+		arch = await getArchitecture();
+	}
+	catch (error) {
+		console.error("Could not update architecture, error was:", error);
+	}
+	console.info("Architecture set to: ", arch);
+}
+
+
+/**
+ * Shameless copy from stonerl.prettier
+ *
+ * @param   {string} executablePath - Path of the command to run (usually `/usr/bin/env`).
+ * @param   {array} options - Array of strings to pass as options.
+ * @returns {Promise}  - Error code (if there is one) and contents of stderr and stdout.
+ */
+async function runAsync(executablePath, options) {
+  return new Promise((resolve) => {
+	const process = new Process(executablePath, options);
+	let stdout = "";
+	let stderr = "";
+	process.onStdout((line) => stdout += line);
+	process.onStderr((line) => stderr += line);
+	process.onDidExit((code) => resolve({ code, stdout, stderr }));
+	process.start();
+	return;
+  });
+}
+
+/**
+ * Calls `arch` to figure out the architecture (Intel or ARM).
+ *
+ * getArchitecture
+ *
+ * @returns {number} ID number of architecture (see statics).
+ * @since 1.7.0
+ */
+async function getArchitecture() {
+	/**
+	 * Variable to capture all output from `arch`.
+	 *
+	 * @type {string}
+	 */
+	var output = "";
+	var exec_errors = "";
+
+	if (debug) {
+		console.info("Entering getArchitecture()...");
+	}
+
+	try {
+		const cwd = nova.workspace.path;
+		const args = ["arch"];
+		const { code, stdout, stderr } = await runAsync("/usr/bin/env", { cwd, args });
+		if (code !== 0) {
+			throw new Error(
+				`command '${["/usr/bin/env", ...args].join()}' failed with code '${code}' and stderr '${stderr}'`
+			);
+		}
+		output = stdout;
+		exec_errors = stderr;
+	} catch (error) {
+		console.error("error during runAsync call - ", error);
+		if (exec_errors != "") {
+			console.error("spawned process returned:", exec_errors);
+		}
+		console.error("error during runAsync call - ", error);
+		//arch = archtype.NONE;
+		return new Promise((resolve) => {
+			return resolve(archtype.NONE);
+		});
+	}
+
+	if (debug) {
+		console.info("Output was '%s' and Stderr was '%s'", output, exec_errors);
+	}
+
+	// Test
+	if (/arm/.test(output)) {
+		// arch = archtype.ARM;
+		return new Promise((resolve) => {
+			return resolve(archtype.ARM);
+		});
+	}
+
+	if (/powerpc/.test(output)) {
+		// arch = archtype.POWERPC;
+		return new Promise((resolve) => {
+			return resolve(archtype.POWERPC);
+		});
+	}
+	/* Note that we have no idea if macOS was ever ported to any other architecture!
+
+	   `man arch` only considers the following:
+
+	   The arch_name argument must be one of the currently supported architectures:
+		i386     32-bit intel
+		x86_64   64-bit intel
+		x86_64h  64-bit intel (haswell)
+		arm64    64-bit arm
+		arm64e   64-bit arm (Apple Silicon)
+	*/
+
+	// arch = archtype.INTEL;	// most likely case.
+	return new Promise((resolve) => {
+		return resolve(archtype.INTEL);
+	});
+}
+
+/**
  * Create main extension class and activates it.
  */
 class LSLinter {
-	/**
-	 * If debugging is turned on.
-	 * @type {boolean}
-	 * @since 1.7.0
-	 */
-	debug = false;
-
-	/**
-	 * Possible Mach microkernel CPU architectures, as detected with `uname`.
-	 *
-	 * Values as defined by Apple in `mach/machine.h`,
-	 * only the base, ignoring 32/64bit versions.
-	 *
-	 * @type {number}
-	 * @since 1.7.0
-	 */
-	archtype = {
-		ANY: -1,
-		NONE: 0,
-		VAX: 1,
-		MC680x0: 6,
-		INTEL: 7,
-		MC98000: 10,
-		HPPA: 11,
-		ARM: 12,
-		MC88000: 13,
-		SPARC: 14,
-		I860: 15,
-		POWERPC: 18,
-	};
-
-	/**
-	 * Detected architecture.
-	 *
-	 * Because there is no (obvious) way of figuring out from within Nova if we're
-	 * on an Intel, Rosetta, or ARM64 kernel, we do a simple test with `arch` and
-	 * store the result here
-	 *
-	 * @type {number}
-	 * @since 1.7.0
-	 */
-	arch = this.archtype.INTEL; // we assume Intel by default
-
 	/**
 	 * Path to executable; hopefully, well defined.
 	 * @type {string}
@@ -122,12 +214,11 @@ class LSLinter {
 			"gwynethllewelyn.LindenScriptingLanguage.debugging",
 			"boolean"
 		)) {
-			this.debug = true;
+			debug = true;
 		}
-		console.info("Console debugging set to: ", this.debug);
+		console.info("Console debugging set to: ", debug);
 
-		this.arch = this.getArchitecture();
-		console.info("Machine architecture type: ", this.arch);
+		console.info("Machine architecture type: ", getArchitecture());
 
 		this.execPath = this.getExecutablePath();
 		console.info("Path to executable: ", this.execPath);
@@ -159,7 +250,7 @@ class LSLinter {
 		 * @type {string}
 		 */
 		let bundledExecutable = nova.path.join(nova.extension.path, "LSLint", "lslint");
-		if (this.arch == this.archtype.ARM) {
+		if (arch == archtype.ARM) {
 			bundledExecutable += "-arm64";
 		}
 
@@ -177,98 +268,11 @@ class LSLinter {
 		if (executionPath.length > 0 && executionPath.charAt() !== "/") {
 			executionPath = nova.path.join(nova.workspace.path, executionPath);
 		}
-		if (this.debug) {
+		if (debug) {
 			console.info('getExecutablePath() will return path: "%s"', executionPath);
 		}
 
 		return executionPath;
-	}
-
-	/**
-	 * Calls `arch` to figure out the architecture (Intel or ARM).
-	 *
-	 * @returns {number} ID number of architecture (see statics).
-	 * @since 1.7.0
-	 */
-	getArchitecture() {
-		/**
-		 * Variable to capture all output from `arch`.
-		 *
-		 * @type {string}
-		 */
-		var output = "";
-
-		if (this.debug) {
-			console.info("Entering getArchitecture()...");
-		}
-
-		try {
-			var archname = new Process("/usr/bin/env", {
-				args: ["/usr/bin/arch", "-h"],
-				shell: true,
-			});
-
-			if (this.debug) {
-				console.info("archname is: ", archname);
-			}
-		} catch (error) {
-			console.error("Could not set up `/usr/bin/arch`; error was: %s", error);
-			return this.archtype.NONE;
-		}
-
-		try {
-			if (this.debug) {
-				console.info("Configuring archname with onStdout() callback...");
-			}
-			// Capture uname output, line by line
-			archname.onStdout(function (line) {
-				if (this.debug) {
-					console.log("»»", line);
-				}
-				output += line;
-			});
-
-			if (this.debug) {
-				console.info("After configuration of onStdout(), archname is: ", archname);
-			}
-		} catch (error) {
-			console.error("error during archname.onStdout - ", error);
-			return this.archtype.NONE;
-		}
-
-		try {
-			archname.start();
-		} catch (error) {
-			console.error("error during archname.start - ", error);
-			return this.archtype.NONE;
-		}
-
-		if (this.debug) {
-			console.info("Return value from launching `arch`: '%s'", output);
-		}
-
-		// Test
-		if (/arm/.test(output)) {
-			return this.archtype.ARM;
-		}
-
-		if (/powerpc/.test(output)) {
-			return this.archtype.POWERPC;
-		}
-
-		/* Note that we have no idea if macOS was ever ported to any other architecture!
-
-		   `man arch` only considers the following:
-
-		   The arch_name argument must be one of the currently supported architectures:
-			i386     32-bit intel
-			x86_64   64-bit intel
-			x86_64h  64-bit intel (haswell)
-			arm64    64-bit arm
-			arm64e   64-bit arm (Apple Silicon)
-		*/
-
-		return this.archtype.INTEL;	// most likely case.
 	}
 
 	/**
@@ -282,7 +286,7 @@ class LSLinter {
 
 		var defaultBuiltins = nova.path.join(nova.extension.path, "LSLint", "builtins.txt");
 
-		if (this.debug) {
+		if (debug) {
 			console.info('getBuiltins() constructed defaultBuiltins = "%s"', defaultBuiltins);
 		}
 
@@ -299,7 +303,7 @@ class LSLinter {
 			console.warn("getBuiltins() could not find a valid builtins.txt path '%s' — throws: '%s'  - going with the default builtins instead", customBuiltins, error.toString());
 		}
 
-		if (this.debug) {
+		if (debug) {
 			console.log('getBuiltins() will return path: "%s"', selectedBuiltins);
 		}
 
@@ -362,7 +366,7 @@ class LSLinter {
 				console.error("Scrap filename at '%s' could not be written!", scrapFileName);
 			}
 
-			if (this.debug) {
+			if (debug) {
 				console.group("Pre-Process() paths");
 				console.info("Executable path: '%s'", execPath);
 				console.info("builtins.txt path: '%s'", builtinsPath);
@@ -373,7 +377,7 @@ class LSLinter {
 			try {
 				// Capture LSLint output, line by line
 				linter.onStdout(function (line) {
-					if (this.debug) {
+					if (debug) {
 						console.log("»»", line);
 					}
 					output += line;
@@ -386,7 +390,7 @@ class LSLinter {
 			// (gwyneth 20240216)
 			try {
 				linter.onStderr(function (line) {
-					if (this.debug) {
+					if (debug) {
 						console.log(">>", line);
 					}
 					output += line;
@@ -407,7 +411,7 @@ class LSLinter {
 						return resolve([]);
 					}
 
-					if (this.debug) {
+					if (debug) {
 						console.info("Output received on linter process exit, %d line(s) read", output.length);
 					}
 
@@ -420,7 +424,7 @@ class LSLinter {
 
 					resolve(self.parseLinterOutput(output));
 
-					if (this.debug) {
+					if (debug) {
 						console.info("Finished linting.");
 					}
 					try {
@@ -436,7 +440,7 @@ class LSLinter {
 			}
 
 			try {
-				if (this.debug) {
+				if (debug) {
 					console.info("Started linting.");
 					console.log(`Running command: ${self.getExecutablePath()} -l -b ${self.getBuiltins()} ${scrapFileName}`);
 				}
@@ -478,12 +482,12 @@ class LSLinter {
 		// Split by newlines first:
 		var lints = output.split(/\r\n|\n/);
 
-		if (this.debug) {
+		if (debug) {
 			console.info("%d line(s) to process on this run.", lints.length);
 		}
 
 		for (var lint = 0; lint < lints.length - 1; lint++) {
-			if (this.debug) {
+			if (debug) {
 				console.info("#%d: '%s'", lint, lints[lint]);
 			}
 			/**
@@ -493,13 +497,13 @@ class LSLinter {
 			let matches = lints[lint].match(/^\W*(\w+)::\s*\(\s*(\d*),\s*(\d*)\)-\(\s*(\d*),\s*(\d*)\):\s*(.*)$/);
 
 			if (matches === null || matches.length <= 1) {
-				if (this.debug) {
+				if (debug) {
 					console.info("No matches found; skipping over line:", lint);
 				}
 				continue;
 			}
 
-			if (this.debug) {
+			if (debug) {
 				console.info(matches.length, "match(es) found:", matches);
 			}
 
@@ -536,7 +540,7 @@ class LSLinter {
 			issue.endColumn = matches[5];
 			issue.message = matches[6];
 
-			if (this.debug) {
+			if (debug) {
 				// console.log(lint + ' --> ' + issue);
 				console.log("Found lslint #%d:", lint);
 				console.log("===========");
@@ -551,5 +555,25 @@ class LSLinter {
 		return issues;
 	}
 }
+
+/**
+ * Callback to activate this extension.
+ *
+ * Also deals with the debugging flag.
+ *
+ * @returns {void}
+ */
+exports.activate = activate;
+
+/**
+ * Callback to deactivate this extension.
+ *
+ * @returns  {void}
+ */
+exports.deactivate = function () {
+	if (debug) {
+		console.info("LSL extension is being deactivated.");
+	}
+};
 
 nova.assistants.registerIssueAssistant(["lsl", "ossl"], new LSLinter());
