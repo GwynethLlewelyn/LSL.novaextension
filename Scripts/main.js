@@ -71,24 +71,44 @@ var arch = archtype.INTEL; // we assume Intel by default
  * @type {boolean}
  * @since 1.7.0
  */
-var debug = nova.config.get("gwynethllewelyn.LindenScriptingLanguage.debugging");
+var debug = () => { return nova.config.get("gwynethllewelyn.LindenScriptingLanguage.debugging"); }
 
-async function activate() {
+/**
+ * Called directly by Nova to activate this extension.
+ *
+ * @since 1.7.0
+ * @returns {Promise<void>}  - Is this supposed to return anything?
+ */
+function activate() {
 	if (debug) {
-		console.info("LSL extension is activated.");
+		console.info("LSL extension is now activated, running init...");
 	}
+	/*
+
+	// Moved all this to the constructor, since it's called *before* activate().
+	// Explanation: this was here because I thought that activate() needed to
+	// be async as well; but this is not the case! (gwyneth 20260110)
 	try {
-		console.info("Attempting to get machine architecture...");
-		arch = await getArchitecture();
+		console.info("(activate) Attempting to get machine architecture...");
+		archPromise = getArchitecture();
+		archPromise.then((returnValue) => {
+			arch = returnValue;
+			console.info("(activate) Architecture set to: ", arch);
+		});
+		archPromise.catch((spawnError) => {
+			console.error("(activate) spawning process failed, error was: ", spawnError);
+		});
 	}
 	catch (error) {
-		console.error("Could not update architecture, error was:", error);
-	}
-	console.info("Architecture set to: ", arch);
+		console.error("(activate) Could not update architecture, error was:", error);
+	}*/
 }
 
 
 /**
+ * @async
+ * @function runAsync
+ *
  * Shameless copy from stonerl.prettier
  *
  * @param   {string} executablePath - Path of the command to run (usually `/usr/bin/env`).
@@ -109,11 +129,12 @@ async function runAsync(executablePath, options) {
 }
 
 /**
+ * @async
+ * @function getArchitecture
+ *
  * Calls `arch` to figure out the architecture (Intel or ARM).
  *
- * getArchitecture
- *
- * @returns {number} ID number of architecture (see statics).
+ * @returns {Promise<number>} ID number of architecture (see statics).
  * @since 1.7.0
  */
 async function getArchitecture() {
@@ -126,7 +147,7 @@ async function getArchitecture() {
 	var exec_errors = "";
 
 	if (debug) {
-		console.info("Entering getArchitecture()...");
+		console.info("(getArchitecture) Entering...");
 	}
 
 	try {
@@ -141,25 +162,34 @@ async function getArchitecture() {
 		output = stdout;
 		exec_errors = stderr;
 	} catch (error) {
-		console.error("error during runAsync call - ", error);
 		if (exec_errors != "") {
-			console.error("spawned process returned:", exec_errors);
+			console.error("(getArchitecture) spawned process returned:", exec_errors);
+		} else {
+			console.error("(getArchitecture) error during runAsync call - ", error);
 		}
-		console.error("error during runAsync call - ", error);
 		//arch = archtype.NONE;
-		return new Promise((resolve) => {
-			return resolve(archtype.NONE);
+		// return new Promise((resolve) => {
+		// 	return resolve(archtype.NONE);
+		// });
+		return new Promise((reject) => {
+			if (debug) {
+				console.error("(getArchitecture) reading from spawned process failed with ", exec_errors, "; returning arch=", archtype.NONE);
+			}
+			return reject(archtype.NONE);
 		});
 	}
 
 	if (debug) {
-		console.info("Output was '%s' and Stderr was '%s'", output, exec_errors);
+		console.info("(getArchitecture) Output was '%s' and Stderr was '%s'", output, exec_errors);
 	}
 
 	// Test
 	if (/arm/.test(output)) {
 		// arch = archtype.ARM;
 		return new Promise((resolve) => {
+			if (debug) {
+				console.info("(getArchitecture) Returning resolved promise for arch =", archtype.ARM);
+			}
 			return resolve(archtype.ARM);
 		});
 	}
@@ -167,6 +197,9 @@ async function getArchitecture() {
 	if (/powerpc/.test(output)) {
 		// arch = archtype.POWERPC;
 		return new Promise((resolve) => {
+			if (debug) {
+				console.info("(getArchitecture) Returning resolved promise for arch =", archtype.POWERPC);
+			}
 			return resolve(archtype.POWERPC);
 		});
 	}
@@ -183,13 +216,20 @@ async function getArchitecture() {
 	*/
 
 	// arch = archtype.INTEL;	// most likely case.
-	return new Promise((resolve) => {
-		return resolve(archtype.INTEL);
+	// return new Promise((resolve) => {
+	// 	return resolve(archtype.INTEL);
+	// });
+	return new Promise((reject) => {
+		if (debug) {
+			console.info("(getArchitecture) Rejecting promise; set arch =", archtype.INTEL);
+		}
+	 	return reject(archtype.INTEL);
 	});
 }
 
 /**
- * Create main extension class and activates it.
+ * @class LSLinter
+ * @classdesc Create main extension class and activates it.
  */
 class LSLinter {
 	/**
@@ -205,7 +245,12 @@ class LSLinter {
 	builtinsPath = "";
 
 	/**
-	 * Class constructor.
+	 * @constructor LSLinter class constructor.
+	 * @constructs LSLinter
+	 *
+	 * Note that, since the architecture is retrieved asynchronously, setting the
+	 * paths for the linter's executable and the `builtins.txt` file requires
+	 * calling `getPaths()`
 	 */
 	constructor() {
 		// Save the debugging value locally to avoid constantly calling Nova's
@@ -218,13 +263,48 @@ class LSLinter {
 		}
 		console.info("Console debugging set to: ", debug);
 
-		console.info("Machine architecture type: ", getArchitecture());
+		try {
+			if (debug) console.info("(constructor) Attempting to get machine architecture...");
+			let archPromise = getArchitecture();
+			archPromise.then((returnValue) => {
+				arch = returnValue;
+				if (debug) console.info("(constructor) `arch` spawned, architecture is now set to:", arch);
+				this.getAllPaths();
+			});
+			archPromise.catch((spawnError) => {
+				console.error("(constructor) spawning process failed, error was: ", spawnError);
+				if (debug) console.info("(constructor) spawning failed, `arch` is set to default: ", arch);
+				this.getAllPaths();
+			});
+		}
+		catch (error) {
+			console.error("(constructor) Could not update architecture, error was:", error);
+			this.getAllPaths();
+		}
 
+		console.info("(constructor) Init finished.");
+	}
+
+	/**
+ 	* Get all paths grouped together to avoid code duplication. This is needed, as
+ 	* we can only retrieve the path values once the architecture is known, and this
+ 	* happens asynchronously.
+ 	*
+ 	* @since 1.7.0
+ 	* @returns {void}
+ 	*/
+	getAllPaths() {
+		if (debug) console.group("getAllPaths():");
+		// now let's get the path correctly!
 		this.execPath = this.getExecutablePath();
-		console.info("Path to executable: ", this.execPath);
-
+		if (debug) {
+			console.info("Path to executable: ", this.execPath);
+		}
 		this.builtinsPath = this.getBuiltins();
-		console.info("Path to builtins.txt: ", this.builtinsPath);
+		if (debug) {
+			console.info("Path to builtins.txt: ", this.builtinsPath);
+			console.groupEnd();
+		}
 	}
 
 	/**
@@ -233,6 +313,7 @@ class LSLinter {
 	 * @returns {string} Path name to the executable.
 	 */
 	getExecutablePath() {
+		if (debug) console.group("getExecutablePath():");
 		/**
 		 * This is the path that the user set on Preferences for `lslint`.
 		 * It's up to them to point to the right path!
@@ -242,6 +323,7 @@ class LSLinter {
 		 * @type {string}
 		 */
 		let globalExecutable = nova.config.get("gwynethllewelyn.LindenScriptingLanguage.executablePath", "string").trim();
+		if (debug) { console.info("globalExecutable =", globalExecutable); }
 
 		/**
 		 * Calculate full path for the bundled executable. Note that we include
@@ -250,8 +332,22 @@ class LSLinter {
 		 * @type {string}
 		 */
 		let bundledExecutable = nova.path.join(nova.extension.path, "LSLint", "lslint");
+		if (debug) {
+			console.info(
+				"bundledExecutable =",
+				bundledExecutable,
+				"arch =",
+				arch,
+			);
+		}
 		if (arch == archtype.ARM) {
 			bundledExecutable += "-arm64";
+			console.info(
+				"ARM64 detected; bundledExecutable is now =",
+				bundledExecutable,
+				"arch =",
+				arch,
+			);
 		}
 
 		/**
@@ -269,7 +365,8 @@ class LSLinter {
 			executionPath = nova.path.join(nova.workspace.path, executionPath);
 		}
 		if (debug) {
-			console.info('getExecutablePath() will return path: "%s"', executionPath);
+			console.info('getExecutablePath() will return execution path as "%s"', executionPath);
+			console.groupEnd();
 		}
 
 		return executionPath;
@@ -313,7 +410,7 @@ class LSLinter {
 	/**
 	 * Extract content from current LSL file in editor and feed it to the linter.
 	 *
-	 * Collects all text inside current LSL file being edited, write it to a
+	 * Collects all text inside current LSL file being edited, write it to sa
 	 * temporary file, launch LSLint in a subprocess, feed it the builtins.txt file
 	 * as well as the temporary file, and capture the resulting warnings/errors for
 	 * further processing.
@@ -349,7 +446,7 @@ class LSLinter {
 			try {
 				nova.fs.mkdir(nova.extension.workspaceStoragePath);
 			} catch (error) {
-				console.error("Nova couldn't mkdir directory '%s'", nova.extension.workspaceStoragePath);
+				console.error("(provideIssues) Nova couldn't mkdir directory '%s'", nova.extension.workspaceStoragePath);
 				return resolve([]);
 			}
 
@@ -363,11 +460,11 @@ class LSLinter {
 				lintFile.write(documentText);
 				lintFile.close();
 			} catch (error) {
-				console.error("Scrap filename at '%s' could not be written!", scrapFileName);
+				console.error("(provideIssues) Scrap filename at '%s' could not be written!", scrapFileName);
 			}
 
 			if (debug) {
-				console.group("Pre-Process() paths");
+				console.group("(provideIssues) Pre-Process() paths");
 				console.info("Executable path: '%s'", execPath);
 				console.info("builtins.txt path: '%s'", builtinsPath);
 				console.info("Path to temporary file: '%s'", scrapFileName);
@@ -383,7 +480,7 @@ class LSLinter {
 					output += line;
 				});
 			} catch (error) {
-				console.error("error during linter.onStdout - ", error);
+				console.error("(provideIssues) error during linter.onStdout - ", error);
 				return resolve([]);
 			}
 			// The LSLint apparently send the LSL parsing errors to stderr instead of staout!
@@ -396,7 +493,7 @@ class LSLinter {
 					output += line;
 				});
 			} catch (error) {
-				console.error("error during linter.onStderr - ", error);
+				console.error("(provideIssues) error during linter.onStderr - ", error);
 				return resolve([]);
 			}
 
@@ -412,7 +509,7 @@ class LSLinter {
 					}
 
 					if (debug) {
-						console.info("Output received on linter process exit, %d line(s) read", output.length);
+						console.info("(provideIssues) Output received on linter process exit, %d line(s) read", output.length);
 					}
 
 					// This might be required at some point, i.e. how to deal with
@@ -425,29 +522,29 @@ class LSLinter {
 					resolve(self.parseLinterOutput(output));
 
 					if (debug) {
-						console.info("Finished linting.");
+						console.info("(provideIssues) Finished linting.");
 					}
 					try {
 						nova.fs.remove(scrapFileName);
 					} catch (error) {
 						// it's not fatal, just annoying
-						console.warn("Warning: could not remove %s automatically, you might wish to do so manually!", scrapFileName);
+						console.warn("(provideIssues) Warning: could not remove %s automatically, you might wish to do so manually!", scrapFileName);
 					}
 				});
 			} catch (error) {
-				console.error("error during processing - ", error);
+				console.error("(provideIssues) error during processing - ", error);
 				return resolve([]);
 			}
 
 			try {
 				if (debug) {
-					console.info("Started linting.");
-					console.log(`Running command: ${self.getExecutablePath()} -l -b ${self.getBuiltins()} ${scrapFileName}`);
+					console.info("(provideIssues) Started linting.");
+					console.log(`(provideIssues) Running command: ${self.getExecutablePath()} -l -b ${self.getBuiltins()} ${scrapFileName}`);
 				}
 				// Execution starts here.
 				linter.start();
 			} catch (error) {
-				console.error("error during actual execution - ", error);
+				console.error("(provideIssues) error during actual execution - ", error);
 			}
 		});
 	}
@@ -483,12 +580,12 @@ class LSLinter {
 		var lints = output.split(/\r\n|\n/);
 
 		if (debug) {
-			console.info("%d line(s) to process on this run.", lints.length);
+			console.info("(parseLinterOutput) %d line(s) to process on this run.", lints.length);
 		}
 
 		for (var lint = 0; lint < lints.length - 1; lint++) {
 			if (debug) {
-				console.info("#%d: '%s'", lint, lints[lint]);
+				console.info("(parseLinterOutput) #%d: '%s'", lint, lints[lint]);
 			}
 			/**
 			 * Array of matched issues on LSLint output.
@@ -498,13 +595,13 @@ class LSLinter {
 
 			if (matches === null || matches.length <= 1) {
 				if (debug) {
-					console.info("No matches found; skipping over line:", lint);
+					console.info("(parseLinterOutput) No matches found; skipping over line:", lint);
 				}
 				continue;
 			}
 
 			if (debug) {
-				console.info(matches.length, "match(es) found:", matches);
+				console.info("(parseLinterOutput)", matches.length, "match(es) found:", matches);
 			}
 
 			/**
@@ -542,12 +639,13 @@ class LSLinter {
 
 			if (debug) {
 				// console.log(lint + ' --> ' + issue);
-				console.log("Found lslint #%d:", lint);
+				console.group("Found lslint #%d:", lint);
 				console.log("===========");
 				console.log("Line: " + issue.line);
 				console.log("Severity: " + issue.severity);
 				console.log("Message: " + issue.message);
 				console.log("===========");
+				console.groupEnd();
 			}
 			issues.push(issue);
 		}
